@@ -411,7 +411,7 @@ a:hover { text-decoration: underline; }
   font-weight: 600;
 }
 
-.hierarchy-badge.flags { background: var(--badge-flag-bg); color: var(--badge-flag-text); }
+.hierarchy-badge.flags { background: var(--gray-100); color: var(--gray-600); }
 .hierarchy-badge.agent { background: var(--badge-agent-bg); color: var(--badge-agent-text); }
 .hierarchy-badge.workflows { background: var(--gray-100); color: var(--gray-600); }
 
@@ -1418,14 +1418,26 @@ a:hover { text-decoration: underline; }
 .form-group { display: flex; flex-direction: column; gap: var(--spacing-xs); }
 .form-label { font-size: 12px; font-weight: 600; color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.05em; }
 .form-input {
-  padding: var(--spacing-sm) var(--spacing-md);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  border: 1px solid var(--gray-300);
+  border-radius: 8px;
   font-size: 14px;
-  font-family: inherit;
+  font-family: 'Inter', sans-serif;
   min-height: 40px;
+  background: white;
+  color: var(--gray-800);
+  width: 100%;
 }
-.form-input:focus { border-color: var(--info-blue); outline: none; }
+select.form-input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236B7280' d='M3 5l3 3 3-3z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+}
+.form-input:focus { border-color: var(--info-blue); outline: none; box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
 
 .simulation-result {
   background: var(--gray-50);
@@ -1875,16 +1887,22 @@ a:hover { text-decoration: underline; }
 .wf-condition .wf-card-header { background: var(--white); border-bottom: 2px solid var(--gray-200); }
 .wf-fallback .wf-card-header { background: var(--white); border-bottom: 2px solid var(--gray-200); }
 .wf-end { background: var(--success-green-light); border: 1px solid #BBF7D0; border-radius: var(--radius-lg); padding: var(--spacing-sm) var(--spacing-md); text-align: center; font-size: 13px; font-weight: 600; color: var(--success-green); }
-.wf-icon { font-size: 16px; flex-shrink: 0; }
-.wf-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+.wf-icon { font-size: 0; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
+.wf-trigger .wf-icon { background: var(--success-green); }
+.wf-condition .wf-icon { background: var(--gray-400); }
+.wf-fallback .wf-icon { background: var(--warning-yellow); }
+.wf-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gray-700) !important; }
+.wf-require-label { color: var(--gray-700) !important; }
+.wf-require-label::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #E55A20; margin-right: 6px; vertical-align: middle; }
+.wf-show-label::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--gray-400); margin-right: 6px; vertical-align: middle; }
 .wf-desc { font-size: 13px; color: var(--gray-700); }
 .wf-cond-row { display: flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-xs) 0; font-size: 13px; }
 .wf-cond-kw { font-weight: 600; color: var(--info-blue); font-size: 12px; }
 .wf-cond-field { color: var(--gray-800); font-weight: 500; }
 .wf-require { border: 1px solid var(--gray-200); border-left: 3px solid #E55A20; border-radius: var(--radius-md); padding: var(--spacing-sm) var(--spacing-md); margin-top: var(--spacing-sm); background: var(--white); }
-.wf-require-label { font-size: 11px; font-weight: 700; color: var(--primary-orange); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: var(--spacing-xs); }
+.wf-require-label { font-size: 11px; font-weight: 700; color: var(--gray-700); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: var(--spacing-xs); }
 .wf-show { border: 1px solid var(--gray-200); border-left: 3px solid var(--gray-300); border-radius: var(--radius-md); padding: var(--spacing-sm) var(--spacing-md); margin-top: var(--spacing-sm); background: var(--white); }
-.wf-show-label { font-size: 11px; font-weight: 700; color: var(--info-blue); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: var(--spacing-xs); }
+.wf-show-label { font-size: 11px; font-weight: 700; color: var(--gray-700); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: var(--spacing-xs); }
 .wf-chip { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: 2px var(--spacing-sm); background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-2xl); font-size: 12px; color: var(--gray-700); margin: 2px; }
 .wf-chip.chip-brasil { border-color: var(--success-green); }
 .wf-chip.chip-custom { border-color: var(--purple); }
@@ -2752,9 +2770,9 @@ a:hover { text-decoration: underline; }
               <div class="wf-builder" role="list" aria-label="Workflow de Solicitações">
                 <div class="wf-block wf-trigger" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🟢</span><span class="wf-label" style="color:var(--success-green);">Trigger</span><span class="wf-desc">Quando <strong>Solicitação</strong> ocorre</span></div></div></div></div>
                 <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
-                <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action" aria-label="Editar">✏️</button><button class="wf-card-action" aria-label="Remover">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">Valor total</span><span>≥</span><span class="wf-cond-field">R$ 2.000</span></div><div class="wf-require"><div class="wf-require-label">🔴 Exigir</div><span class="wf-chip">Justificativa</span><span class="wf-chip">Categoria</span><span class="wf-chip">Centro de Custo</span></div><div class="wf-action-badge wf-action-escalate">↗ Escalar para gestor</div></div></div></div>
+                <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action" aria-label="Editar">✏️</button><button class="wf-card-action" aria-label="Remover">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">Valor total</span><span>≥</span><span class="wf-cond-field">R$ 2.000</span></div><div class="wf-require"><div class="wf-require-label">Exigir</div><span class="wf-chip">Justificativa</span><span class="wf-chip">Categoria</span><span class="wf-chip">Centro de Custo</span></div><div class="wf-action-badge wf-action-escalate">↗ Escalar para gestor</div></div></div></div>
                 <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
-                <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action" aria-label="Editar">✏️</button><button class="wf-card-action" aria-label="Remover">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">Valor total</span><span>&lt;</span><span class="wf-cond-field">R$ 2.000</span></div><div class="wf-require"><div class="wf-require-label">🔴 Exigir</div><span class="wf-chip">Categoria</span><span class="wf-chip">Centro de Custo</span></div><div class="wf-action-badge wf-action-agent">🤖 Policy Agent decide</div></div></div></div>
+                <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action" aria-label="Editar">✏️</button><button class="wf-card-action" aria-label="Remover">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">Valor total</span><span>&lt;</span><span class="wf-cond-field">R$ 2.000</span></div><div class="wf-require"><div class="wf-require-label">Exigir</div><span class="wf-chip">Categoria</span><span class="wf-chip">Centro de Custo</span></div><div class="wf-action-badge wf-action-agent">🤖 Policy Agent decide</div></div></div></div>
                 <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
                 <div class="wf-add-block"><button class="wf-add-btn" onclick="showToast('Adicionar bloco em desenvolvimento.','info')">+ Adicionar bloco</button></div>
                 <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
@@ -2850,15 +2868,15 @@ a:hover { text-decoration: underline; }
               <div class="wf-builder" role="list" aria-label="Workflow de Despesas de Cartão">
                 <div class="wf-block wf-trigger" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🟢</span><span class="wf-label" style="color:var(--success-green);">Trigger</span><span class="wf-desc">Quando <strong>Despesa de Cartão</strong> ocorre</span></div></div></div></div>
                 <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
-                <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action" aria-label="Editar">✏️</button><button class="wf-card-action" aria-label="Remover">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">Tipo</span><span>=</span><span class="wf-cond-field">Cartão Físico</span><span class="wf-cond-kw" style="margin-left:var(--spacing-xs);">E</span><span class="wf-cond-field">Valor</span><span>≥</span><span class="wf-cond-field">R$ 50</span></div><div class="wf-require"><div class="wf-require-label">🔴 Exigir</div><span class="wf-chip">Comprovante</span><span class="wf-chip">Categoria</span><span class="wf-chip">Centro de Custo</span></div><div class="wf-show"><div class="wf-show-label">🔷 Mostrar</div><span class="wf-chip">Projeto</span><span class="wf-chip">Observações</span></div><div class="wf-action-badge wf-action-agent">🤖 Policy Agent decide</div></div></div></div>
+                <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action" aria-label="Editar">✏️</button><button class="wf-card-action" aria-label="Remover">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">Tipo</span><span>=</span><span class="wf-cond-field">Cartão Físico</span><span class="wf-cond-kw" style="margin-left:var(--spacing-xs);">E</span><span class="wf-cond-field">Valor</span><span>≥</span><span class="wf-cond-field">R$ 50</span></div><div class="wf-require"><div class="wf-require-label">Exigir</div><span class="wf-chip">Comprovante</span><span class="wf-chip">Categoria</span><span class="wf-chip">Centro de Custo</span></div><div class="wf-show"><div class="wf-show-label">🔷 Mostrar</div><span class="wf-chip">Projeto</span><span class="wf-chip">Observações</span></div><div class="wf-action-badge wf-action-agent">🤖 Policy Agent decide</div></div></div></div>
                 <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
-                <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action" aria-label="Editar">✏️</button><button class="wf-card-action" aria-label="Remover">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">Tipo</span><span>=</span><span class="wf-cond-field">Cartão Virtual</span></div><div class="wf-require"><div class="wf-require-label">🔴 Exigir</div><span class="wf-chip">Categoria</span></div><div class="wf-show"><div class="wf-show-label">🔷 Mostrar</div><span class="wf-chip">Comprovante</span></div><div class="wf-action-badge wf-action-approve">✓ Aprovar automaticamente</div></div></div></div>
+                <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action" aria-label="Editar">✏️</button><button class="wf-card-action" aria-label="Remover">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">Tipo</span><span>=</span><span class="wf-cond-field">Cartão Virtual</span></div><div class="wf-require"><div class="wf-require-label">Exigir</div><span class="wf-chip">Categoria</span></div><div class="wf-show"><div class="wf-show-label">🔷 Mostrar</div><span class="wf-chip">Comprovante</span></div><div class="wf-action-badge wf-action-approve">✓ Aprovar automaticamente</div></div></div></div>
                 <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
                 <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action" aria-label="Editar">✏️</button><button class="wf-card-action" aria-label="Remover">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">Merchant</span><span>está na</span><span class="wf-cond-field">lista bloqueada</span></div><div class="wf-action-badge wf-action-block">🚫 Bloquear</div><div class="wf-action-badge wf-action-alert">⚠️ Alertar gestor</div></div></div></div>
                 <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
                 <div class="wf-add-block"><button class="wf-add-btn" onclick="showToast('Adicionar bloco em desenvolvimento.','info')">+ Adicionar bloco</button></div>
                 <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
-                <div class="wf-block wf-fallback" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🟡</span><span class="wf-label" style="color:var(--warning-yellow);">Fallback</span><span class="wf-desc">Se nenhuma condição é atendida</span></div></div><div class="wf-card-body"><div class="wf-require"><div class="wf-require-label">🔴 Exigir</div><span class="wf-chip">Categoria</span></div></div></div></div>
+                <div class="wf-block wf-fallback" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🟡</span><span class="wf-label" style="color:var(--warning-yellow);">Fallback</span><span class="wf-desc">Se nenhuma condição é atendida</span></div></div><div class="wf-card-body"><div class="wf-require"><div class="wf-require-label">Exigir</div><span class="wf-chip">Categoria</span></div></div></div></div>
                 <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
                 <div class="wf-end" role="listitem">✅ Workflow concluído</div>
               </div>
@@ -2909,13 +2927,13 @@ a:hover { text-decoration: underline; }
               <div class="wf-builder" role="list" aria-label="Workflow de Reembolsos">
                 <div class="wf-block wf-trigger" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🟢</span><span class="wf-label" style="color:var(--success-green);">Trigger</span><span class="wf-desc">Quando <strong>Reembolso</strong> ocorre</span></div></div></div></div>
                 <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
-                <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action" aria-label="Editar">✏️</button><button class="wf-card-action" aria-label="Remover">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">Subtipo</span><span>=</span><span class="wf-cond-field">Do próprio bolso</span><span class="wf-cond-kw" style="margin-left:var(--spacing-xs);">E</span><span class="wf-cond-field">Valor</span><span>≥</span><span class="wf-cond-field">R$ 200</span></div><div class="wf-require"><div class="wf-require-label">🔴 Exigir</div><span class="wf-chip">Comprovante</span><span class="wf-chip chip-brasil">NF-e 🇧🇷</span><span class="wf-chip">Justificativa</span></div><div class="wf-action-badge wf-action-escalate">↗ Escalar para gestor</div></div></div></div>
+                <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action" aria-label="Editar">✏️</button><button class="wf-card-action" aria-label="Remover">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">Subtipo</span><span>=</span><span class="wf-cond-field">Do próprio bolso</span><span class="wf-cond-kw" style="margin-left:var(--spacing-xs);">E</span><span class="wf-cond-field">Valor</span><span>≥</span><span class="wf-cond-field">R$ 200</span></div><div class="wf-require"><div class="wf-require-label">Exigir</div><span class="wf-chip">Comprovante</span><span class="wf-chip chip-brasil">NF-e 🇧🇷</span><span class="wf-chip">Justificativa</span></div><div class="wf-action-badge wf-action-escalate">↗ Escalar para gestor</div></div></div></div>
                 <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
-                <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action" aria-label="Editar">✏️</button><button class="wf-card-action" aria-label="Remover">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">Subtipo</span><span>=</span><span class="wf-cond-field">Quilometragem</span></div><div class="wf-require"><div class="wf-require-label">🔴 Exigir</div><span class="wf-chip">Justificativa</span></div><div class="wf-show"><div class="wf-show-label">🔷 Mostrar</div><span class="wf-chip">Comprovante</span></div><div class="wf-action-badge wf-action-approve">✓ Aprovar automaticamente</div></div></div></div>
+                <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action" aria-label="Editar">✏️</button><button class="wf-card-action" aria-label="Remover">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">Subtipo</span><span>=</span><span class="wf-cond-field">Quilometragem</span></div><div class="wf-require"><div class="wf-require-label">Exigir</div><span class="wf-chip">Justificativa</span></div><div class="wf-show"><div class="wf-show-label">🔷 Mostrar</div><span class="wf-chip">Comprovante</span></div><div class="wf-action-badge wf-action-approve">✓ Aprovar automaticamente</div></div></div></div>
                 <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
                 <div class="wf-add-block"><button class="wf-add-btn" onclick="showToast('Adicionar bloco em desenvolvimento.','info')">+ Adicionar bloco</button></div>
                 <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
-                <div class="wf-block wf-fallback" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🟡</span><span class="wf-label" style="color:var(--warning-yellow);">Fallback</span><span class="wf-desc">Se nenhuma condição é atendida</span></div></div><div class="wf-card-body"><div class="wf-require"><div class="wf-require-label">🔴 Exigir</div><span class="wf-chip">Comprovante</span></div></div></div></div>
+                <div class="wf-block wf-fallback" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🟡</span><span class="wf-label" style="color:var(--warning-yellow);">Fallback</span><span class="wf-desc">Se nenhuma condição é atendida</span></div></div><div class="wf-card-body"><div class="wf-require"><div class="wf-require-label">Exigir</div><span class="wf-chip">Comprovante</span></div></div></div></div>
                 <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
                 <div class="wf-end" role="listitem">✅ Workflow concluído</div>
               </div>
@@ -2967,9 +2985,9 @@ a:hover { text-decoration: underline; }
                 <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
                 <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action" aria-label="Editar">✏️</button><button class="wf-card-action" aria-label="Remover">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">Categoria</span><span>=</span><span class="wf-cond-field">Aéreo</span><span class="wf-cond-kw" style="margin-left:var(--spacing-xs);">E</span><span class="wf-cond-field">Classe</span><span>≠</span><span class="wf-cond-field">Econômica</span></div><div class="wf-action-badge wf-action-block">🚫 Bloquear <span style="font-weight:400;font-size:11px;">(exceto cargo = Diretor)</span></div></div></div></div>
                 <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
-                <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action" aria-label="Editar">✏️</button><button class="wf-card-action" aria-label="Remover">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">Valor hospedagem/diária</span><span>&gt;</span><span class="wf-cond-field">R$ 500</span></div><div class="wf-require"><div class="wf-require-label">🔴 Exigir</div><span class="wf-chip">Justificativa</span><span class="wf-chip">Comprovante</span></div><div class="wf-action-badge wf-action-escalate">↗ Escalar para gestor</div></div></div></div>
+                <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action" aria-label="Editar">✏️</button><button class="wf-card-action" aria-label="Remover">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">Valor hospedagem/diária</span><span>&gt;</span><span class="wf-cond-field">R$ 500</span></div><div class="wf-require"><div class="wf-require-label">Exigir</div><span class="wf-chip">Justificativa</span><span class="wf-chip">Comprovante</span></div><div class="wf-action-badge wf-action-escalate">↗ Escalar para gestor</div></div></div></div>
                 <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
-                <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action" aria-label="Editar">✏️</button><button class="wf-card-action" aria-label="Remover">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">Antecedência</span><span>&lt;</span><span class="wf-cond-field">7 dias</span></div><div class="wf-require"><div class="wf-require-label">🔴 Exigir</div><span class="wf-chip">Motivo da urgência</span></div><div class="wf-action-badge wf-action-alert">⚠️ Alertar gestor</div></div></div></div>
+                <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action" aria-label="Editar">✏️</button><button class="wf-card-action" aria-label="Remover">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">Antecedência</span><span>&lt;</span><span class="wf-cond-field">7 dias</span></div><div class="wf-require"><div class="wf-require-label">Exigir</div><span class="wf-chip">Motivo da urgência</span></div><div class="wf-action-badge wf-action-alert">⚠️ Alertar gestor</div></div></div></div>
                 <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
                 <div class="wf-add-block"><button class="wf-add-btn" onclick="showToast('Adicionar bloco em desenvolvimento.','info')">+ Adicionar bloco</button></div>
                 <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
@@ -3808,7 +3826,7 @@ a:hover { text-decoration: underline; }
 
     <!-- V8: Save button that triggers Impact Preview -->
     <div class="slideover-section" style="padding-top:0;">
-      <button class="btn btn-primary" style="width:100%;" onclick="closeSlideover();openImpactModal()">Salvar alterações</button>
+      <button class="btn btn-primary" style="width:100%;" onclick="handleSlideoverSave()">Salvar alterações</button>
     </div>
 
   </div>
@@ -4158,6 +4176,43 @@ a:hover { text-decoration: underline; }
     <div class="propagate-confirm-footer">
       <button class="btn btn-secondary" onclick="closePropagateModal()">Cancelar</button>
       <button class="btn btn-danger" onclick="closePropagateModal();closeImpactModal();showToast('Regra propagada para 18 times. Exceções removidas.','success')">Confirmar e propagar para 18 times</button>
+    </div>
+  </div>
+</div>
+
+<!-- V9 M3 Enhanced: CC Exception Propagation Preview Modal -->
+<div class="propagate-confirm-overlay" id="ccPropagatePreviewModal" onclick="if(event.target===this)closeCCPropagatePreview()">
+  <div class="propagate-confirm-modal" style="width:500px;" onclick="event.stopPropagation()">
+    <div class="propagate-confirm-header">
+      <div class="propagate-confirm-title" style="font-size:16px;">&#128202; Preview de Impacto</div>
+      <p style="font-size:13px;color:var(--gray-500);margin-top:4px;" id="ccPropPreviewDesc">Você está alterando a exceção do CC Marketing para Solicitações.</p>
+    </div>
+    <div class="propagate-confirm-body" id="ccPropPreviewBody">
+      <div style="margin-bottom:var(--spacing-md);">
+        <div style="display:flex;align-items:center;gap:var(--spacing-sm);margin-bottom:var(--spacing-sm);">
+          <span style="color:var(--success-green);font-weight:600;">&#10004;</span>
+          <strong style="font-size:13px;color:var(--gray-800);">2 times AFETADOS (seguem o CC):</strong>
+          <span style="font-size:13px;color:var(--gray-600);">Conteúdo, SEO</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:var(--spacing-sm);">
+          <span style="color:var(--warning-yellow);font-weight:600;">&#9888;&#65039;</span>
+          <strong style="font-size:13px;color:var(--gray-800);">2 times NÃO AFETADOS (têm exceção própria):</strong>
+          <span style="font-size:13px;color:var(--gray-600);">Growth, Performance</span>
+        </div>
+      </div>
+      <div style="border:1px dashed var(--border);border-radius:var(--radius-md);padding:var(--spacing-md);background:var(--gray-50);">
+        <label style="display:flex;align-items:center;gap:var(--spacing-sm);font-size:13px;color:var(--gray-700);cursor:pointer;">
+          <input type="checkbox" id="ccPropOverwriteCheckbox" onchange="toggleCCPropOverwrite()" style="accent-color:#E55A20;width:16px;height:16px;">
+          <span>Sobrescrever exceções destes times?</span>
+        </label>
+        <div id="ccPropOverwriteWarning" style="display:none;margin-top:var(--spacing-sm);margin-left:24px;font-size:12px;color:var(--warning-yellow);">
+          &#9888;&#65039; As exceções de Growth e Performance serão SUBSTITUÍDAS pela nova regra do CC.
+        </div>
+      </div>
+    </div>
+    <div class="propagate-confirm-footer">
+      <button class="btn btn-secondary" onclick="closeCCPropagatePreview()">Cancelar</button>
+      <button class="btn btn-primary" id="ccPropConfirmBtn" onclick="confirmCCPropagate()">Confirmar e salvar</button>
     </div>
   </div>
 </div>
@@ -5050,6 +5105,16 @@ function updateInheritanceChain() {
 // ========================================================================
 // V8 FEATURE 7: Impact Preview Modal
 // ========================================================================
+function handleSlideoverSave() {
+  // Check if we're editing a CC-scoped exception (not Geral)
+  // For prototype: always show CC propagation preview for CC-scoped content
+  var slideoverTitle = document.querySelector('.slideover-title');
+  var titleText = slideoverTitle ? slideoverTitle.textContent : '';
+  // Show CC propagation preview for any save (in production, only for CC exceptions)
+  closeSlideover();
+  openCCPropagatePreview();
+}
+
 function openImpactModal() {
   document.getElementById('impactModal').classList.add('active');
 }
@@ -5066,19 +5131,19 @@ function closeImpactModal() {
 // ========================================================================
 var scopePopoverData = {
   cc: {
-    'Marketing': { teams: 6, budget: 'R$ 450k/mês', rules: 4, exceptions: 2, head: 'Ana Pereira' },
-    'Vendas': { teams: 6, budget: 'R$ 380k/mês', rules: 3, exceptions: 3, head: 'Ricardo Lopes' },
-    'Engenharia': { teams: 6, budget: 'R$ 620k/mês', rules: 5, exceptions: 2, head: 'Matheus R.' },
-    'Internacional': { teams: 5, budget: 'R$ 1.2M/mês', rules: 3, exceptions: 4, head: 'Carlos M.' },
-    'Financeiro': { teams: 4, budget: 'R$ 180k/mês', rules: 2, exceptions: 0, head: 'André A.' }
+    'Marketing': { teams: '4 (Growth, Performance, Conteúdo, SEO)', budget: 'R$ 450k/mês', rules: 4, exceptions: 3, head: 'Ana C.', diverge: '2 times divergem' },
+    'Vendas': { teams: '6', budget: 'R$ 380k/mês', rules: 3, exceptions: 2, head: 'Maria O.', diverge: '1 diverge' },
+    'Engenharia': { teams: '6', budget: 'R$ 620k/mês', rules: 5, exceptions: 1, head: 'Tatiana M.', diverge: null },
+    'Internacional': { teams: 5, budget: 'R$ 1.2M/mês', rules: 3, exceptions: 4, head: 'Carlos M.', diverge: null },
+    'Financeiro': { teams: 4, budget: 'R$ 180k/mês', rules: 2, exceptions: 0, head: 'André A.', diverge: null }
   },
   time: {
-    'Growth': { cc: 'Marketing', members: 12, budget: 'R$ 85k/mês', rules: 2, head: 'João Mendes' },
-    'Performance': { cc: 'Marketing', members: 8, budget: 'R$ 65k/mês', rules: 2, head: 'Sandra F.' },
-    'Enterprise': { cc: 'Vendas', members: 15, budget: 'R$ 120k/mês', rules: 3, head: 'Thiago B.' },
-    'Inside Sales': { cc: 'Vendas', members: 20, budget: 'R$ 90k/mês', rules: 1, head: 'Camila V.' },
-    'DevOps': { cc: 'Engenharia', members: 6, budget: 'R$ 95k/mês', rules: 2, head: 'Gabriel S.' },
-    'Diretoria': { cc: 'Executivo', members: 5, budget: 'R$ 200k/mês', rules: 3, head: 'André C.' }
+    'Growth': { cc: 'Marketing', members: 8, budget: 'R$ 85k/mês', rules: 2, head: 'Pedro A.', exceptions: 2, created: '15/01/2026' },
+    'Performance': { cc: 'Marketing', members: 6, budget: 'R$ 65k/mês', rules: 2, head: 'Lucas R.', exceptions: 2, created: '15/01/2026' },
+    'Enterprise': { cc: 'Vendas', members: 15, budget: 'R$ 120k/mês', rules: 3, head: 'Thiago B.', exceptions: 1, created: '01/02/2026' },
+    'Inside Sales': { cc: 'Vendas', members: 10, budget: 'R$ 90k/mês', rules: 1, head: 'Carlos F.', exceptions: 1, created: '01/02/2026' },
+    'DevOps': { cc: 'Engenharia', members: 9, budget: 'R$ 95k/mês', rules: 2, head: 'Rafael S.', exceptions: 1, created: '10/01/2026' },
+    'Diretoria': { cc: 'Executivo', members: 5, budget: 'R$ 200k/mês', rules: 3, head: 'André C.', exceptions: 0, created: '01/01/2026' }
   }
 };
 
@@ -5098,13 +5163,16 @@ function showScopePopover(event, type, name) {
     html += '<div class="scope-popover-row"><span class="scope-popover-label">Regras ativas</span><span class="scope-popover-value">' + data.rules + '</span></div>';
     html += '<div class="scope-popover-row"><span class="scope-popover-label">Exceções</span><span class="scope-popover-value">' + data.exceptions + '</span></div>';
     html += '<div class="scope-popover-row"><span class="scope-popover-label">Responsável</span><span class="scope-popover-value">' + data.head + '</span></div>';
+    if (data.diverge) html += '<div class="scope-popover-row" style="color:var(--warning-yellow);"><span class="scope-popover-label">&#9888;&#65039; Divergência</span><span class="scope-popover-value" style="color:var(--warning-yellow);">' + data.diverge + '</span></div>';
     html += '<a class="scope-popover-link" href="centros-custo.html">Ver Centro de Custo →</a>';
   } else {
     html += '<div class="scope-popover-row"><span class="scope-popover-label">CC</span><span class="scope-popover-value">' + data.cc + '</span></div>';
     html += '<div class="scope-popover-row"><span class="scope-popover-label">Membros</span><span class="scope-popover-value">' + data.members + '</span></div>';
     html += '<div class="scope-popover-row"><span class="scope-popover-label">Budget mensal</span><span class="scope-popover-value">' + data.budget + '</span></div>';
     html += '<div class="scope-popover-row"><span class="scope-popover-label">Regras específicas</span><span class="scope-popover-value">' + data.rules + '</span></div>';
+    html += '<div class="scope-popover-row"><span class="scope-popover-label">Exceções</span><span class="scope-popover-value">' + data.exceptions + '</span></div>';
     html += '<div class="scope-popover-row"><span class="scope-popover-label">Líder</span><span class="scope-popover-value">' + data.head + '</span></div>';
+    if (data.created) html += '<div class="scope-popover-row"><span class="scope-popover-label">Criado em</span><span class="scope-popover-value">' + data.created + '</span></div>';
     html += '<a class="scope-popover-link" href="times.html">Ver Time →</a>';
   }
 
@@ -5211,6 +5279,39 @@ function handleImpactConfirm() {
 
 function closePropagateModal() {
   document.getElementById('propagateConfirmModal').classList.remove('active');
+}
+
+// V9 M3 Enhanced: CC Exception Propagation Preview
+function openCCPropagatePreview() {
+  document.getElementById('ccPropagatePreviewModal').classList.add('active');
+}
+
+function closeCCPropagatePreview() {
+  document.getElementById('ccPropagatePreviewModal').classList.remove('active');
+  var cb = document.getElementById('ccPropOverwriteCheckbox');
+  if (cb) cb.checked = false;
+  toggleCCPropOverwrite();
+}
+
+function toggleCCPropOverwrite() {
+  var cb = document.getElementById('ccPropOverwriteCheckbox');
+  var warning = document.getElementById('ccPropOverwriteWarning');
+  var btn = document.getElementById('ccPropConfirmBtn');
+  if (cb && cb.checked) {
+    if (warning) warning.style.display = 'block';
+    if (btn) { btn.textContent = 'Confirmar e propagar para 4 times'; btn.style.background = 'var(--warning-yellow)'; btn.style.borderColor = 'var(--warning-yellow)'; }
+  } else {
+    if (warning) warning.style.display = 'none';
+    if (btn) { btn.textContent = 'Confirmar e salvar'; btn.style.background = ''; btn.style.borderColor = ''; }
+  }
+}
+
+function confirmCCPropagate() {
+  var cb = document.getElementById('ccPropOverwriteCheckbox');
+  var msg = cb && cb.checked ? 'Exceção do CC propagada para 4 times.' : 'Exceção do CC salva com sucesso.';
+  closeCCPropagatePreview();
+  closeSlideover();
+  showToast(msg, 'success');
 }
 
 // ========================================================================
@@ -5404,41 +5505,39 @@ function runSimulationV9() {
   var result = document.getElementById('simulationResult');
   result.classList.add('show');
 
-  // Build resolution chain
+  // Build resolution chain — always show all applicable levels
   var chainHtml = '<div class="resolution-chain-title">Cadeia de resolução</div>';
 
-  // Level 1: Geral
+  // Level 1: Geral (always shown)
   var geralRule = 'Valor ≤ R$ 2.000 → Auto-aprovar';
   var geralResult = valorNum <= 2000 ? 'Auto-aprovar' : 'Escalar gestor';
-  var geralEffective = !cc;
   chainHtml += '<div class="resolution-level ' + (cc ? 'level-overridden' : 'level-effective') + '">';
-  chainHtml += '<div class="resolution-level-header"><span class="resolution-level-name">Geral (Empresa)</span>';
+  chainHtml += '<div class="resolution-level-header"><span class="resolution-level-name">&#127970; GERAL (Empresa)</span>';
   if (!cc) chainHtml += '<span class="resolution-level-badge" style="background:#FFF7ED;color:#E55A20;">Regra efetiva</span>';
   chainHtml += '</div>';
   chainHtml += '<div class="resolution-level-rule">' + geralRule + ' → <strong>' + geralResult + '</strong></div>';
   chainHtml += '</div>';
 
-  // Level 2: CC (if selected)
+  // Level 2: CC
+  var ccRules = {
+    'Marketing': { rule: 'Valor ≤ R$ 5.000 → Auto-aprovar', threshold: 5000 },
+    'Vendas': { rule: 'Comprovante ≥ R$ 100', threshold: 2000 },
+    'Engenharia': { rule: 'SaaS ≤ R$ 5.000 → Auto-aprovar', threshold: 5000 },
+    'Internacional': { rule: 'Valor ≤ R$ 10.000 → Auto-aprovar', threshold: 10000 },
+    'Financeiro': { rule: 'Aprovação CFO > R$ 1.000', threshold: 1000 }
+  };
   if (cc) {
     chainHtml += '<div class="resolution-connector">↓ sobrescrito</div>';
-    var ccRules = {
-      'Marketing': { rule: 'Valor ≤ R$ 5.000 → Auto-aprovar', threshold: 5000 },
-      'Vendas': { rule: 'Comprovante ≥ R$ 100', threshold: 2000 },
-      'Engenharia': { rule: 'SaaS ≤ R$ 5.000 → Auto-aprovar', threshold: 5000 },
-      'Internacional': { rule: 'Valor ≤ R$ 10.000 → Auto-aprovar', threshold: 10000 },
-      'Financeiro': { rule: 'Aprovação CFO > R$ 1.000', threshold: 1000 }
-    };
     var ccData = ccRules[cc] || { rule: 'Regra padrão CC', threshold: 2000 };
     var ccResult = valorNum <= ccData.threshold ? 'Auto-aprovar' : 'Escalar';
-    var ccEffective = !team;
     chainHtml += '<div class="resolution-level ' + (team ? 'level-overridden' : 'level-effective') + '">';
-    chainHtml += '<div class="resolution-level-header"><span class="resolution-level-name">CC ' + cc + '</span>';
+    chainHtml += '<div class="resolution-level-header"><span class="resolution-level-name">&#127959; CC ' + cc + '</span>';
     if (!team) chainHtml += '<span class="resolution-level-badge" style="background:#FFF7ED;color:#E55A20;">Regra efetiva</span>';
     chainHtml += '</div>';
     chainHtml += '<div class="resolution-level-rule">' + ccData.rule + ' → <strong>' + ccResult + '</strong></div>';
     chainHtml += '</div>';
 
-    // Level 3: Time (if selected)
+    // Level 3: Time
     if (team) {
       chainHtml += '<div class="resolution-connector">↓ sobrescrito</div>';
       var teamRules = {
@@ -5450,8 +5549,8 @@ function runSimulationV9() {
       };
       var teamData = teamRules[team] || { rule: 'Segue regra do CC', threshold: ccData.threshold };
       var teamResult = valorNum <= teamData.threshold ? 'Auto-aprovar' : 'Escalar';
-      chainHtml += '<div class="resolution-level level-effective">';
-      chainHtml += '<div class="resolution-level-header"><span class="resolution-level-name">Time ' + team + ' (CC ' + cc + ')</span>';
+      chainHtml += '<div class="resolution-level level-effective" style="border-color:#E55A20;border-width:2px;">';
+      chainHtml += '<div class="resolution-level-header"><span class="resolution-level-name">&#128101; TIME ' + team + '</span>';
       chainHtml += '<span class="resolution-level-badge" style="background:#FFF7ED;color:#E55A20;">Regra efetiva</span>';
       chainHtml += '</div>';
       chainHtml += '<div class="resolution-level-rule">' + teamData.rule + ' → <strong>' + teamResult + '</strong></div>';
@@ -5461,6 +5560,13 @@ function runSimulationV9() {
       geralResult = ccResult;
     }
   }
+
+  // Final result row
+  var finalDecision = geralResult;
+  chainHtml += '<div style="margin-top:var(--spacing-sm);padding:var(--spacing-md);background:var(--success-green-light);border:1px solid #BBF7D0;border-radius:var(--radius-md);display:flex;align-items:center;gap:var(--spacing-sm);">';
+  chainHtml += '<span style="font-size:16px;">&#10004;</span>';
+  chainHtml += '<span style="font-size:13px;font-weight:600;color:var(--success-green);">RESULTADO FINAL: ' + finalDecision + '</span>';
+  chainHtml += '</div>';
 
   document.getElementById('resolutionChain').innerHTML = chainHtml;
 
