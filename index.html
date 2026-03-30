@@ -306,59 +306,48 @@ a:hover { text-decoration: underline; }
 .agent-banner {
   background: var(--white);
   border: 1px solid var(--gray-200);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-md) var(--spacing-lg);
-  padding-right: 180px;
-  position: relative;
+  border-radius: 12px;
   margin-bottom: var(--spacing-lg);
+  overflow: hidden;
 }
-
-.agent-banner-top {
+.agent-banner-main {
   display: flex;
   align-items: center;
-  gap: var(--spacing-sm);
-  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 12px 20px;
+  cursor: pointer;
+  user-select: none;
 }
-
-.agent-banner-left {
-  display: contents;
+.agent-banner-main:hover { background: var(--gray-50); }
+.agent-banner-left-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
-
-.agent-dot {
-  width: 10px;
-  height: 10px;
-  background: var(--success-green);
-  border-radius: 50%;
-  flex-shrink: 0;
-  animation: pulse 2s infinite;
+.agent-banner-chevron {
+  color: var(--gray-400);
+  font-size: 12px;
+  transition: transform 0.2s ease;
+  margin-left: 4px;
 }
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+.agent-banner-chevron.expanded { transform: rotate(180deg); }
+.agent-banner-details {
+  display: none;
+  padding: 0 20px 16px;
+  border-top: 1px solid var(--gray-100);
 }
-
-.agent-label {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--gray-800);
+.agent-banner-details.expanded { display: block; }
+.agent-banner-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding-top: 16px;
+  margin-bottom: 16px;
 }
-
-.agent-info {
-  font-size: 13px;
-  color: var(--gray-500);
-}
-
-.agent-info-divider {
-  color: var(--gray-300);
-  margin: 0 var(--spacing-xs);
-}
-
-.agent-banner-right {
-  position: absolute;
-  top: var(--spacing-md);
-  right: var(--spacing-lg);
-}
+.agent-banner-metric-label { font-size: 12px; color: var(--gray-500); margin-bottom: 2px; }
+.agent-banner-metric-value { font-size: 14px; color: var(--gray-800); font-weight: 500; }
+.agent-banner-hierarchy { font-size: 12px; color: var(--gray-500); line-height: 1.6; }
+.agent-banner-hierarchy strong { color: var(--gray-700); font-weight: 500; }
 
 .agent-dropdown {
   display: none;
@@ -395,25 +384,18 @@ a:hover { text-decoration: underline; }
 
 .agent-dropdown-separator { height: 1px; background: var(--border); margin: var(--spacing-xs) 0; }
 
-.agent-hierarchy {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-xs);
-  font-size: 12px;
-  color: var(--gray-500);
-  margin-top: var(--spacing-xs);
-}
+/* agent-hierarchy: removed, replaced by agent-banner-hierarchy */
 
 .hierarchy-badge {
-  padding: 2px var(--spacing-sm);
-  border-radius: var(--radius-sm);
-  font-size: 11px;
-  font-weight: 600;
+  background: none !important;
+  color: var(--gray-500) !important;
+  border: none !important;
+  padding: 0 !important;
+  font-size: 12px;
+  font-weight: 500;
 }
 
-.hierarchy-badge.flags { background: var(--gray-100); color: var(--gray-600); }
-.hierarchy-badge.agent { background: var(--badge-agent-bg); color: var(--badge-agent-text); }
-.hierarchy-badge.workflows { background: var(--gray-100); color: var(--gray-600); }
+.hierarchy-badge.flags, .hierarchy-badge.agent, .hierarchy-badge.workflows { background: none !important; color: var(--gray-700) !important; }
 
 /* Threshold slider */
 .threshold-section {
@@ -1667,8 +1649,8 @@ select.form-input {
   .view-controls { flex-direction: column; }
   .search-filters { width: 100%; }
   .simulation-form { grid-template-columns: 1fr; }
-  .agent-banner { padding-right: var(--spacing-lg); }
-  .agent-banner-right { position: static; margin-top: var(--spacing-sm); }
+  .agent-banner-main { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .agent-banner-metrics { grid-template-columns: repeat(2, 1fr); }
   .data-table { display: none; }
   .mobile-cards { display: block !important; }
   .fab { bottom: var(--spacing-md); right: var(--spacing-md); }
@@ -1887,31 +1869,30 @@ select.form-input {
 .wf-condition .wf-card-header { background: var(--white); border-bottom: 2px solid var(--gray-200); }
 .wf-fallback .wf-card-header { background: var(--white); border-bottom: 2px solid var(--gray-200); }
 .wf-end { background: var(--success-green-light); border: 1px solid #BBF7D0; border-radius: var(--radius-lg); padding: var(--spacing-sm) var(--spacing-md); text-align: center; font-size: 13px; font-weight: 600; color: var(--success-green); }
-.wf-icon { font-size: 0; width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; display: inline-block; }
-.wf-trigger .wf-icon { background: var(--success-green); }
+.wf-icon { display: inline-block; width: 8px; height: 8px; border-radius: 50%; font-size: 0; line-height: 0; overflow: hidden; vertical-align: middle; margin-right: 6px; flex-shrink: 0; }
+.wf-trigger .wf-icon { background: #16A34A; }
 .wf-condition .wf-icon { background: var(--gray-400); }
-.wf-fallback .wf-icon { background: var(--warning-yellow); }
-.wf-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gray-700) !important; }
-.wf-require-label { color: var(--gray-700) !important; }
+.wf-fallback .wf-icon { background: #D97706; }
+.wf-label { color: var(--gray-700) !important; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+.wf-require-label { color: var(--gray-700) !important; font-weight: 600; font-size: 11px; text-transform: uppercase; }
 .wf-require-label::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #E55A20; margin-right: 6px; vertical-align: middle; }
+.wf-show-label { color: var(--gray-700) !important; font-weight: 600; font-size: 11px; text-transform: uppercase; }
 .wf-show-label::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--gray-400); margin-right: 6px; vertical-align: middle; }
 .wf-desc { font-size: 13px; color: var(--gray-700); }
 .wf-cond-row { display: flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-xs) 0; font-size: 13px; }
 .wf-cond-kw { font-weight: 600; color: var(--info-blue); font-size: 12px; }
 .wf-cond-field { color: var(--gray-800); font-weight: 500; }
 .wf-require { border: 1px solid var(--gray-200); border-left: 3px solid #E55A20; border-radius: var(--radius-md); padding: var(--spacing-sm) var(--spacing-md); margin-top: var(--spacing-sm); background: var(--white); }
-.wf-require-label { font-size: 11px; font-weight: 700; color: var(--gray-700); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: var(--spacing-xs); }
 .wf-show { border: 1px solid var(--gray-200); border-left: 3px solid var(--gray-300); border-radius: var(--radius-md); padding: var(--spacing-sm) var(--spacing-md); margin-top: var(--spacing-sm); background: var(--white); }
-.wf-show-label { font-size: 11px; font-weight: 700; color: var(--gray-700); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: var(--spacing-xs); }
-.wf-chip { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: 2px var(--spacing-sm); background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-2xl); font-size: 12px; color: var(--gray-700); margin: 2px; }
-.wf-chip.chip-brasil { border-color: var(--success-green); }
-.wf-chip.chip-custom { border-color: var(--purple); }
+.wf-chip { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: 2px var(--spacing-sm); background: var(--gray-100); color: var(--gray-700); border: 1px solid var(--gray-200); border-radius: 6px; font-size: 12px; margin: 2px; }
+.wf-chip.chip-brasil { border-color: var(--gray-200); }
+.wf-chip.chip-custom { border-color: var(--gray-200); }
 .wf-action-badge { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-md); font-size: 12px; font-weight: 600; margin-top: var(--spacing-sm); }
-.wf-action-approve { background: var(--gray-50); color: var(--success-green); border: 1px solid var(--gray-200); }
-.wf-action-escalate { background: var(--gray-50); color: #92400E; border: 1px solid var(--gray-200); }
-.wf-action-block { background: var(--gray-50); color: var(--danger-red); border: 1px solid var(--gray-200); }
-.wf-action-agent { background: var(--gray-50); color: var(--purple); border: 1px solid var(--gray-200); }
-.wf-action-alert { background: var(--gray-50); color: var(--scope-cc-text); border: 1px solid var(--gray-200); }
+.wf-action-approve { background: var(--gray-50); color: var(--gray-700); border: 1px solid var(--gray-200); }
+.wf-action-escalate { background: var(--gray-50); color: var(--gray-700); border: 1px solid var(--gray-200); }
+.wf-action-block { background: var(--gray-50); color: var(--gray-700); border: 1px solid var(--gray-200); }
+.wf-action-agent { background: var(--gray-50); color: var(--gray-700); border: 1px solid var(--gray-200); }
+.wf-action-alert { background: var(--gray-50); color: var(--gray-700); border: 1px solid var(--gray-200); }
 .wf-add-block { display: flex; align-items: center; justify-content: center; padding: var(--spacing-xs); }
 .wf-add-btn { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-xs) var(--spacing-sm); border: 1px dashed var(--gray-300); border-radius: var(--radius-md); background: transparent; font-size: 12px; color: var(--gray-400); min-height: 32px; transition: all 0.2s; }
 .wf-add-btn:hover { border-color: var(--primary-orange); color: var(--primary-orange); background: var(--primary-orange-light); }
@@ -1926,11 +1907,7 @@ select.form-input {
 .wf-condition.collapsed .wf-collapsed-summary { display: inline; }
 .wf-condition.collapsed .wf-label { display: none; }
 
-/* R2: In-policy progress bar */
-.ip-bar-wrap { display: inline-flex; align-items: center; gap: var(--spacing-xs); cursor: help; }
-.ip-bar { width: 120px; height: 4px; border-radius: 2px; background: linear-gradient(to right, #DC2626 0%, #DC2626 70%, #F59E0B 70%, #F59E0B 85%, #16A34A 85%, #16A34A 100%); position: relative; overflow: visible; }
-.ip-bar-fill { height: 100%; border-radius: 2px; background: transparent; position: relative; }
-.ip-bar-marker { position: absolute; right: 0; top: -2px; width: 2px; height: 8px; background: var(--gray-800); border-radius: 1px; }
+/* R2: In-policy progress bar — removed, metrics now in collapsible banner */
 
 /* R4: Disabled sidebar items */
 .sidebar-item.disabled, .settings-item.disabled { opacity: 0.5; color: var(--gray-400) !important; cursor: default !important; pointer-events: none; }
@@ -2410,16 +2387,15 @@ select.form-input {
 /* ============================================
    V9: M1 — Scope Popover
    ============================================ */
-.scope-popover { position: absolute; background: var(--white); border: 1px solid var(--gray-200); border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); padding: 16px; width: 320px; z-index: 500; animation: scopeFadeIn 0.15s ease; }
-@keyframes scopeFadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+.scope-popover { position: fixed; background: #fff; border: 1px solid var(--gray-200); border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 16px; min-width: 280px; max-width: 360px; z-index: 600; }
 .scope-popover-title { font-size: 15px; font-weight: 600; color: var(--gray-900); margin-bottom: 12px; }
 .scope-popover-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 13px; }
 .scope-popover-label { color: var(--gray-500); }
 .scope-popover-value { color: var(--gray-900); font-weight: 500; }
-.scope-popover-link { color: #E55A20; font-size: 13px; margin-top: 12px; display: block; cursor: pointer; }
+.scope-popover-link { display: block; color: #E55A20; font-size: 13px; font-weight: 500; margin-top: 12px; cursor: pointer; text-decoration: none; }
 .scope-popover-link:hover { text-decoration: underline; }
-.scope-badge-clickable { cursor: pointer; }
-.scope-badge-clickable:hover { text-decoration: underline; background: var(--gray-50); }
+.scope-badge-clickable { cursor: pointer; transition: background 0.15s; }
+.scope-badge-clickable:hover { background: var(--gray-50); text-decoration: underline; }
 
 /* ============================================
    V9: M2 — Exception Matrix View
@@ -2624,49 +2600,33 @@ select.form-input {
 
       <!-- AGENT STATUS BANNER -->
       <div class="agent-banner" id="agentBanner">
-        <div class="agent-banner-top">
-          <span class="agent-dot"></span>
-          <span class="agent-label">Policy Agent ativo</span>
-          <span class="agent-info">
-            Modo: Recomendação
-            <span class="agent-info-divider">·</span>
-            <span style="cursor:pointer;" onclick="switchTab('Compliance')"><span title="Percentual de gastos dentro da política nos últimos 90 dias. Meta: 90%.">84.5% in-policy <span style="color:var(--danger-red);font-weight:600;">↓2.3%</span></span> <span class="ip-bar-wrap" title="Meta: ≥85% · Atenção: 70-85% · Crítico: &lt;70%"><span class="ip-bar"><span class="ip-bar-fill" style="width:84.5%;"><span class="ip-bar-marker"></span></span></span></span></span>
-            <span class="agent-info-divider">·</span>
-            99.1% acurácia
-            <span class="agent-info-divider">·</span>
-            2.847 transações
-            <span class="agent-info-divider">·</span>
-            R$ 185k economia estimada
-          </span>
-          <div class="agent-hierarchy">
-            <span class="hierarchy-badge flags">Flags</span>
-            <span style="color: var(--gray-400);">›</span>
-            <span class="hierarchy-badge agent">Agent</span>
-            <span style="color: var(--gray-400);">›</span>
-            <span class="hierarchy-badge workflows">Workflows</span>
+        <div class="agent-banner-main" onclick="toggleAgentBanner()">
+          <div class="agent-banner-left-info">
+            <span class="agent-dot" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#16A34A;"></span>
+            <span style="color:var(--gray-700);font-weight:500;font-size:14px;" class="agent-label">Policy Agent ativo</span>
+            <span style="color:var(--gray-300);">·</span>
+            <span style="color:#16A34A;font-weight:600;font-size:14px;">84.5%</span>
+            <span style="color:var(--gray-500);font-size:14px;">in-policy</span>
+            <span class="agent-banner-chevron" id="agentBannerChevron">▾</span>
           </div>
-        </div>
-        <div style="font-size:11px;color:var(--gray-400);margin-top:var(--spacing-xs);line-height:1.5;">Suas regras seguem esta prioridade: Flags são regras fixas que sempre valem (ex: NF-e obrigatória acima de R$200). Agent é a IA que avalia cada despesa e recomenda ações. Workflows são regras condicionais (ex: se valor > R$500, exigir comprovante). Flags prevalecem sobre o Agent, que prevalece sobre Workflows.</div>
-        <div class="agent-banner-right">
-          <button class="btn btn-secondary btn-sm" id="agentDropdownBtn" onclick="toggleAgentDropdown()" aria-expanded="false" aria-controls="agentDropdown">
-            Configurar Agent ▾
-          </button>
-          <div class="agent-dropdown" id="agentDropdown" role="menu" style="display:none;">
-            <button class="agent-dropdown-item" role="menuitem" onclick="setAgentMode('off')" style="align-items:flex-start;">
-              <span style="width:8px;height:8px;border-radius:50%;background:var(--gray-400);flex-shrink:0;margin-top:5px;"></span>
-              <div><div style="font-size:14px;font-weight:500;color:var(--gray-800);">Desativar Agent</div><div style="font-size:12px;color:var(--gray-500);line-height:1.4;margin-top:var(--spacing-xs);">Agent não analisa nenhuma despesa. Todas seguem o fluxo manual de aprovação.</div></div>
-            </button>
-            <button class="agent-dropdown-item" role="menuitem" onclick="setAgentMode('test')" style="align-items:flex-start;">
-              <span style="width:8px;height:8px;border-radius:50%;background:var(--warning-yellow);flex-shrink:0;margin-top:5px;"></span>
-              <div><div style="font-size:14px;font-weight:500;color:var(--gray-800);">Modo Teste</div><div style="font-size:12px;color:var(--gray-500);line-height:1.4;margin-top:var(--spacing-xs);">Agent analisa em segundo plano, mas nenhuma ação é tomada. Útil para validar regras antes de ativar.</div></div>
-            </button>
-            <button class="agent-dropdown-item active" role="menuitem" onclick="setAgentMode('recommend')" style="align-items:flex-start;">
-              <span style="width:8px;height:8px;border-radius:50%;background:var(--info-blue);flex-shrink:0;margin-top:5px;"></span>
-              <div><div style="font-size:14px;font-weight:500;color:var(--gray-800);">Recomendação</div><div style="font-size:12px;color:var(--gray-500);line-height:1.4;margin-top:var(--spacing-xs);">Agent sugere aprovar, revisar ou rejeitar. Gestor toma a decisão final.</div></div>
-            </button>
-            <button class="agent-dropdown-item" role="menuitem" onclick="setAgentMode('auto')" style="align-items:flex-start;">
-              <span style="width:8px;height:8px;border-radius:50%;background:var(--success-green);flex-shrink:0;margin-top:5px;"></span>
-              <div><div style="font-size:14px;font-weight:500;color:var(--gray-800);">Aprovação Automática</div><div style="font-size:12px;color:var(--gray-500);line-height:1.4;margin-top:var(--spacing-xs);">Agent aprova despesas dentro da política sem intervenção humana. Exceções vão para revisão.</div></div>
+          <div style="position:relative;" onclick="event.stopPropagation()">
+            <button class="btn btn-secondary btn-sm" onclick="toggleAgentDropdown()" id="agentDropdownBtn" aria-expanded="false" aria-controls="agentDropdown" style="font-size:13px;padding:6px 12px;">Configurar ▾</button>
+            <div class="agent-dropdown" id="agentDropdown" role="menu" style="display:none;">
+              <button class="agent-dropdown-item" role="menuitem" onclick="setAgentMode('off')" style="align-items:flex-start;">
+                <span style="width:8px;height:8px;border-radius:50%;background:var(--gray-400);flex-shrink:0;margin-top:5px;"></span>
+                <div><div style="font-size:14px;font-weight:500;color:var(--gray-800);">Desativar Agent</div><div style="font-size:12px;color:var(--gray-500);line-height:1.4;margin-top:var(--spacing-xs);">Agent não analisa nenhuma despesa. Todas seguem o fluxo manual de aprovação.</div></div>
+              </button>
+              <button class="agent-dropdown-item" role="menuitem" onclick="setAgentMode('test')" style="align-items:flex-start;">
+                <span style="width:8px;height:8px;border-radius:50%;background:var(--warning-yellow);flex-shrink:0;margin-top:5px;"></span>
+                <div><div style="font-size:14px;font-weight:500;color:var(--gray-800);">Modo Teste</div><div style="font-size:12px;color:var(--gray-500);line-height:1.4;margin-top:var(--spacing-xs);">Agent analisa em segundo plano, mas nenhuma ação é tomada. Útil para validar regras antes de ativar.</div></div>
+              </button>
+              <button class="agent-dropdown-item active" role="menuitem" onclick="setAgentMode('recommend')" style="align-items:flex-start;">
+                <span style="width:8px;height:8px;border-radius:50%;background:var(--info-blue);flex-shrink:0;margin-top:5px;"></span>
+                <div><div style="font-size:14px;font-weight:500;color:var(--gray-800);">Recomendação</div><div style="font-size:12px;color:var(--gray-500);line-height:1.4;margin-top:var(--spacing-xs);">Agent sugere aprovar, revisar ou rejeitar. Gestor toma a decisão final.</div></div>
+              </button>
+              <button class="agent-dropdown-item" role="menuitem" onclick="setAgentMode('auto')" style="align-items:flex-start;">
+                <span style="width:8px;height:8px;border-radius:50%;background:var(--success-green);flex-shrink:0;margin-top:5px;"></span>
+                <div><div style="font-size:14px;font-weight:500;color:var(--gray-800);">Aprovação Automática</div><div style="font-size:12px;color:var(--gray-500);line-height:1.4;margin-top:var(--spacing-xs);">Agent aprova despesas dentro da política sem intervenção humana. Exceções vão para revisão.</div></div>
             </button>
             <div class="agent-dropdown-separator"></div>
             <div class="threshold-section hidden" id="thresholdSection">
@@ -2677,6 +2637,20 @@ select.form-input {
               <input type="range" class="threshold-slider" min="50" max="99" value="85" oninput="document.getElementById('thresholdValue').textContent=this.value+'%'" aria-label="Nível mínimo para auto-aprovação do Agent">
               <div style="font-size:12px;color:var(--gray-500);line-height:1.4;margin-top:var(--spacing-sm);">Despesas com confiança acima deste valor são processadas automaticamente. Abaixo, vão para revisão manual.</div>
             </div>
+            </div>
+          </div>
+        </div>
+        <div class="agent-banner-details" id="agentBannerDetails">
+          <div class="agent-banner-metrics">
+            <div><div class="agent-banner-metric-label">Modo</div><div class="agent-banner-metric-value">Recomendação</div></div>
+            <div><div class="agent-banner-metric-label">Acurácia</div><div class="agent-banner-metric-value">99.1%</div></div>
+            <div><div class="agent-banner-metric-label">Transações</div><div class="agent-banner-metric-value">2.847</div></div>
+            <div><div class="agent-banner-metric-label">Economia estimada</div><div class="agent-banner-metric-value">R$ 185k</div></div>
+            <div><div class="agent-banner-metric-label">Variação semanal</div><div class="agent-banner-metric-value"><span style="color:#DC2626;">↓ 2.3%</span> <span style="color:var(--gray-400);font-weight:400;">vs. semana anterior</span></div></div>
+          </div>
+          <div class="agent-banner-hierarchy">
+            <strong>Flags › Agent › Workflows</strong><br>
+            Flags são regras fixas que sempre valem. Agent é a IA que avalia cada despesa e recomenda ações. Workflows são regras condicionais. Flags prevalecem sobre o Agent, que prevalece sobre Workflows.
           </div>
         </div>
       </div>
@@ -4180,39 +4154,34 @@ select.form-input {
   </div>
 </div>
 
-<!-- V9 M3 Enhanced: CC Exception Propagation Preview Modal -->
-<div class="propagate-confirm-overlay" id="ccPropagatePreviewModal" onclick="if(event.target===this)closeCCPropagatePreview()">
-  <div class="propagate-confirm-modal" style="width:500px;" onclick="event.stopPropagation()">
-    <div class="propagate-confirm-header">
-      <div class="propagate-confirm-title" style="font-size:16px;">&#128202; Preview de Impacto</div>
-      <p style="font-size:13px;color:var(--gray-500);margin-top:4px;" id="ccPropPreviewDesc">Você está alterando a exceção do CC Marketing para Solicitações.</p>
+<!-- V9 M3 Enhanced: CC Exception Propagation Modal -->
+<div class="modal-overlay" id="ccPropagateModal" style="display:none;" onclick="if(event.target===this)closeCCPropagate()">
+  <div class="modal" style="max-width:520px;" role="dialog">
+    <div class="modal-header">
+      <div><div class="modal-title">Salvar exceção do CC</div></div>
+      <button class="modal-close" onclick="closeCCPropagate()">✕</button>
     </div>
-    <div class="propagate-confirm-body" id="ccPropPreviewBody">
-      <div style="margin-bottom:var(--spacing-md);">
-        <div style="display:flex;align-items:center;gap:var(--spacing-sm);margin-bottom:var(--spacing-sm);">
-          <span style="color:var(--success-green);font-weight:600;">&#10004;</span>
-          <strong style="font-size:13px;color:var(--gray-800);">2 times AFETADOS (seguem o CC):</strong>
-          <span style="font-size:13px;color:var(--gray-600);">Conteúdo, SEO</span>
+    <div class="modal-body">
+      <label style="display:flex;align-items:flex-start;gap:8px;cursor:pointer;padding:12px;border:1px solid var(--gray-200);border-radius:12px;margin-bottom:16px;" id="ccPropagateToggle">
+        <input type="checkbox" id="ccPropagateCheck" onchange="togglePropagateDetails()" style="margin-top:2px;width:18px;height:18px;accent-color:#E55A20;">
+        <div>
+          <div style="font-weight:500;color:var(--gray-800);">Aplicar também aos times deste CC que não têm exceção própria para este fluxo</div>
         </div>
-        <div style="display:flex;align-items:center;gap:var(--spacing-sm);">
-          <span style="color:var(--warning-yellow);font-weight:600;">&#9888;&#65039;</span>
-          <strong style="font-size:13px;color:var(--gray-800);">2 times NÃO AFETADOS (têm exceção própria):</strong>
-          <span style="font-size:13px;color:var(--gray-600);">Growth, Performance</span>
+      </label>
+      <div id="ccPropagateDetails" style="display:none;">
+        <div style="padding:12px;background:#F0FDF4;border-radius:8px;margin-bottom:12px;border-left:4px solid #16A34A;">
+          <div style="font-weight:600;font-size:13px;color:var(--gray-800);margin-bottom:4px;">8 times serão atualizados:</div>
+          <div style="font-size:13px;color:var(--gray-600);">Conteúdo, Branding, Eventos, SEO, CRM Marketing, Social Media, Relações Públicas, Design Marketing</div>
+        </div>
+        <div style="padding:12px;background:#FFFBEB;border-radius:8px;border-left:4px solid #D97706;">
+          <div style="font-weight:600;font-size:13px;color:var(--gray-800);margin-bottom:4px;">2 times NÃO serão afetados (já têm exceção):</div>
+          <div style="font-size:13px;color:var(--gray-600);">Growth (Diverge do CC), Performance (Diverge do CC)</div>
         </div>
       </div>
-      <div style="border:1px dashed var(--border);border-radius:var(--radius-md);padding:var(--spacing-md);background:var(--gray-50);">
-        <label style="display:flex;align-items:center;gap:var(--spacing-sm);font-size:13px;color:var(--gray-700);cursor:pointer;">
-          <input type="checkbox" id="ccPropOverwriteCheckbox" onchange="toggleCCPropOverwrite()" style="accent-color:#E55A20;width:16px;height:16px;">
-          <span>Sobrescrever exceções destes times?</span>
-        </label>
-        <div id="ccPropOverwriteWarning" style="display:none;margin-top:var(--spacing-sm);margin-left:24px;font-size:12px;color:var(--warning-yellow);">
-          &#9888;&#65039; As exceções de Growth e Performance serão SUBSTITUÍDAS pela nova regra do CC.
-        </div>
+      <div class="modal-actions" style="margin-top:20px;">
+        <button class="btn btn-secondary btn-sm" onclick="closeCCPropagate()">Cancelar</button>
+        <button class="btn btn-primary btn-sm" id="ccPropagateBtn" onclick="confirmCCPropagate()">Salvar exceção</button>
       </div>
-    </div>
-    <div class="propagate-confirm-footer">
-      <button class="btn btn-secondary" onclick="closeCCPropagatePreview()">Cancelar</button>
-      <button class="btn btn-primary" id="ccPropConfirmBtn" onclick="confirmCCPropagate()">Confirmar e salvar</button>
     </div>
   </div>
 </div>
@@ -4297,30 +4266,39 @@ function toggleAgentDropdown() {
 function setAgentMode(mode) {
   const banner = document.getElementById('agentBanner');
   const label = banner.querySelector('.agent-label');
-  const info = banner.querySelector('.agent-info');
   const dot = banner.querySelector('.agent-dot');
   const items = document.querySelectorAll('.agent-dropdown-item');
 
   items.forEach(i => i.classList.remove('active'));
 
   const modes = {
-    off: { label: 'Policy Agent desativado', bg: 'var(--gray-50)', border: 'var(--gray-200)', dotColor: 'var(--gray-400)', idx: 0 },
-    test: { label: 'Policy Agent em teste', bg: 'var(--gray-50)', border: 'var(--gray-200)', dotColor: 'var(--warning-yellow)', idx: 1 },
-    recommend: { label: 'Policy Agent ativo', bg: 'var(--white)', border: 'var(--gray-200)', dotColor: 'var(--success-green)', idx: 2 },
-    auto: { label: 'Policy Agent — Aprovação automática', bg: 'var(--white)', border: 'var(--gray-200)', dotColor: 'var(--success-green)', idx: 3 }
+    off: { label: 'Policy Agent desativado', dotColor: 'var(--gray-400)', idx: 0 },
+    test: { label: 'Policy Agent em teste', dotColor: 'var(--warning-yellow)', idx: 1 },
+    recommend: { label: 'Policy Agent ativo', dotColor: '#16A34A', idx: 2 },
+    auto: { label: 'Policy Agent — Aprovação automática', dotColor: '#16A34A', idx: 3 }
   };
 
   const m = modes[mode];
-  label.textContent = m.label;
-  banner.style.background = m.bg;
-  banner.style.borderColor = m.border;
-  dot.style.background = m.dotColor;
+  if (label) label.textContent = m.label;
+  if (dot) dot.style.background = m.dotColor;
   items[m.idx].classList.add('active');
   // Show threshold slider only in auto mode
   var ts = document.getElementById('thresholdSection');
   if (ts) { if (mode === 'auto') ts.classList.remove('hidden'); else ts.classList.add('hidden'); }
   document.getElementById('agentDropdown').style.display = 'none';
   showToast('Modo do Agent atualizado.', 'success');
+}
+
+function toggleAgentBanner() {
+  var details = document.getElementById('agentBannerDetails');
+  var chevron = document.getElementById('agentBannerChevron');
+  if (details.classList.contains('expanded')) {
+    details.classList.remove('expanded');
+    chevron.classList.remove('expanded');
+  } else {
+    details.classList.add('expanded');
+    chevron.classList.add('expanded');
+  }
 }
 
 // Slide-over
@@ -5112,7 +5090,7 @@ function handleSlideoverSave() {
   var titleText = slideoverTitle ? slideoverTitle.textContent : '';
   // Show CC propagation preview for any save (in production, only for CC exceptions)
   closeSlideover();
-  openCCPropagatePreview();
+  openCCPropagate();
 }
 
 function openImpactModal() {
@@ -5131,73 +5109,76 @@ function closeImpactModal() {
 // ========================================================================
 var scopePopoverData = {
   cc: {
-    'Marketing': { teams: '4 (Growth, Performance, Conteúdo, SEO)', budget: 'R$ 450k/mês', rules: 4, exceptions: 3, head: 'Ana C.', diverge: '2 times divergem' },
-    'Vendas': { teams: '6', budget: 'R$ 380k/mês', rules: 3, exceptions: 2, head: 'Maria O.', diverge: '1 diverge' },
-    'Engenharia': { teams: '6', budget: 'R$ 620k/mês', rules: 5, exceptions: 1, head: 'Tatiana M.', diverge: null },
-    'Internacional': { teams: 5, budget: 'R$ 1.2M/mês', rules: 3, exceptions: 4, head: 'Carlos M.', diverge: null },
-    'Financeiro': { teams: 4, budget: 'R$ 180k/mês', rules: 2, exceptions: 0, head: 'André A.', diverge: null }
+    'Marketing': { teams: 'Growth, Performance, Conteúdo, SEO, Branding, Eventos, CRM Marketing, Social Media, Relações Públicas, Design Marketing', teamCount: 10, head: 'Francisco D.', exceptions: '2 (Solicitações, Despesas Cartão)' },
+    'Vendas': { teams: 'Inside Sales, Field Sales, Pré-vendas, Enterprise, SDR, Partnerships', teamCount: 6, head: 'Maria O.', exceptions: '2 (Solicitações, Viagens)' },
+    'Engenharia': { teams: 'Backend, Frontend, Mobile, QA, DevOps, Platform', teamCount: 6, head: 'Tatiana M.', exceptions: '1 (Despesas Cartão)' },
+    'Financeiro': { teams: 'FP&A, Contabilidade, Tesouraria, Contas a Pagar', teamCount: 4, head: 'Roberto L.', exceptions: '2 (Solicitações, Reembolsos)' },
+    'Internacional': { teams: 'LATAM, Europa, EUA, EUA Enterprise, LATAM Comercial', teamCount: 5, head: 'Carlos M.', exceptions: '4 (Solicitações, Cartão, Reembolsos, Viagens)' }
   },
   time: {
-    'Growth': { cc: 'Marketing', members: 8, budget: 'R$ 85k/mês', rules: 2, head: 'Pedro A.', exceptions: 2, created: '15/01/2026' },
-    'Performance': { cc: 'Marketing', members: 6, budget: 'R$ 65k/mês', rules: 2, head: 'Lucas R.', exceptions: 2, created: '15/01/2026' },
-    'Enterprise': { cc: 'Vendas', members: 15, budget: 'R$ 120k/mês', rules: 3, head: 'Thiago B.', exceptions: 1, created: '01/02/2026' },
-    'Inside Sales': { cc: 'Vendas', members: 10, budget: 'R$ 90k/mês', rules: 1, head: 'Carlos F.', exceptions: 1, created: '01/02/2026' },
-    'DevOps': { cc: 'Engenharia', members: 9, budget: 'R$ 95k/mês', rules: 2, head: 'Rafael S.', exceptions: 1, created: '10/01/2026' },
-    'Diretoria': { cc: 'Executivo', members: 5, budget: 'R$ 200k/mês', rules: 3, head: 'André C.', exceptions: 0, created: '01/01/2026' }
+    'Growth': { cc: 'Marketing', head: 'Pedro A.', members: 8, exceptions: '2 (Solicitações, Cartão)', created: '15/01/2026' },
+    'Performance': { cc: 'Marketing', head: 'Lucas R.', members: 6, exceptions: '2 (Solicitações, Cartão)', created: '15/01/2026' },
+    'Diretoria': { cc: 'Executivo', head: 'Tatiana M.', members: 15, exceptions: '1 (Viagens)', created: '10/01/2026' },
+    'Inside Sales': { cc: 'Vendas', head: 'Carlos F.', members: 10, exceptions: '1 (Cartão)', created: '20/01/2026' },
+    'DevOps': { cc: 'Engenharia', head: 'Rafael S.', members: 9, exceptions: '1 (Solicitações)', created: '12/01/2026' },
+    'Backend': { cc: 'Engenharia', head: 'Ana P.', members: 12, exceptions: '0', created: '10/01/2026' },
+    'Enterprise': { cc: 'Vendas', head: 'Thiago B.', members: 15, exceptions: '1 (Cartão)', created: '01/02/2026' }
   }
 };
 
 function showScopePopover(event, type, name) {
-  closeScopePopover();
-  var data = scopePopoverData[type] && scopePopoverData[type][name];
-  if (!data) return;
+  event.stopPropagation();
+  var existing = document.getElementById('activeScopePopover');
+  if (existing) existing.remove();
 
-  var popover = document.createElement('div');
-  popover.className = 'scope-popover';
-  popover.id = 'activeScopePopover';
+  var pop = document.createElement('div');
+  pop.id = 'activeScopePopover';
+  pop.className = 'scope-popover';
 
-  var html = '<div class="scope-popover-title">' + (type === 'cc' ? 'CC ' : 'Time ') + name + '</div>';
+  var html = '';
   if (type === 'cc') {
-    html += '<div class="scope-popover-row"><span class="scope-popover-label">Times</span><span class="scope-popover-value">' + data.teams + '</span></div>';
-    html += '<div class="scope-popover-row"><span class="scope-popover-label">Budget mensal</span><span class="scope-popover-value">' + data.budget + '</span></div>';
-    html += '<div class="scope-popover-row"><span class="scope-popover-label">Regras ativas</span><span class="scope-popover-value">' + data.rules + '</span></div>';
-    html += '<div class="scope-popover-row"><span class="scope-popover-label">Exceções</span><span class="scope-popover-value">' + data.exceptions + '</span></div>';
-    html += '<div class="scope-popover-row"><span class="scope-popover-label">Responsável</span><span class="scope-popover-value">' + data.head + '</span></div>';
-    if (data.diverge) html += '<div class="scope-popover-row" style="color:var(--warning-yellow);"><span class="scope-popover-label">&#9888;&#65039; Divergência</span><span class="scope-popover-value" style="color:var(--warning-yellow);">' + data.diverge + '</span></div>';
-    html += '<a class="scope-popover-link" href="centros-custo.html">Ver Centro de Custo →</a>';
-  } else {
-    html += '<div class="scope-popover-row"><span class="scope-popover-label">CC</span><span class="scope-popover-value">' + data.cc + '</span></div>';
-    html += '<div class="scope-popover-row"><span class="scope-popover-label">Membros</span><span class="scope-popover-value">' + data.members + '</span></div>';
-    html += '<div class="scope-popover-row"><span class="scope-popover-label">Budget mensal</span><span class="scope-popover-value">' + data.budget + '</span></div>';
-    html += '<div class="scope-popover-row"><span class="scope-popover-label">Regras específicas</span><span class="scope-popover-value">' + data.rules + '</span></div>';
-    html += '<div class="scope-popover-row"><span class="scope-popover-label">Exceções</span><span class="scope-popover-value">' + data.exceptions + '</span></div>';
-    html += '<div class="scope-popover-row"><span class="scope-popover-label">Líder</span><span class="scope-popover-value">' + data.head + '</span></div>';
-    if (data.created) html += '<div class="scope-popover-row"><span class="scope-popover-label">Criado em</span><span class="scope-popover-value">' + data.created + '</span></div>';
-    html += '<a class="scope-popover-link" href="times.html">Ver Time →</a>';
+    var d = scopePopoverData.cc[name] || { teams: 'N/A', teamCount: 0, head: 'N/A', exceptions: '0' };
+    html = '<div class="scope-popover-title">\uD83C\uDFD7\uFE0F CC ' + name + '</div>';
+    html += '<div class="scope-popover-row"><span class="scope-popover-label">Times</span><span class="scope-popover-value">' + (d.teamCount || 0) + '</span></div>';
+    html += '<div style="font-size:12px;color:var(--gray-500);margin-bottom:8px;">' + (d.teams || '') + '</div>';
+    html += '<div class="scope-popover-row"><span class="scope-popover-label">Responsável</span><span class="scope-popover-value">' + d.head + '</span></div>';
+    html += '<div class="scope-popover-row"><span class="scope-popover-label">Exceções</span><span class="scope-popover-value">' + d.exceptions + '</span></div>';
+    html += '<a class="scope-popover-link" onclick="closeScopePopover()">Ver detalhes do CC \u2192</a>';
+  } else if (type === 'time') {
+    var d = scopePopoverData.time[name] || { cc: 'N/A', head: 'N/A', members: 0, exceptions: '0', created: 'N/A' };
+    html = '<div class="scope-popover-title">\uD83D\uDC65 Time ' + name + '</div>';
+    html += '<div class="scope-popover-row"><span class="scope-popover-label">CC pai</span><span class="scope-popover-value">' + d.cc + '</span></div>';
+    html += '<div class="scope-popover-row"><span class="scope-popover-label">Responsável</span><span class="scope-popover-value">' + d.head + '</span></div>';
+    html += '<div class="scope-popover-row"><span class="scope-popover-label">Membros</span><span class="scope-popover-value">' + d.members + '</span></div>';
+    html += '<div class="scope-popover-row"><span class="scope-popover-label">Status</span><span class="scope-popover-value" style="color:#16A34A;">Ativo</span></div>';
+    html += '<div class="scope-popover-row"><span class="scope-popover-label">Exceções</span><span class="scope-popover-value">' + d.exceptions + '</span></div>';
+    html += '<div class="scope-popover-row"><span class="scope-popover-label">Criado em</span><span class="scope-popover-value">' + (d.created || 'N/A') + '</span></div>';
+    html += '<a class="scope-popover-link" onclick="closeScopePopover()">Ver detalhes do time \u2192</a>';
   }
+  pop.innerHTML = html;
+  document.body.appendChild(pop);
 
-  popover.innerHTML = html;
-  document.body.appendChild(popover);
-
+  // Position near the clicked element
   var rect = event.target.getBoundingClientRect();
-  popover.style.top = (rect.bottom + window.scrollY + 8) + 'px';
-  popover.style.left = Math.max(8, Math.min(rect.left + window.scrollX, window.innerWidth - 340)) + 'px';
+  var top = rect.bottom + 8;
+  var left = rect.left;
+  if (top + 300 > window.innerHeight) top = rect.top - 300;
+  if (left + 360 > window.innerWidth) left = window.innerWidth - 370;
+  pop.style.top = top + 'px';
+  pop.style.left = left + 'px';
+
+  // Close on click outside
+  setTimeout(function() {
+    document.addEventListener('click', closeScopePopover);
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeScopePopover(); });
+  }, 10);
 }
 
 function closeScopePopover() {
-  var existing = document.getElementById('activeScopePopover');
-  if (existing) existing.remove();
+  var pop = document.getElementById('activeScopePopover');
+  if (pop) pop.remove();
+  document.removeEventListener('click', closeScopePopover);
 }
-
-document.addEventListener('click', function(e) {
-  if (!e.target.closest('.scope-popover') && !e.target.closest('.scope-badge-clickable')) {
-    closeScopePopover();
-  }
-});
-
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') closeScopePopover();
-});
 
 // ========================================================================
 // V9 M2: Exception Matrix View
@@ -5281,37 +5262,30 @@ function closePropagateModal() {
   document.getElementById('propagateConfirmModal').classList.remove('active');
 }
 
-// V9 M3 Enhanced: CC Exception Propagation Preview
-function openCCPropagatePreview() {
-  document.getElementById('ccPropagatePreviewModal').classList.add('active');
+// V9 M3 Enhanced: CC Exception Propagation
+function openCCPropagate() {
+  document.getElementById('ccPropagateCheck').checked = false;
+  document.getElementById('ccPropagateDetails').style.display = 'none';
+  document.getElementById('ccPropagateBtn').textContent = 'Salvar exceção';
+  document.getElementById('ccPropagateModal').style.display = 'flex';
 }
-
-function closeCCPropagatePreview() {
-  document.getElementById('ccPropagatePreviewModal').classList.remove('active');
-  var cb = document.getElementById('ccPropOverwriteCheckbox');
-  if (cb) cb.checked = false;
-  toggleCCPropOverwrite();
+function closeCCPropagate() {
+  document.getElementById('ccPropagateModal').style.display = 'none';
 }
-
-function toggleCCPropOverwrite() {
-  var cb = document.getElementById('ccPropOverwriteCheckbox');
-  var warning = document.getElementById('ccPropOverwriteWarning');
-  var btn = document.getElementById('ccPropConfirmBtn');
-  if (cb && cb.checked) {
-    if (warning) warning.style.display = 'block';
-    if (btn) { btn.textContent = 'Confirmar e propagar para 4 times'; btn.style.background = 'var(--warning-yellow)'; btn.style.borderColor = 'var(--warning-yellow)'; }
-  } else {
-    if (warning) warning.style.display = 'none';
-    if (btn) { btn.textContent = 'Confirmar e salvar'; btn.style.background = ''; btn.style.borderColor = ''; }
-  }
+function togglePropagateDetails() {
+  var checked = document.getElementById('ccPropagateCheck').checked;
+  document.getElementById('ccPropagateDetails').style.display = checked ? 'block' : 'none';
+  document.getElementById('ccPropagateBtn').textContent = checked ? 'Salvar e propagar para 8 times' : 'Salvar exceção';
 }
-
 function confirmCCPropagate() {
-  var cb = document.getElementById('ccPropOverwriteCheckbox');
-  var msg = cb && cb.checked ? 'Exceção do CC propagada para 4 times.' : 'Exceção do CC salva com sucesso.';
-  closeCCPropagatePreview();
+  var propagate = document.getElementById('ccPropagateCheck').checked;
+  closeCCPropagate();
   closeSlideover();
-  showToast(msg, 'success');
+  if (propagate) {
+    showToast('Exceção salva e propagada para 8 times.', 'success');
+  } else {
+    showToast('Exceção salva para CC Marketing.', 'success');
+  }
 }
 
 // ========================================================================
