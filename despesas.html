@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Despesas — Payfy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary-orange: #E55A20;
+  --primary-orange-dark: #C94E1A;
+  --primary-orange-light: #FFF3ED;
+  --success-green: #059669;
+  --success-green-light: #D1FAE5;
+  --warning-yellow: #D97706;
+  --warning-yellow-light: #FEF3C7;
+  --info-blue: #3B82F6;
+  --info-blue-light: #EFF6FF;
+  --purple: #8B5CF6;
+  --purple-light: #EDE9FE;
+  --danger-red: #DC2626;
+  --danger-red-light: #FEE2E2;
+  --gray-50: #FAFAFA;
+  --gray-100: #F5F5F5;
+  --gray-200: #E5E7EB;
+  --gray-300: #D1D5DB;
+  --gray-400: #9CA3AF;
+  --gray-500: #6B7280;
+  --gray-600: #4B5563;
+  --gray-700: #374151;
+  --gray-800: #1F2937;
+  --gray-900: #111827;
+  --white: #FFFFFF;
+  --border: #E5E7EB;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1);
+  --scope-empresa-bg: var(--gray-100);
+  --scope-empresa-text: var(--gray-700);
+  --scope-cc-bg: var(--info-blue-light);
+  --scope-cc-text: #1E40AF;
+  --scope-time-bg: var(--purple-light);
+  --scope-time-text: #6B21A8;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--gray-50); color: var(--gray-800); font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+button { font-family: inherit; cursor: pointer; }
+a { color: var(--info-blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+:focus-visible { outline: 3px solid var(--info-blue); outline-offset: 2px; }
+
+.app-layout { display: flex; min-height: 100vh; }
+
+/* Sidebar — no settings sub-sidebar */
+.main-sidebar { width: 212px; background: var(--white); border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0; z-index: 100; }
+.sidebar-logo { padding: var(--spacing-lg); border-bottom: 1px solid var(--border); }
+.sidebar-logo-text { font-size: 24px; font-weight: 700; color: var(--primary-orange); letter-spacing: -0.5px; }
+.sidebar-nav { flex: 1; padding: var(--spacing-sm) 0; }
+.sidebar-item { display: flex; align-items: center; gap: var(--spacing-sm); padding: var(--spacing-md) var(--spacing-lg); font-size: 14px; font-weight: 500; color: var(--gray-600); border: none; background: none; width: 100%; text-align: left; border-left: 3px solid transparent; transition: all 0.15s; min-height: 44px; text-decoration: none; }
+.sidebar-item:hover { background: var(--gray-50); color: var(--gray-800); text-decoration: none; }
+.sidebar-item.active { border-left-color: var(--primary-orange); color: var(--gray-900); font-weight: 600; background: var(--primary-orange-light); }
+.sidebar-item svg { width: 20px; height: 20px; flex-shrink: 0; color: var(--gray-400); }
+.sidebar-item.active svg { color: var(--primary-orange); }
+.sidebar-separator { height: 1px; background: var(--border); margin: var(--spacing-sm) 0; }
+
+.main-content { flex: 1; min-width: 0; overflow-y: auto; height: 100vh; }
+.content-wrapper { max-width: 1400px; padding: var(--spacing-xl) var(--spacing-2xl); }
+.page-header { margin-bottom: var(--spacing-md); }
+.page-header-top { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-md); }
+.page-title { font-size: 28px; font-weight: 700; color: var(--gray-900); }
+
+.btn { display: inline-flex; align-items: center; gap: var(--spacing-sm); padding: var(--spacing-sm) var(--spacing-md); border-radius: var(--radius-lg); font-size: 14px; font-weight: 600; border: none; transition: all 0.2s; min-height: 44px; white-space: nowrap; }
+.btn-primary { background: var(--primary-orange); color: var(--white); }
+.btn-primary:hover { background: var(--primary-orange-dark); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.btn-secondary { background: var(--white); color: var(--gray-700); border: 1px solid var(--border); }
+.btn-secondary:hover { background: var(--gray-50); }
+.btn-ghost { background: transparent; color: var(--gray-600); padding: var(--spacing-sm); }
+.btn-ghost:hover { background: var(--gray-100); }
+.btn-sm { padding: var(--spacing-xs) var(--spacing-sm); font-size: 12px; min-height: 32px; border-radius: var(--radius-md); }
+.btn-success { background: var(--success-green); color: var(--white); }
+.btn-success:hover { background: #047857; }
+.btn-danger-fill { background: var(--danger-red); color: var(--white); }
+.btn-danger-fill:hover { background: #B91C1C; }
+
+/* Agent mini-banner */
+.agent-mini-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--info-blue-light);
+  border: 1px solid #BFDBFE;
+  border-radius: var(--radius-md);
+  margin-bottom: var(--spacing-md);
+  font-size: 13px;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+}
+.agent-mini-left { display: flex; align-items: center; gap: var(--spacing-sm); }
+.agent-mini-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success-green); flex-shrink: 0; }
+
+/* Filters */
+.filters-bar { display: flex; gap: var(--spacing-sm); margin-bottom: var(--spacing-md); flex-wrap: wrap; }
+.search-input { padding: var(--spacing-sm) var(--spacing-md); border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 13px; min-height: 40px; min-width: 200px; background: var(--white); font-family: inherit; }
+.search-input:focus { border-color: var(--info-blue); outline: none; box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+.filter-select { padding: var(--spacing-sm) var(--spacing-md); border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 13px; min-height: 40px; background: var(--white); font-family: inherit; color: var(--gray-700); }
+
+/* Table */
+.table-container { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-2xl); overflow-x: auto; box-shadow: var(--shadow-sm); }
+.data-table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 900px; }
+.data-table th { background: var(--gray-50); font-size: 12px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.05em; padding: var(--spacing-md) var(--spacing-md); border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap; cursor: pointer; user-select: none; }
+.data-table th:hover { color: var(--gray-700); }
+.data-table th .sort-arrow { font-size: 10px; margin-left: 4px; opacity: 0.4; }
+.data-table th.sort-active .sort-arrow { opacity: 1; color: var(--primary-orange); }
+.data-table td { padding: var(--spacing-md); font-size: 13px; color: var(--gray-700); border-bottom: 1px solid var(--border); vertical-align: middle; height: 56px; }
+.data-table tbody tr { cursor: pointer; transition: background 0.15s; }
+.data-table tbody tr:hover td { background: var(--gray-50); }
+.data-table tbody tr:last-child td { border-bottom: none; }
+
+/* Row variants */
+.row-auto td { background: #F0FDF4; }
+.row-reject { border-left: 3px solid var(--danger-red); }
+.flag-icon { color: var(--danger-red); margin-right: var(--spacing-xs); }
+
+/* Recommendation badges */
+.rec-badge { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-2xl); font-size: 12px; font-weight: 600; white-space: nowrap; }
+.rec-approve { background: var(--success-green-light); color: var(--success-green); }
+.rec-review { background: var(--warning-yellow-light); color: var(--warning-yellow); }
+.rec-reject { background: var(--danger-red-light); color: var(--danger-red); }
+.rec-auto { background: var(--gray-100); color: var(--gray-500); }
+
+.confidence { font-size: 11px; color: var(--gray-500); font-weight: 500; }
+
+.status-badge { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-2xl); font-size: 12px; font-weight: 600; }
+.status-pending { background: var(--warning-yellow-light); color: var(--warning-yellow); }
+.status-approved { background: var(--success-green-light); color: var(--success-green); }
+.status-rejected { background: var(--danger-red-light); color: var(--danger-red); }
+.status-auto { background: var(--gray-100); color: var(--gray-500); }
+
+/* Pagination */
+.pagination-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--gray-500);
+  background: var(--white);
+  border-radius: 0 0 var(--radius-2xl) var(--radius-2xl);
+}
+.pagination-info { font-weight: 500; }
+.pagination-nav { display: flex; align-items: center; gap: var(--spacing-xs); }
+.page-btn {
+  min-width: 36px; height: 36px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border); border-radius: var(--radius-md);
+  background: var(--white); color: var(--gray-600);
+  font-size: 13px; font-weight: 500; cursor: pointer;
+  transition: all 0.15s;
+}
+.page-btn:hover:not(:disabled) { background: var(--gray-50); border-color: var(--gray-300); }
+.page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.page-btn.active { background: var(--primary-orange); color: var(--white); border-color: var(--primary-orange); }
+
+/* Slide-over */
+.slideover-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); z-index: 900; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.slideover-overlay.active { opacity: 1; pointer-events: auto; }
+.slideover { position: fixed; top: 0; right: -560px; width: 560px; height: 100vh; background: var(--white); box-shadow: var(--shadow-xl); z-index: 950; transition: right 0.3s ease; display: flex; flex-direction: column; border-left: 1px solid var(--border); }
+.slideover.open { right: 0; }
+.slideover-header { padding: var(--spacing-lg); border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: flex-start; flex-shrink: 0; }
+.slideover-title { font-size: 20px; font-weight: 700; color: var(--gray-900); }
+.slideover-subtitle { font-size: 13px; color: var(--gray-500); margin-top: var(--spacing-xs); }
+.slideover-close { width: 44px; height: 44px; border-radius: var(--radius-md); background: var(--gray-100); border: none; display: flex; align-items: center; justify-content: center; color: var(--gray-600); font-size: 20px; flex-shrink: 0; }
+.slideover-close:hover { background: var(--gray-200); }
+.slideover-body { flex: 1; overflow-y: auto; padding: var(--spacing-lg); }
+
+.so-section { margin-bottom: var(--spacing-lg); }
+.so-section-title { font-size: 14px; font-weight: 600; color: var(--gray-700); margin-bottom: var(--spacing-sm); }
+.so-label { font-size: 12px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: var(--spacing-xs); }
+
+/* Agent analysis */
+.agent-analysis {
+  background: var(--gray-50);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+}
+
+.analysis-rec {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-md);
+}
+
+.analysis-rec-badge {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-lg);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.analysis-rec-badge.approve { background: var(--success-green-light); color: var(--success-green); }
+.analysis-rec-badge.review { background: var(--warning-yellow-light); color: var(--warning-yellow); }
+.analysis-rec-badge.reject { background: var(--danger-red-light); color: var(--danger-red); }
+
+.analysis-confidence { font-size: 24px; font-weight: 700; color: var(--gray-800); }
+.analysis-confidence-label { font-size: 12px; color: var(--gray-500); }
+
+.analysis-rationale {
+  font-size: 13px;
+  color: var(--gray-700);
+  line-height: 1.6;
+  margin-bottom: var(--spacing-md);
+  padding: var(--spacing-md);
+  background: var(--white);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+}
+
+.analysis-rule { font-size: 13px; color: var(--gray-600); margin-bottom: var(--spacing-sm); }
+.analysis-flags { display: flex; flex-wrap: wrap; gap: var(--spacing-xs); margin-bottom: var(--spacing-sm); }
+.flag-badge { padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-sm); font-size: 11px; font-weight: 600; background: var(--danger-red-light); color: #991B1B; }
+
+.analysis-scope { font-size: 12px; color: var(--gray-500); }
+.scope-badge { padding: 2px var(--spacing-sm); border-radius: var(--radius-sm); font-size: 11px; font-weight: 600; }
+.scope-geral { background: var(--scope-empresa-bg); color: var(--scope-empresa-text); }
+.scope-time { background: var(--scope-time-bg); color: var(--scope-time-text); }
+
+/* Feedback section */
+.feedback-section {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-lg);
+}
+
+.feedback-actions { display: flex; gap: var(--spacing-sm); margin-bottom: var(--spacing-md); }
+.feedback-thumbs { display: flex; align-items: center; gap: var(--spacing-sm); font-size: 12px; color: var(--gray-500); }
+.thumb-btn { width: 32px; height: 32px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--white); display: flex; align-items: center; justify-content: center; font-size: 16px; }
+.thumb-btn:hover { background: var(--gray-50); }
+
+/* Override panel */
+.override-panel {
+  display: none;
+  background: var(--warning-yellow-light);
+  border: 1px solid #FDE68A;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+  margin-top: var(--spacing-md);
+}
+.override-panel.show { display: block; }
+.override-title { font-size: 14px; font-weight: 600; color: #92400E; margin-bottom: var(--spacing-sm); }
+.override-options { display: flex; flex-direction: column; gap: var(--spacing-sm); margin-bottom: var(--spacing-md); }
+.override-option { display: flex; align-items: flex-start; gap: var(--spacing-sm); font-size: 13px; color: var(--gray-700); }
+.override-option input[type="radio"] { margin-top: 2px; accent-color: var(--primary-orange); }
+.override-comment { width: 100%; min-height: 60px; padding: var(--spacing-sm); border: 1px solid var(--border); border-radius: var(--radius-md); font-family: inherit; font-size: 13px; resize: vertical; margin-bottom: var(--spacing-sm); }
+.override-comment:focus { border-color: var(--info-blue); outline: none; }
+
+/* Detail data grid */
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-sm) var(--spacing-lg); }
+.detail-item { }
+.detail-label { font-size: 12px; color: var(--gray-500); font-weight: 500; }
+.detail-value { font-size: 13px; color: var(--gray-800); font-weight: 500; }
+
+/* Status progress */
+.status-progress { display: flex; align-items: center; gap: var(--spacing-xs); margin-bottom: var(--spacing-md); }
+.progress-step { flex: 1; height: 4px; border-radius: 2px; background: var(--gray-200); }
+.progress-step.done { background: var(--success-green); }
+.progress-step.current { background: var(--warning-yellow); }
+.progress-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(--gray-500); margin-bottom: var(--spacing-md); }
+
+/* Toast */
+.toast-container { position: fixed; top: var(--spacing-lg); right: var(--spacing-lg); z-index: 2000; display: flex; flex-direction: column; gap: var(--spacing-sm); }
+.toast { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--spacing-md) var(--spacing-lg); box-shadow: var(--shadow-lg); font-size: 13px; color: var(--gray-700); display: flex; align-items: center; gap: var(--spacing-sm); animation: toastIn 0.3s ease; min-width: 300px; }
+.toast.success { border-left: 4px solid var(--success-green); }
+.toast.info { border-left: 4px solid var(--info-blue); }
+@keyframes toastIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+
+/* Mobile */
+.mobile-cards { display: none; }
+.mobile-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--spacing-md); margin-bottom: var(--spacing-sm); cursor: pointer; }
+.mobile-card:hover { box-shadow: var(--shadow-md); }
+.mobile-card-title { font-size: 14px; font-weight: 600; color: var(--gray-900); }
+.mobile-card-detail { font-size: 12px; color: var(--gray-500); margin-top: var(--spacing-xs); display: flex; gap: var(--spacing-sm); flex-wrap: wrap; align-items: center; }
+.hamburger-btn { display: none; width: 44px; height: 44px; border: none; background: var(--white); border-radius: var(--radius-md); font-size: 20px; color: var(--gray-600); align-items: center; justify-content: center; position: fixed; top: var(--spacing-md); left: var(--spacing-md); z-index: 200; box-shadow: var(--shadow-md); }
+
+@media (max-width: 1280px) { .slideover { width: 500px; right: -500px; } .content-wrapper { padding: var(--spacing-lg); } }
+@media (max-width: 1024px) {
+  .hamburger-btn { display: flex; }
+  .main-sidebar { position: fixed; top: 0; left: 0; height: 100vh; z-index: 300; transform: translateX(-100%); transition: transform 0.3s; }
+  .main-sidebar.open { transform: translateX(0); }
+  .sidebar-backdrop { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.3); z-index: 250; }
+  .sidebar-backdrop.active { display: block; }
+  .slideover { width: 100%; right: -100%; }
+}
+@media (max-width: 768px) { .content-wrapper { padding: var(--spacing-md); padding-top: 60px; } .page-header-top { flex-direction: column; } .filters-bar { flex-direction: column; } .table-container { display: none; } .mobile-cards { display: block !important; } .detail-grid { grid-template-columns: 1fr; } .pagination-bar { flex-direction: column; gap: var(--spacing-sm); } }
+@media (max-width: 480px) { body { font-size: 16px; } .page-title { font-size: 24px; } }
+
+/* Audit Trail */
+.audit-block { background: var(--gray-50); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--spacing-md); margin-bottom: var(--spacing-md); border-left: 3px solid var(--info-blue); }
+.audit-block.override { border-left-color: var(--warning-yellow); }
+.audit-block.contested { border-left-color: var(--danger-red); }
+.audit-ref { font-family: 'SF Mono', Monaco, monospace; font-size: 12px; color: var(--info-blue); font-weight: 600; }
+.audit-row { display: flex; align-items: flex-start; gap: var(--spacing-sm); padding: var(--spacing-xs) 0; font-size: 13px; border-bottom: 1px solid rgba(0,0,0,0.05); }
+.audit-row:last-child { border-bottom: none; }
+.audit-label { font-size: 12px; font-weight: 600; color: var(--gray-500); min-width: 120px; flex-shrink: 0; }
+.audit-value { font-size: 13px; color: var(--gray-700); flex: 1; }
+.audit-copy-btn { width: 32px; height: 32px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--white); display: flex; align-items: center; justify-content: center; font-size: 14px; color: var(--gray-400); flex-shrink: 0; }
+.audit-copy-btn:hover { background: var(--gray-50); color: var(--gray-700); }
+.audit-data-considered { font-size: 12px; color: var(--gray-500); background: var(--white); padding: var(--spacing-sm); border-radius: var(--radius-sm); border: 1px solid var(--border); margin-top: var(--spacing-xs); }
+.contest-form { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--spacing-md); margin-top: var(--spacing-md); animation: fadeSlideIn 0.3s ease; }
+@keyframes fadeSlideIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+.contest-option { display: flex; align-items: flex-start; gap: var(--spacing-sm); font-size: 13px; color: var(--gray-700); margin-bottom: var(--spacing-sm); }
+.contest-option input[type="radio"] { margin-top: 2px; accent-color: var(--primary-orange); }
+.contest-textarea { width: 100%; min-height: 60px; padding: var(--spacing-sm); border: 1px solid var(--border); border-radius: var(--radius-md); font-family: inherit; font-size: 13px; resize: vertical; }
+.contest-textarea:focus { border-color: var(--info-blue); outline: none; }
+.contested-badge { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-sm); font-size: 11px; font-weight: 600; background: var(--danger-red-light); color: var(--danger-red); }
+.override-badge { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-sm); font-size: 11px; font-weight: 600; background: var(--warning-yellow-light); color: #92400E; }
+/* R4: Disabled sidebar */
+.sidebar-item.disabled, .settings-item.disabled { opacity: 0.5; color: var(--gray-400) !important; cursor: default !important; pointer-events: none; }
+.sidebar-item.disabled:hover, .settings-item.disabled:hover { background: transparent !important; }
+.sidebar-item.disabled svg { color: var(--gray-400) !important; }
+</style>
+</head>
+<body>
+
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeSidebar()"></div>
+<button class="hamburger-btn" onclick="toggleSidebar()" aria-label="Abrir menu">☰</button>
+
+<div class="app-layout">
+  <!-- MAIN SIDEBAR -->
+  <nav class="main-sidebar" id="mainSidebar" aria-label="Navegação principal">
+    <div class="sidebar-logo"><span class="sidebar-logo-text">payfy</span></div>
+    <div class="sidebar-nav">
+      <a class="sidebar-item disabled"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>Início</a>
+      <a class="sidebar-item disabled"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/></svg>Solicitações</a>
+      <a class="sidebar-item disabled"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/><path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd"/></svg>Cartões</a>
+      <a class="sidebar-item disabled"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg>Usuários</a>
+      <a href="#" class="sidebar-item active"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"/></svg>Despesas</a>
+      <a class="sidebar-item disabled"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/></svg>Passagens</a>
+      <a class="sidebar-item disabled"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm2 0a1 1 0 10-1-1v1h1z" clip-rule="evenodd"/><path d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z"/></svg>Benefícios</a>
+      <a class="sidebar-item disabled"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11 4a1 1 0 10-2 0v4a1 1 0 102 0V7zm-3 1a1 1 0 10-2 0v3a1 1 0 102 0V8zM8 9a1 1 0 00-2 0v2a1 1 0 102 0V9z" clip-rule="evenodd"/></svg>Relatórios</a>
+      <div class="sidebar-separator"></div>
+      <a href="index.html" class="sidebar-item"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/></svg>Configurações</a>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    <div class="content-wrapper">
+      <div class="page-header">
+        <div class="page-header-top">
+          <h1 class="page-title">Despesas</h1>
+          <button class="btn btn-primary" onclick="showToast('Selecione despesas na tabela para aprovar em lote.','info')">Aprovar Selecionadas</button>
+        </div>
+      </div>
+
+      <!-- Agent mini-banner -->
+      <div class="agent-mini-banner">
+        <div class="agent-mini-left">
+          <span class="agent-mini-dot"></span>
+          <strong>Policy Agent</strong>
+          <span id="bannerStats" style="color:var(--gray-500);">Modo: Recomendação · carregando...</span>
+        </div>
+        <a href="index.html" style="font-size:13px;font-weight:600;">Configurar →</a>
+      </div>
+
+      <!-- Filters -->
+      <div class="filters-bar">
+        <input type="text" class="search-input" id="searchInput" placeholder="Buscar por fornecedor ou usuário..." aria-label="Buscar despesas" oninput="applyFilters()">
+        <select class="filter-select" id="filterStatus" aria-label="Status" onchange="applyFilters()"><option value="">Todos os status</option><option value="Pendente">Pendente</option><option value="Aprovada">Aprovada</option><option value="Rejeitada">Rejeitada</option><option value="Auto-aprovada">Auto-aprovada</option></select>
+        <select class="filter-select" id="filterRec" aria-label="Recomendação Agent" onchange="applyFilters()"><option value="">Todas recomendações</option><option value="approve">Aprovação recomendada</option><option value="review">Requer revisão</option><option value="reject">Rejeição recomendada</option><option value="auto">Auto-aprovadas</option></select>
+        <select class="filter-select" id="filterFlags" aria-label="Flags" onchange="applyFilters()"><option value="">Todas</option><option value="com">Com flags</option><option value="sem">Sem flags</option></select>
+      </div>
+
+      <!-- Table -->
+      <div class="table-container">
+        <table class="data-table" aria-label="Despesas">
+          <thead><tr>
+            <th onclick="sortBy('vendor')">Fornecedor <span class="sort-arrow" id="sort-vendor">↕</span></th>
+            <th onclick="sortBy('date')">Data <span class="sort-arrow" id="sort-date">↕</span></th>
+            <th onclick="sortBy('user')">Usuário <span class="sort-arrow" id="sort-user">↕</span></th>
+            <th>Tipo</th>
+            <th onclick="sortBy('value')">Valor <span class="sort-arrow" id="sort-value">↕</span></th>
+            <th>Recomendação</th>
+            <th onclick="sortBy('conf')">Conf. <span class="sort-arrow" id="sort-conf">↕</span></th>
+            <th>Status</th>
+          </tr></thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+        <div class="pagination-bar">
+          <div class="pagination-info" id="paginationInfo"></div>
+          <div class="pagination-nav" id="paginationNav"></div>
+        </div>
+      </div>
+
+      <!-- Mobile cards -->
+      <div class="mobile-cards" id="mobileCards"></div>
+    </div>
+  </main>
+</div>
+
+<!-- SLIDE-OVER -->
+<div class="slideover-overlay" id="slideoverOverlay" onclick="closeSlideover()"></div>
+<div class="slideover" id="slideover" role="dialog" aria-modal="true" aria-label="Detalhe da despesa">
+  <div class="slideover-header">
+    <div><div class="slideover-title" id="soTitle">Despesa</div><div class="slideover-subtitle" id="soSubtitle">Detalhes</div></div>
+    <button class="slideover-close" onclick="closeSlideover()" aria-label="Fechar">✕</button>
+  </div>
+  <div class="slideover-body" id="soBody"></div>
+</div>
+
+<script>
+/* =========================================================
+   DATA: 12 original expenses + 78 generated = 90 total
+   ========================================================= */
+
+const originalExpenses = [
+  { vendor:'iFood', date:'18/03/2026', user:'Maria Oliveira', type:'Cartão', value:8750, rec:'approve', conf:98, status:'Aprovada', rationale:'Aprovação recomendada (98%) — Valor dentro do limite para categoria Alimentação (R$ 87,50 < R$ 1.000). Fornecedor com histórico positivo. Comprovante presente e válido.', rule:'Auto-aprovação ≤ R$ 2.000', flags:[], scope:'geral', scopeName:'', cnpj:'12.345.678/0001-90', cc:'Vendas', team:'Comercial', cat:'Alimentação', audit: { ref: 'AUD-2026-03-0342', decision: 'Aprovação automática', datetime: '18/03/2026 às 09:14:22', executor: 'Policy Agent v2.1', policyVersion: 'v3 — atualizada em 20/03/2026 por André A.', dataConsidered: 'Valor: R$ 87,50 · Categoria: Alimentação · Fornecedor: iFood · CNPJ: válido · Comprovante: presente' } },
+  { vendor:'Uber', date:'17/03/2026', user:'João Mendes', type:'Cartão', value:23400, rec:'approve', conf:95, status:'Pendente', rationale:'Aprovação recomendada (95%) — Transporte dentro do padrão habitual do usuário. Categoria Transporte confirmada pelo MCC.', rule:'Categorização automática por MCC', flags:[], scope:'geral', scopeName:'', cnpj:'08.744.210/0001-60', cc:'Produto', team:'Engenharia', cat:'Transporte', audit: { ref: 'AUD-2026-03-0345', decision: 'Recomendação de aprovação', datetime: '17/03/2026 às 11:02:45', executor: 'Policy Agent v2.1', policyVersion: 'v3 — atualizada em 20/03/2026 por André A.', dataConsidered: 'Valor: R$ 234,00 · Categoria: Transporte · Fornecedor: Uber · CNPJ: válido · Comprovante: via app' } },
+  { vendor:'Restaurante Fasano', date:'15/03/2026', user:'André Costa', type:'Reembolso', value:450000, rec:'review', conf:62, status:'Pendente', rationale:'Revisão necessária (62%) — Valor acima do limite habitual para este usuário em categoria Alimentação. Reembolso acima de R$ 1.000 exige aprovação dupla. Comprovante sem detalhamento de itens.', rule:'Reembolso > R$ 1.000 → Aprovação dupla', flags:['VALOR ACIMA DO LIMITE'], scope:'time', scopeName:'Time Diretoria', cnpj:'33.456.789/0001-22', cc:'Administrativo', team:'Diretoria', cat:'Alimentação', audit: { ref: 'AUD-2026-03-0298', decision: 'Escalado para revisão', datetime: '15/03/2026 às 14:55:30', executor: 'Policy Agent v2.1', policyVersion: 'v3 — atualizada em 20/03/2026 por André A.', dataConsidered: 'Valor: R$ 4.500,00 · Categoria: Alimentação · Fornecedor: Fasano · CNPJ: válido · Comprovante: presente', contested: { by: 'Sandra Ferreira', date: '16/03/2026 às 10:22', reason: 'Avaliação incorreta do Agent', comment: 'Valor fora do padrão para este fornecedor. Fasano tem preço médio de R$ 350 por pessoa, e a despesa foi para 2 pessoas — está dentro do esperado.' } } },
+  { vendor:'Decolar', date:'14/03/2026', user:'Francisco Duarte', type:'Pix', value:875000, rec:'review', conf:58, status:'Pendente', rationale:'Revisão necessária (58%) — Valor elevado para viagem. Antecedência da viagem não confirmada. Requer aprovação do gestor.', rule:'Viagens > R$ 5.000 → Escalar gestor', flags:[], scope:'geral', scopeName:'', cnpj:'10.200.300/0001-50', cc:'Marketing', team:'Marketing Digital', cat:'Viagens', audit: { ref: 'AUD-2026-03-0289', decision: 'Escalado para revisão', datetime: '14/03/2026 às 10:30:12', executor: 'Policy Agent v2.1', approvedBy: 'Carlos Santos em 14/03/2026 às 16:45', policyVersion: 'v3 — atualizada em 20/03/2026 por André A.', dataConsidered: 'Valor: R$ 8.750,00 · Categoria: Viagens · Fornecedor: Decolar · CNPJ: válido · Comprovante: presente' } },
+  { vendor:'Magazine Luiza', date:'13/03/2026', user:'Sandra Ferreira', type:'Cartão', value:120000, rec:'reject', conf:89, status:'Pendente', rationale:'Rejeição recomendada (89%) — Recibo duplicado detectado. Este comprovante já foi enviado na despesa #4521 de 10/03/2026.', rule:'Flag: Recibo duplicado → Bloquear', flags:['RECIBO DUPLICADO'], scope:'geral', scopeName:'', cnpj:'47.960.950/0001-21', cc:'Operações', team:'Operações', cat:'Material de escritório', audit: { ref: 'AUD-2026-03-0301', decision: 'Rejeição recomendada', datetime: '13/03/2026 às 08:15:44', executor: 'Policy Agent v2.1', policyVersion: 'v3 — atualizada em 20/03/2026 por André A.', dataConsidered: 'Valor: R$ 1.200,00 · Categoria: Material · Fornecedor: Magazine Luiza · CNPJ: válido · Comprovante: duplicado (match #4521)' } },
+  { vendor:'Padaria Real', date:'19/03/2026', user:'Camila Vieira', type:'Cartão', value:3200, rec:'auto', conf:99, status:'Auto-aprovada', rationale:'Auto-aprovado (99%) — Valor abaixo do limite de auto-aprovação (R$ 32 < R$ 2.000). Fornecedor recorrente. Sem flags ativas.', rule:'Auto-aprovação ≤ R$ 2.000', flags:[], scope:'geral', scopeName:'', cnpj:'22.333.444/0001-55', cc:'Administrativo', team:'Financeiro', cat:'Alimentação', audit: { ref: 'AUD-2026-03-0350', decision: 'Aprovação automática', datetime: '19/03/2026 às 07:45:10', executor: 'Policy Agent v2.1', policyVersion: 'v3 — atualizada em 20/03/2026 por André A.', dataConsidered: 'Valor: R$ 32,00 · Categoria: Alimentação · Fornecedor: Padaria Real · CNPJ: válido · Comprovante: não exigido (< R$ 50)' } },
+  { vendor:'99', date:'18/03/2026', user:'Ricardo Lopes', type:'Cartão', value:4590, rec:'approve', conf:97, status:'Pendente', rationale:'Aprovação recomendada (97%) — Transporte urbano dentro do padrão. MCC confirmado como transporte.', rule:'Auto-aprovação ≤ R$ 2.000', flags:[], scope:'geral', scopeName:'', cnpj:'16.789.000/0001-77', cc:'Operações', team:'Operações', cat:'Transporte', audit: { ref: 'AUD-2026-03-0352', decision: 'Recomendação de aprovação', datetime: '18/03/2026 às 08:30:15', executor: 'Policy Agent v2.1', policyVersion: 'v3 — atualizada em 20/03/2026 por André A.', dataConsidered: 'Valor: R$ 45,90 · Categoria: Transporte · Fornecedor: 99 · CNPJ: válido · Comprovante: via app' } },
+  { vendor:'Azul', date:'16/03/2026', user:'Ana Pereira', type:'Pix', value:234000, rec:'approve', conf:91, status:'Pendente', rationale:'Aprovação recomendada (91%) — Passagem aérea nacional em classe econômica. Antecedência de 14 dias. Dentro dos padrões.', rule:'Viagens nacionais — classe econômica', flags:[], scope:'geral', scopeName:'', cnpj:'09.296.295/0001-60', cc:'Administrativo', team:'Jurídico', cat:'Viagens', audit: { ref: 'AUD-2026-03-0354', decision: 'Recomendação de aprovação', datetime: '16/03/2026 às 09:12:33', executor: 'Policy Agent v2.1', policyVersion: 'v3 — atualizada em 20/03/2026 por André A.', dataConsidered: 'Valor: R$ 2.340,00 · Categoria: Viagens · Fornecedor: Azul · CNPJ: válido · Comprovante: presente' } },
+  { vendor:'Posto Shell', date:'12/03/2026', user:'Marcos Miranda', type:'Reembolso', value:89000, rec:'review', conf:55, status:'Pendente', rationale:'Revisão necessária (55%) — CNPJ do fornecedor com situação irregular na Receita Federal. Recomenda-se verificação antes da aprovação.', rule:'Flag: CNPJ inativo → Bloquear', flags:['CNPJ INATIVO'], scope:'geral', scopeName:'', cnpj:'55.666.777/0001-88', cc:'Internacional', team:'Comércio Exterior', cat:'Combustível', audit: { ref: 'AUD-2026-03-0356', decision: 'Escalado para revisão', datetime: '12/03/2026 às 14:20:05', executor: 'Policy Agent v2.1', policyVersion: 'v3 — atualizada em 20/03/2026 por André A.', dataConsidered: 'Valor: R$ 890,00 · Categoria: Combustível · Fornecedor: Posto Shell · CNPJ: inativo · Comprovante: presente' } },
+  { vendor:'Uber', date:'20/03/2026', user:'João Mendes', type:'Cartão', value:6700, rec:'auto', conf:99, status:'Auto-aprovada', rationale:'Auto-aprovado (99%) — Transporte recorrente, valor dentro do limite.', rule:'Auto-aprovação ≤ R$ 2.000', flags:[], scope:'geral', scopeName:'', cnpj:'08.744.210/0001-60', cc:'Produto', team:'Engenharia', cat:'Transporte', audit: { ref: 'AUD-2026-03-0357', decision: 'Aprovação automática', datetime: '20/03/2026 às 07:55:18', executor: 'Policy Agent v2.1', policyVersion: 'v3 — atualizada em 20/03/2026 por André A.', dataConsidered: 'Valor: R$ 67,00 · Categoria: Transporte · Fornecedor: Uber · CNPJ: válido · Comprovante: via app' } },
+  { vendor:'Hotel Ibis', date:'11/03/2026', user:'Francisco Duarte', type:'Reembolso', value:185000, rec:'approve', conf:88, status:'Aprovada', rationale:'Aprovação recomendada (88%) — Hospedagem dentro do limite diário (R$ 370/noite × 5 noites). NF-e presente. Comprovante válido.', rule:'Hospedagem nacional até R$ 500/noite', flags:[], scope:'geral', scopeName:'', cnpj:'07.100.200/0001-99', cc:'Marketing', team:'Marketing Digital', cat:'Hospedagem', audit: { ref: 'AUD-2026-03-0358', decision: 'Recomendação de aprovação', datetime: '11/03/2026 às 10:45:50', executor: 'Policy Agent v2.1', policyVersion: 'v3 — atualizada em 20/03/2026 por André A.', dataConsidered: 'Valor: R$ 1.850,00 · Categoria: Hospedagem · Fornecedor: Hotel Ibis · CNPJ: válido · Comprovante: NF-e presente' } },
+  { vendor:'iFood', date:'19/03/2026', user:'Sandra Ferreira', type:'Cartão', value:15600, rec:'reject', conf:82, status:'Pendente', rationale:'Rejeição recomendada (82%) — Gasto realizado no domingo. Sem justificativa de trabalho no fim de semana. Valor acima do padrão habitual do usuário para alimentação.', rule:'Flag: Gasto fora de horário', flags:['FIM DE SEMANA'], scope:'geral', scopeName:'', cnpj:'12.345.678/0001-90', cc:'Operações', team:'Operações', cat:'Alimentação', audit: { ref: 'AUD-2026-03-0360', decision: 'Rejeição recomendada', datetime: '19/03/2026 às 11:05:33', executor: 'Policy Agent v2.1', policyVersion: 'v3 — atualizada em 20/03/2026 por André A.', dataConsidered: 'Valor: R$ 156,00 · Categoria: Alimentação · Fornecedor: iFood · CNPJ: válido · Comprovante: presente · Flag: fim de semana' } }
+];
+
+/* ---- GENERATION ENGINE ---- */
+const vendors = ['iFood','Uber','99','Rest. Fasano','Magazine Luiza','Decolar','Azul','GOL','Latam','Amazon AWS','Google Cloud','Slack','Notion','Figma','WeWork','Rappi','Padaria Real','Posto Shell','Localiza','Hotel Ibis','Marriott','Uber Eats','James Delivery','Mercado Livre','Kabum','Stone'];
+const categories = {
+  'iFood':'Alimentação','Uber':'Transporte','99':'Transporte','Rest. Fasano':'Alimentação',
+  'Magazine Luiza':'Material','Decolar':'Viagens','Azul':'Viagens','GOL':'Viagens','Latam':'Viagens',
+  'Amazon AWS':'SaaS','Google Cloud':'SaaS','Slack':'SaaS','Notion':'SaaS','Figma':'SaaS',
+  'WeWork':'Escritório','Rappi':'Alimentação','Padaria Real':'Alimentação','Posto Shell':'Combustível',
+  'Localiza':'Transporte','Hotel Ibis':'Hospedagem','Marriott':'Hospedagem',
+  'Uber Eats':'Alimentação','James Delivery':'Alimentação','Mercado Livre':'Material',
+  'Kabum':'Material','Stone':'Serviços'
+};
+const userPool = [
+  {name:'Lucas Andrade',team:'Engenharia',cc:'Produto'},{name:'Fernanda Souza',team:'Marketing Digital',cc:'Marketing'},
+  {name:'Rafael Torres',team:'Comercial',cc:'Vendas'},{name:'Beatriz Lima',team:'Financeiro',cc:'Administrativo'},
+  {name:'Gabriel Santos',team:'Operações',cc:'Operações'},{name:'Juliana Rocha',team:'Jurídico',cc:'Administrativo'},
+  {name:'Pedro Almeida',team:'Engenharia',cc:'Produto'},{name:'Carolina Dias',team:'RH',cc:'Administrativo'},
+  {name:'Thiago Barbosa',team:'Comercial',cc:'Vendas'},{name:'Amanda Cardoso',team:'Diretoria',cc:'Administrativo'},
+  {name:'Mateus Ferreira',team:'Marketing Digital',cc:'Marketing'},{name:'Isabela Gomes',team:'Financeiro',cc:'Administrativo'},
+  {name:'Diego Martins',team:'Engenharia',cc:'Produto'},{name:'Larissa Cunha',team:'Operações',cc:'Operações'},
+  {name:'Vinícius Ribeiro',team:'Comércio Exterior',cc:'Internacional'},{name:'Natália Araújo',team:'Comercial',cc:'Vendas'},
+  {name:'Bruno Nascimento',team:'Engenharia',cc:'Produto'},{name:'Mariana Teixeira',team:'RH',cc:'Administrativo'},
+  {name:'Felipe Costa',team:'Marketing Digital',cc:'Marketing'},{name:'Camila Ramos',team:'Jurídico',cc:'Administrativo'},
+  {name:'Rodrigo Nunes',team:'Operações',cc:'Operações'},{name:'Letícia Moreira',team:'Financeiro',cc:'Administrativo'},
+  {name:'Eduardo Silveira',team:'Diretoria',cc:'Administrativo'},{name:'Aline Vieira',team:'Comercial',cc:'Vendas'},
+  {name:'Henrique Monteiro',team:'Engenharia',cc:'Produto'},{name:'Priscila Oliveira',team:'RH',cc:'Administrativo'},
+  {name:'Daniel Mendes',team:'Comércio Exterior',cc:'Internacional'},{name:'Tatiana Lopes',team:'Marketing Digital',cc:'Marketing'},
+  {name:'Gustavo Pereira',team:'Operações',cc:'Operações'},{name:'Renata Castro',team:'Financeiro',cc:'Administrativo'},
+  {name:'Caio Barros',team:'Engenharia',cc:'Produto'},{name:'Débora Freitas',team:'Jurídico',cc:'Administrativo'},
+  {name:'Leandro Campos',team:'Comercial',cc:'Vendas'},{name:'Patrícia Santos',team:'Diretoria',cc:'Administrativo'},
+  {name:'Marcelo Pinto',team:'Marketing Digital',cc:'Marketing'},{name:'Vanessa Correia',team:'RH',cc:'Administrativo'},
+  {name:'Otávio Duarte',team:'Operações',cc:'Operações'},{name:'Bianca Melo',team:'Financeiro',cc:'Administrativo'},
+  {name:'Flávio Gonçalves',team:'Comércio Exterior',cc:'Internacional'},{name:'Simone Borges',team:'Engenharia',cc:'Produto'}
+];
+
+const flagTypes = ['RECIBO DUPLICADO','CNPJ INATIVO','FIM DE SEMANA','VALOR ACIMA DO LIMITE','MERCHANT PROIBIDO','COMPROVANTE AI-GENERATED'];
+const types = ['Cartão','Reembolso','Pix'];
+const rules = [
+  'Auto-aprovação ≤ R$ 2.000','Categorização automática por MCC','Reembolso > R$ 1.000 → Aprovação dupla',
+  'Viagens > R$ 5.000 → Escalar gestor','Flag: Recibo duplicado → Bloquear','Flag: CNPJ inativo → Bloquear',
+  'Flag: Gasto fora de horário','Hospedagem nacional até R$ 500/noite','SaaS — verificação de contrato',
+  'Viagens nacionais — classe econômica','Material acima de R$ 500 → Aprovação gestor','Combustível — limite mensal R$ 1.200'
+];
+const rationales = {
+  approve: [
+    'Aprovação recomendada — Valor dentro do limite para a categoria. Fornecedor com histórico positivo. Comprovante presente e válido.',
+    'Aprovação recomendada — Despesa recorrente dentro do padrão habitual do usuário. MCC confirmado.',
+    'Aprovação recomendada — Gasto dentro da política vigente. Documentação completa.',
+    'Aprovação recomendada — Fornecedor aprovado, valor compatível com histórico, sem anomalias detectadas.'
+  ],
+  review: [
+    'Revisão necessária — Valor acima do padrão habitual para este usuário nesta categoria. Requer verificação.',
+    'Revisão necessária — Dados do comprovante incompletos. Recomenda-se validação manual.',
+    'Revisão necessária — Primeira despesa com este fornecedor. Verificação de legitimidade recomendada.',
+    'Revisão necessária — Valor acima do limite da categoria, requer aprovação do gestor.'
+  ],
+  reject: [
+    'Rejeição recomendada — Flag ativa detectada. Despesa viola política vigente.',
+    'Rejeição recomendada — Comprovante com inconsistências. Dados não conferem.',
+    'Rejeição recomendada — Fornecedor fora da lista aprovada. Sem justificativa válida.',
+    'Rejeição recomendada — Despesa duplicada ou fora do horário permitido.'
+  ],
+  auto: [
+    'Auto-aprovado — Valor abaixo do limite de auto-aprovação. Fornecedor recorrente. Sem flags.',
+    'Auto-aprovado — Despesa dentro de todos os parâmetros de auto-aprovação. Sem necessidade de revisão.'
+  ]
+};
+
+function seededRandom(seed) {
+  let s = seed;
+  return function() {
+    s = (s * 16807 + 0) % 2147483647;
+    return (s - 1) / 2147483646;
+  };
+}
+
+function generateExpenses() {
+  const rng = seededRandom(42);
+  const pick = arr => arr[Math.floor(rng() * arr.length)];
+  const generated = [];
+
+  // Distribution targets: ~43 approve, ~19 review, ~11 reject, ~5 auto (among 78)
+  // (originals already have: 5 approve, 3 review, 2 reject, 2 auto = 12)
+  // Total targets: ~50 approve, ~22 review, ~13 reject, ~5 auto
+  const recDistribution = [];
+  for (let i = 0; i < 43; i++) recDistribution.push('approve');
+  for (let i = 0; i < 19; i++) recDistribution.push('review');
+  for (let i = 0; i < 11; i++) recDistribution.push('reject');
+  for (let i = 0; i < 5; i++) recDistribution.push('auto');
+  // Shuffle
+  for (let i = recDistribution.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [recDistribution[i], recDistribution[j]] = [recDistribution[j], recDistribution[i]];
+  }
+
+  // Flag indices (3-4 among 78, picking 3 to keep total at 7 with originals' 4)
+  const flagIndices = new Set();
+  while (flagIndices.size < 3) {
+    flagIndices.add(Math.floor(rng() * 78));
+  }
+
+  const cnpjPool = [
+    '12.345.678/0001-90','08.744.210/0001-60','33.456.789/0001-22','10.200.300/0001-50',
+    '47.960.950/0001-21','22.333.444/0001-55','16.789.000/0001-77','09.296.295/0001-60',
+    '55.666.777/0001-88','07.100.200/0001-99','14.567.890/0001-33','18.234.567/0001-44',
+    '25.678.901/0001-66','31.456.789/0001-11','42.789.012/0001-22','53.012.345/0001-55',
+    '64.345.678/0001-88','75.678.901/0001-99','86.901.234/0001-01','97.234.567/0001-12'
+  ];
+
+  for (let i = 0; i < 78; i++) {
+    const rec = recDistribution[i];
+    const vendor = pick(vendors);
+    const cat = categories[vendor] || 'Outros';
+    const user = pick(userPool);
+    const day = Math.floor(rng() * 26) + 1;
+    const dayStr = String(day).padStart(2, '0');
+    const date = dayStr + '/03/2026';
+    const type = pick(types);
+
+    // Value ranges based on rec
+    let value;
+    if (rec === 'auto') {
+      value = Math.floor(rng() * 18000) + 1200; // R$12 to R$192
+    } else if (rec === 'approve') {
+      value = Math.floor(rng() * 350000) + 1200; // R$12 to R$3.512
+    } else if (rec === 'review') {
+      value = Math.floor(rng() * 2500000) + 50000; // R$500 to R$25.500
+    } else {
+      value = Math.floor(rng() * 3000000) + 15000; // R$150 to R$30.150
+    }
+
+    // Confidence ranges
+    let conf;
+    if (rec === 'auto') conf = Math.floor(rng() * 4) + 96; // 96-99
+    else if (rec === 'approve') conf = Math.floor(rng() * 20) + 78; // 78-97
+    else if (rec === 'review') conf = Math.floor(rng() * 18) + 52; // 52-69
+    else conf = Math.floor(rng() * 22) + 75; // 75-96
+
+    const flags = [];
+    if (flagIndices.has(i)) {
+      flags.push(pick(flagTypes));
+    }
+
+    // Status
+    let status;
+    if (rec === 'auto') {
+      status = 'Auto-aprovada';
+    } else if (rec === 'approve' && rng() < 0.25) {
+      status = 'Aprovada';
+    } else if (rec === 'reject' && rng() < 0.15) {
+      status = 'Rejeitada';
+    } else {
+      status = 'Pendente';
+    }
+
+    const scope = rng() < 0.15 ? 'time' : 'geral';
+    const teamNames = ['Time Diretoria','Time Engenharia','Time Comercial','Time Marketing'];
+    const scopeName = scope === 'time' ? pick(teamNames) : '';
+
+    const rationale_text = pick(rationales[rec]).replace('recomendada', 'recomendada (' + conf + '%)').replace('necessária', 'necessária (' + conf + '%)');
+
+    const audNum = String(400 + i).padStart(4, '0');
+    const hour = String(Math.floor(rng() * 14) + 7).padStart(2, '0');
+    const min = String(Math.floor(rng() * 60)).padStart(2, '0');
+    const sec = String(Math.floor(rng() * 60)).padStart(2, '0');
+
+    const decisionMap = {approve:'Recomendação de aprovação', review:'Escalado para revisão', reject:'Rejeição recomendada', auto:'Aprovação automática'};
+    const valStr = formatBRL(value);
+
+    generated.push({
+      vendor, date, user: user.name, type, value, rec, conf, status,
+      rationale: rationale_text,
+      rule: pick(rules),
+      flags, scope, scopeName,
+      cnpj: pick(cnpjPool),
+      cc: user.cc, team: user.team, cat,
+      audit: {
+        ref: 'AUD-2026-03-' + audNum,
+        decision: decisionMap[rec],
+        datetime: dayStr + '/03/2026 às ' + hour + ':' + min + ':' + sec,
+        executor: 'Policy Agent v2.1',
+        policyVersion: 'v3 — atualizada em 20/03/2026 por André A.',
+        dataConsidered: 'Valor: ' + valStr + ' · Categoria: ' + cat + ' · Fornecedor: ' + vendor + ' · CNPJ: ' + (flags.includes('CNPJ INATIVO') ? 'inativo' : 'válido') + ' · Comprovante: ' + (flags.includes('COMPROVANTE AI-GENERATED') ? 'suspeito' : 'presente')
+      }
+    });
+  }
+  return generated;
+}
+
+function formatBRL(cents) {
+  const val = (cents / 100).toFixed(2).replace('.', ',');
+  return 'R$ ' + val.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+}
+
+function parseBRLtoCents(str) {
+  return parseFloat(str.replace('R$ ', '').replace(/\./g, '').replace(',', '.')) * 100;
+}
+
+// Build full expenses array
+const expenses = originalExpenses.concat(generateExpenses());
+
+/* =========================================================
+   FILTERING, SORTING, PAGINATION
+   ========================================================= */
+let filteredExpenses = [...expenses];
+let currentPage = 1;
+const perPage = 25;
+let sortField = '';
+let sortDir = 0; // 0=none, 1=asc, -1=desc
+
+function parseDate(d) {
+  const [dd, mm, yyyy] = d.split('/');
+  return new Date(yyyy, mm - 1, dd);
+}
+
+function applyFilters() {
+  const search = document.getElementById('searchInput').value.toLowerCase().trim();
+  const statusF = document.getElementById('filterStatus').value;
+  const recF = document.getElementById('filterRec').value;
+  const flagsF = document.getElementById('filterFlags').value;
+
+  filteredExpenses = expenses.filter(e => {
+    if (search && !e.vendor.toLowerCase().includes(search) && !e.user.toLowerCase().includes(search)) return false;
+    if (statusF && e.status !== statusF) return false;
+    if (recF && e.rec !== recF) return false;
+    if (flagsF === 'com' && e.flags.length === 0) return false;
+    if (flagsF === 'sem' && e.flags.length > 0) return false;
+    return true;
+  });
+
+  if (sortField) applySortToFiltered();
+  currentPage = 1;
+  render();
+}
+
+function sortBy(field) {
+  // Toggle sort direction
+  if (sortField === field) {
+    sortDir = sortDir === 1 ? -1 : sortDir === -1 ? 0 : 1;
+  } else {
+    sortField = field;
+    sortDir = 1;
+  }
+  if (sortDir === 0) { sortField = ''; }
+
+  // Update header arrows
+  document.querySelectorAll('.data-table th').forEach(th => th.classList.remove('sort-active'));
+  const arrows = {vendor:'sort-vendor',date:'sort-date',user:'sort-user',value:'sort-value',conf:'sort-conf'};
+  if (sortField && arrows[sortField]) {
+    const el = document.getElementById(arrows[sortField]);
+    el.parentElement.classList.add('sort-active');
+    el.textContent = sortDir === 1 ? '↑' : '↓';
+  }
+  // Reset non-active arrows
+  Object.entries(arrows).forEach(([k,id]) => {
+    if (k !== sortField) document.getElementById(id).textContent = '↕';
+  });
+
+  if (sortField) applySortToFiltered();
+  else filteredExpenses = expenses.filter(e => filteredExpenses.includes(e)); // re-filter without sort
+  currentPage = 1;
+  render();
+}
+
+function applySortToFiltered() {
+  const d = sortDir;
+  filteredExpenses.sort((a, b) => {
+    let va, vb;
+    switch (sortField) {
+      case 'vendor': va = a.vendor.toLowerCase(); vb = b.vendor.toLowerCase(); return va < vb ? -d : va > vb ? d : 0;
+      case 'user': va = a.user.toLowerCase(); vb = b.user.toLowerCase(); return va < vb ? -d : va > vb ? d : 0;
+      case 'date': return d * (parseDate(a.date) - parseDate(b.date));
+      case 'value': return d * (a.value - b.value);
+      case 'conf': return d * (a.conf - b.conf);
+      default: return 0;
+    }
+  });
+}
+
+function render() {
+  renderTable();
+  renderPagination();
+  renderMobileCards();
+  updateCounters();
+}
+
+function renderTable() {
+  const start = (currentPage - 1) * perPage;
+  const page = filteredExpenses.slice(start, start + perPage);
+  const tbody = document.getElementById('tableBody');
+  let html = '';
+
+  page.forEach((e, i) => {
+    const idx = expenses.indexOf(e);
+    const hasFlags = e.flags.length > 0;
+    const isAuto = e.rec === 'auto';
+    const isReject = e.rec === 'reject' || hasFlags;
+    let rowClass = '';
+    if (isAuto) rowClass = 'row-auto';
+    else if (isReject) rowClass = 'row-reject';
+
+    const recBadgeClass = {approve:'rec-approve',review:'rec-review',reject:'rec-reject',auto:'rec-auto'}[e.rec];
+    const recLabel = {approve:'Aprovar',review:'Revisar',reject:'Rejeitar',auto:'Auto'}[e.rec];
+    const statusClass = {'Pendente':'status-pending','Aprovada':'status-approved','Rejeitada':'status-rejected','Auto-aprovada':'status-auto'}[e.status] || 'status-pending';
+    const valStr = formatBRL(e.value);
+
+    html += '<tr class="' + rowClass + '" onclick="openSlideover(' + idx + ')">';
+    html += '<td>' + (hasFlags ? '<span class="flag-icon">⚑</span>' : '') + e.vendor + '</td>';
+    html += '<td>' + e.date + '</td>';
+    html += '<td>' + e.user + '</td>';
+    html += '<td>' + e.type + '</td>';
+    html += '<td>' + valStr + '</td>';
+    html += '<td><span class="rec-badge ' + recBadgeClass + '">' + recLabel + '</span></td>';
+    html += '<td class="confidence">' + e.conf + '%</td>';
+    html += '<td><span class="status-badge ' + statusClass + '">' + e.status + '</span></td>';
+    html += '</tr>';
+  });
+
+  tbody.innerHTML = html;
+}
+
+function renderPagination() {
+  const total = filteredExpenses.length;
+  const totalPages = Math.max(1, Math.ceil(total / perPage));
+  const start = Math.min((currentPage - 1) * perPage + 1, total);
+  const end = Math.min(currentPage * perPage, total);
+
+  document.getElementById('paginationInfo').textContent = total > 0
+    ? 'Mostrando ' + start + '-' + end + ' de ' + total + ' despesas'
+    : 'Nenhuma despesa encontrada';
+
+  let nav = '';
+  nav += '<button class="page-btn" onclick="goToPage(' + (currentPage - 1) + ')" ' + (currentPage <= 1 ? 'disabled' : '') + '>←</button>';
+
+  // Show up to 7 page buttons
+  let pages = [];
+  if (totalPages <= 7) {
+    for (let p = 1; p <= totalPages; p++) pages.push(p);
+  } else {
+    pages.push(1);
+    if (currentPage > 3) pages.push('...');
+    for (let p = Math.max(2, currentPage - 1); p <= Math.min(totalPages - 1, currentPage + 1); p++) pages.push(p);
+    if (currentPage < totalPages - 2) pages.push('...');
+    pages.push(totalPages);
+  }
+
+  pages.forEach(p => {
+    if (p === '...') {
+      nav += '<span style="padding:0 4px;color:var(--gray-400);">...</span>';
+    } else {
+      nav += '<button class="page-btn' + (p === currentPage ? ' active' : '') + '" onclick="goToPage(' + p + ')">' + p + '</button>';
+    }
+  });
+
+  nav += '<button class="page-btn" onclick="goToPage(' + (currentPage + 1) + ')" ' + (currentPage >= totalPages ? 'disabled' : '') + '>→</button>';
+  document.getElementById('paginationNav').innerHTML = nav;
+}
+
+function renderMobileCards() {
+  const start = (currentPage - 1) * perPage;
+  const page = filteredExpenses.slice(start, start + perPage);
+  const container = document.getElementById('mobileCards');
+  let html = '';
+
+  page.forEach(e => {
+    const idx = expenses.indexOf(e);
+    const hasFlags = e.flags.length > 0;
+    const recBadgeClass = {approve:'rec-approve',review:'rec-review',reject:'rec-reject',auto:'rec-auto'}[e.rec];
+    const recLabel = {approve:'Aprovar',review:'Revisar',reject:'Rejeitar',auto:'Auto'}[e.rec];
+    const valStr = formatBRL(e.value);
+    const shortDate = e.date.substring(0, 5);
+
+    html += '<div class="mobile-card" onclick="openSlideover(' + idx + ')">';
+    html += '<div class="mobile-card-title">' + (hasFlags ? '⚑ ' : '') + e.vendor + ' — ' + valStr + '</div>';
+    html += '<div class="mobile-card-detail">' + e.user + ' · ' + shortDate + ' · <span class="rec-badge ' + recBadgeClass + '">' + recLabel + '</span> ' + e.conf + '%</div>';
+    html += '</div>';
+  });
+
+  container.innerHTML = html;
+}
+
+function updateCounters() {
+  const total = filteredExpenses.length;
+  const pending = filteredExpenses.filter(e => e.status === 'Pendente').length;
+  const withFlags = filteredExpenses.filter(e => e.flags.length > 0).length;
+
+  document.getElementById('bannerStats').textContent = 'Modo: Recomendação · ' + total + ' despesas · ' + pending + ' pendentes de revisão · ' + withFlags + ' com flags';
+}
+
+function goToPage(p) {
+  const totalPages = Math.ceil(filteredExpenses.length / perPage);
+  if (p < 1 || p > totalPages) return;
+  currentPage = p;
+  render();
+  // Scroll to top of table
+  document.querySelector('.table-container').scrollIntoView({behavior: 'smooth', block: 'start'});
+}
+
+/* =========================================================
+   SLIDE-OVER (preserved from original)
+   ========================================================= */
+function openSlideover(idx) {
+  const e = expenses[idx];
+  const valStr = formatBRL(e.value);
+  document.getElementById('soTitle').textContent = e.vendor + ' — ' + valStr;
+  document.getElementById('soSubtitle').textContent = e.type + ' · ' + e.date;
+
+  const recClass = {approve:'approve',review:'review',reject:'reject',auto:'approve'}[e.rec];
+  const recLabel = {approve:'Aprovação recomendada',review:'Revisão necessária',reject:'Rejeição recomendada',auto:'Auto-aprovado'}[e.rec];
+
+  let h = '';
+
+  // Status progress
+  const isDone = e.status === 'Aprovada' || e.status === 'Auto-aprovada' || e.status === 'Rejeitada';
+  h += '<div class="so-section"><div class="status-progress">';
+  h += '<div class="progress-step done"></div><div class="progress-step done"></div>';
+  h += '<div class="progress-step ' + (isDone ? 'done' : 'current') + '"></div>';
+  h += '<div class="progress-step ' + (isDone ? 'done' : '') + '"></div>';
+  h += '</div><div class="progress-labels"><span>Criada</span><span>Analisada</span><span>' + (isDone ? 'Concluída' : 'Pendente') + '</span><span>Registrada</span></div></div>';
+
+  // Agent Analysis
+  h += '<div class="so-section"><div class="so-section-title">🤖 Análise do Policy Agent</div><div class="agent-analysis">';
+  h += '<div class="analysis-rec"><div class="analysis-rec-badge ' + recClass + '">' + recLabel + '</div><div><div class="analysis-confidence">' + e.conf + '%</div><div class="analysis-confidence-label">Confiança</div></div></div>';
+  h += '<div class="analysis-rationale">' + e.rationale + '</div>';
+  h += '<div class="analysis-rule">Regra aplicada: <strong>' + e.rule + '</strong> · <a href="index.html">Ver regra →</a></div>';
+
+  if (e.flags.length) {
+    h += '<div style="margin-top:var(--spacing-sm);"><div class="so-label">Flags ativas</div><div class="analysis-flags">';
+    e.flags.forEach(f => h += '<span class="flag-badge">' + f + '</span>');
+    h += '</div></div>';
+  }
+
+  const scopeBadge = e.scope === 'geral' ? '<span class="scope-badge scope-geral">Geral da empresa</span>' : '<span class="scope-badge scope-time">' + e.scopeName + '</span>';
+  h += '<div class="analysis-scope" style="margin-top:var(--spacing-sm);">Escopo: ' + scopeBadge + '</div>';
+  h += '</div></div>';
+
+  // Audit Trail
+  const a = e.audit;
+  if (a) {
+    h += '<div class="so-section"><div class="so-section-title">📋 Registro de Decisão</div>';
+    h += '<div class="audit-block">';
+    h += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--spacing-sm);">';
+    h += '<span class="audit-ref">' + a.ref + '</span>';
+    h += '<button class="audit-copy-btn" onclick="copyAudit(' + idx + ')" aria-label="Copiar registro">📋</button>';
+    h += '</div>';
+    h += '<div class="audit-row"><span class="audit-label">Decisão</span><span class="audit-value">' + a.decision + '</span></div>';
+    h += '<div class="audit-row"><span class="audit-label">Data/hora</span><span class="audit-value">' + a.datetime + '</span></div>';
+    h += '<div class="audit-row"><span class="audit-label">Executado por</span><span class="audit-value">' + a.executor + '</span></div>';
+    if (a.approvedBy) {
+      h += '<div class="audit-row"><span class="audit-label">Aprovado por</span><span class="audit-value">' + a.approvedBy + '</span></div>';
+    }
+    h += '<div class="audit-row"><span class="audit-label">Política aplicada</span><span class="audit-value">' + e.rule + ' <a href="index.html" style="font-size:12px;">→ ver regra</a></span></div>';
+    h += '<div class="audit-row"><span class="audit-label">Versão</span><span class="audit-value">' + a.policyVersion + '</span></div>';
+    h += '<div class="audit-row"><span class="audit-label">Escopo</span><span class="audit-value">' + (e.scope === 'geral' ? '<span class="scope-badge scope-geral">Política Geral</span>' : '<span class="scope-badge scope-time">' + e.scopeName + '</span>') + '</span></div>';
+    h += '<div style="margin-top:var(--spacing-sm);"><span class="audit-label" style="display:block;margin-bottom:var(--spacing-xs);">Dados considerados</span><div class="audit-data-considered">' + a.dataConsidered + '</div></div>';
+    h += '</div>';
+
+    // Override block
+    if (e.audit.override) {
+      const ov = e.audit.override;
+      h += '<div class="audit-block override" style="margin-top:var(--spacing-sm);">';
+      h += '<div style="display:flex;align-items:center;gap:var(--spacing-sm);margin-bottom:var(--spacing-sm);"><span class="override-badge">🔄 Override</span></div>';
+      h += '<div class="audit-row"><span class="audit-label">Override por</span><span class="audit-value">' + ov.by + ' em ' + ov.date + '</span></div>';
+      h += '<div class="audit-row"><span class="audit-label">Motivo</span><span class="audit-value">' + ov.reason + '</span></div>';
+      if (ov.comment) h += '<div class="audit-row"><span class="audit-label">Comentário</span><span class="audit-value">' + ov.comment + '</span></div>';
+      h += '<div class="audit-row"><span class="audit-label">Decisão original</span><span class="audit-value">' + ov.originalDecision + '</span></div>';
+      h += '<div style="font-size:12px;color:var(--info-blue);margin-top:var(--spacing-sm);">🔄 Feedback registrado — Agent aprenderá com este caso</div>';
+      h += '</div>';
+    }
+
+    // Contested block
+    if (e.audit.contested) {
+      const ct = e.audit.contested;
+      h += '<div class="audit-block contested" style="margin-top:var(--spacing-sm);">';
+      h += '<div style="display:flex;align-items:center;gap:var(--spacing-sm);margin-bottom:var(--spacing-sm);"><span class="contested-badge">⚠️ Contestada</span></div>';
+      h += '<div class="audit-row"><span class="audit-label">Contestada por</span><span class="audit-value">' + ct.by + ' em ' + ct.date + '</span></div>';
+      h += '<div class="audit-row"><span class="audit-label">Motivo</span><span class="audit-value">' + ct.reason + '</span></div>';
+      if (ct.comment) h += '<div class="audit-row"><span class="audit-label">Comentário</span><span class="audit-value">' + ct.comment + '</span></div>';
+      h += '</div>';
+    }
+
+    // Contest button (for auto-approved or already-decided expenses)
+    if (e.status !== 'Pendente') {
+      h += '<button class="btn btn-secondary btn-sm" style="margin-top:var(--spacing-sm);" onclick="showContestForm(' + idx + ')" id="contestBtn-' + idx + '">Contestar decisão</button>';
+      h += '<div id="contestForm-' + idx + '" style="display:none;"></div>';
+    }
+
+    h += '</div>';
+  }
+
+  // Feedback section
+  if (e.status === 'Pendente') {
+    h += '<div class="so-section"><div class="so-section-title">Feedback</div><div class="feedback-section">';
+
+    if (e.rec === 'approve' || e.rec === 'review') {
+      h += '<div class="feedback-actions"><button class="btn btn-success btn-sm" onclick="agreeAction(' + idx + ',\'aprovada\')">✓ Aprovar</button><button class="btn btn-danger-fill btn-sm" onclick="showOverride(' + idx + ',\'rejeitada\')">✗ Rejeitar</button></div>';
+    } else if (e.rec === 'reject') {
+      h += '<div class="feedback-actions"><button class="btn btn-success btn-sm" onclick="showOverride(' + idx + ',\'aprovada\')">✓ Aprovar</button><button class="btn btn-danger-fill btn-sm" onclick="agreeAction(' + idx + ',\'rejeitada\')">✗ Rejeitar</button></div>';
+    }
+
+    h += '<div class="feedback-thumbs">Análise correta? <button class="thumb-btn" onclick="showToast(\'Feedback positivo registrado.\',\'success\')" aria-label="Análise correta">👍</button><button class="thumb-btn" onclick="showToast(\'Obrigado pelo feedback.\',\'info\')" aria-label="Análise incorreta">👎</button></div>';
+
+    h += '<div class="override-panel" id="override-' + idx + '">';
+    h += '<div class="override-title">Motivo do override (obrigatório)</div>';
+    h += '<div class="override-options">';
+    h += '<label class="override-option"><input type="radio" name="override-' + idx + '" value="1"> Conceder exceção — despesa viola política, mas estou concedendo</label>';
+    h += '<label class="override-option"><input type="radio" name="override-' + idx + '" value="2"> Política precisa atualizar — regra desatualizada ou com gap</label>';
+    h += '<label class="override-option"><input type="radio" name="override-' + idx + '" value="3"> Avaliação incorreta do Agent — Agent interpretou errado os dados</label>';
+    h += '<label class="override-option"><input type="radio" name="override-' + idx + '" value="4"> Política não se aplica — caso é exceção legítima</label>';
+    h += '</div>';
+    h += '<textarea class="override-comment" placeholder="Comentário adicional (opcional)" aria-label="Comentário adicional"></textarea>';
+    h += '<button class="btn btn-primary btn-sm" id="confirmOverride-' + idx + '" onclick="confirmOverride(' + idx + ')">Confirmar</button>';
+    h += '</div>';
+
+    h += '</div></div>';
+  }
+
+  // Comprovantes
+  h += '<div class="so-section"><div class="so-section-title">Comprovantes</div>';
+  h += '<div style="padding:var(--spacing-lg);border:1px dashed var(--border);border-radius:var(--radius-md);text-align:center;color:var(--gray-500);font-size:13px;">📎 1 comprovante anexado · <a href="#" onclick="event.preventDefault()">Visualizar</a></div></div>';
+
+  // Detail data
+  h += '<div class="so-section"><div class="so-section-title">Dados da Despesa</div><div class="detail-grid">';
+  h += '<div class="detail-item"><div class="detail-label">Usuário</div><div class="detail-value">' + e.user + '</div></div>';
+  h += '<div class="detail-item"><div class="detail-label">Forma de Pagamento</div><div class="detail-value">' + e.type + '</div></div>';
+  h += '<div class="detail-item"><div class="detail-label">Data</div><div class="detail-value">' + e.date + '</div></div>';
+  h += '<div class="detail-item"><div class="detail-label">Fornecedor</div><div class="detail-value">' + e.vendor + '</div></div>';
+  h += '<div class="detail-item"><div class="detail-label">CNPJ</div><div class="detail-value">' + e.cnpj + '</div></div>';
+  h += '<div class="detail-item"><div class="detail-label">Centro de Custo</div><div class="detail-value">' + e.cc + '</div></div>';
+  h += '<div class="detail-item"><div class="detail-label">Time</div><div class="detail-value">' + e.team + '</div></div>';
+  h += '<div class="detail-item"><div class="detail-label">Categoria</div><div class="detail-value">' + e.cat + '</div></div>';
+  h += '</div></div>';
+
+  document.getElementById('soBody').innerHTML = h;
+  document.getElementById('slideoverOverlay').classList.add('active');
+  document.getElementById('slideover').classList.add('open');
+  trapFocus(document.getElementById('slideover'));
+}
+
+function closeSlideover() {
+  document.getElementById('slideoverOverlay').classList.remove('active');
+  document.getElementById('slideover').classList.remove('open');
+}
+
+let pendingOverrideAction = '';
+function agreeAction(idx, action) {
+  showToast('Despesa ' + action + '. Feedback positivo registrado.', 'success');
+  closeSlideover();
+}
+
+function showOverride(idx, action) {
+  pendingOverrideAction = action;
+  const panel = document.getElementById('override-' + idx);
+  if (panel) panel.classList.add('show');
+}
+
+function confirmOverride(idx) {
+  const radios = document.querySelectorAll('input[name="override-' + idx + '"]');
+  const selected = Array.from(radios).find(r => r.checked);
+  if (!selected) {
+    showToast('Selecione um motivo para o override.', 'info');
+    return;
+  }
+  showToast('Despesa ' + pendingOverrideAction + '. Feedback de override registrado — o Agent usará isso para melhorar.', 'success');
+  closeSlideover();
+}
+
+function showToast(message, type) {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = 'toast ' + (type || 'info');
+  toast.setAttribute('role', 'alert');
+  toast.innerHTML = '<span>' + (type === 'success' ? '✓' : 'ℹ') + '</span> ' + message;
+  container.appendChild(toast);
+  setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.3s'; setTimeout(() => toast.remove(), 300); }, 4000);
+}
+
+function toggleSidebar() { document.getElementById('mainSidebar').classList.toggle('open'); document.getElementById('sidebarBackdrop').classList.toggle('active'); }
+function closeSidebar() { document.getElementById('mainSidebar').classList.remove('open'); document.getElementById('sidebarBackdrop').classList.remove('active'); }
+
+function trapFocus(element) {
+  const focusable = element.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+  if (!focusable.length) return;
+  const first = focusable[0], last = focusable[focusable.length - 1];
+  element.addEventListener('keydown', function handler(e) {
+    if (e.key === 'Escape') { closeSlideover(); element.removeEventListener('keydown', handler); return; }
+    if (e.key !== 'Tab') return;
+    if (e.shiftKey) { if (document.activeElement === first) { e.preventDefault(); last.focus(); } }
+    else { if (document.activeElement === last) { e.preventDefault(); first.focus(); } }
+  });
+  first.focus();
+}
+
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { closeSlideover(); closeSidebar(); } });
+
+function copyAudit(idx) {
+  const e = expenses[idx];
+  const a = e.audit;
+  const text = 'Ref: ' + a.ref + '\nDecisão: ' + a.decision + '\nData: ' + a.datetime + '\nExecutado por: ' + a.executor + '\nPolítica: ' + e.rule + '\nVersão: ' + a.policyVersion + '\nDados: ' + a.dataConsidered;
+  navigator.clipboard.writeText(text).then(() => showToast('Registro copiado para área de transferência.', 'success'));
+}
+
+function showContestForm(idx) {
+  const form = document.getElementById('contestForm-' + idx);
+  const btn = document.getElementById('contestBtn-' + idx);
+  if (form.style.display !== 'none') { form.style.display = 'none'; return; }
+  btn.style.display = 'none';
+  form.style.display = '';
+  form.innerHTML = '<div class="contest-form">' +
+    '<div style="font-size:14px;font-weight:600;color:var(--gray-800);margin-bottom:var(--spacing-sm);">Você discorda desta decisão automática?</div>' +
+    '<div class="contest-option"><input type="radio" name="contest-' + idx + '" value="Conceder exceção"> Conceder exceção</div>' +
+    '<div class="contest-option"><input type="radio" name="contest-' + idx + '" value="Política desatualizada"> Política precisa atualizar</div>' +
+    '<div class="contest-option"><input type="radio" name="contest-' + idx + '" value="Avaliação incorreta do Agent"> Avaliação incorreta do Agent</div>' +
+    '<div class="contest-option"><input type="radio" name="contest-' + idx + '" value="Política não se aplica"> Política não se aplica</div>' +
+    '<textarea class="contest-textarea" placeholder="Explique o que está errado"></textarea>' +
+    '<div style="display:flex;gap:var(--spacing-sm);margin-top:var(--spacing-sm);">' +
+    '<button class="btn btn-primary btn-sm" onclick="submitContest(' + idx + ')">Registrar contestação</button>' +
+    '<button class="btn btn-ghost btn-sm" onclick="document.getElementById(\'contestForm-' + idx + '\').style.display=\'none\';document.getElementById(\'contestBtn-' + idx + '\').style.display=\'\';">Cancelar</button>' +
+    '</div></div>';
+}
+
+function submitContest(idx) {
+  const selected = document.querySelector('input[name="contest-' + idx + '"]:checked');
+  if (!selected) { showToast('Selecione um motivo.', 'info'); return; }
+  const ref = expenses[idx].audit.ref;
+  showToast('Contestação registrada (ref: ' + ref + '). O time de compliance será notificado.', 'success');
+  document.getElementById('contestForm-' + idx).style.display = 'none';
+  document.getElementById('contestBtn-' + idx).style.display = 'none';
+}
+
+/* ---- INIT ---- */
+applyFilters();
+</script>
+</body>
+</html>

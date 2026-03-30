@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Centros de Custo — Payfy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary-orange: #E55A20;
+  --primary-orange-dark: #C94E1A;
+  --primary-orange-light: #FFF3ED;
+  --success-green: #059669;
+  --success-green-light: #D1FAE5;
+  --warning-yellow: #D97706;
+  --warning-yellow-light: #FEF3C7;
+  --info-blue: #3B82F6;
+  --info-blue-light: #EFF6FF;
+  --purple: #8B5CF6;
+  --purple-light: #EDE9FE;
+  --danger-red: #DC2626;
+  --danger-red-light: #FEE2E2;
+  --gray-50: #FAFAFA;
+  --gray-100: #F5F5F5;
+  --gray-200: #E5E7EB;
+  --gray-300: #D1D5DB;
+  --gray-400: #9CA3AF;
+  --gray-500: #6B7280;
+  --gray-600: #4B5563;
+  --gray-700: #374151;
+  --gray-800: #1F2937;
+  --gray-900: #111827;
+  --white: #FFFFFF;
+  --border: #E5E7EB;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+  --radius-2xl: 16px;
+  --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1);
+  --scope-empresa-bg: var(--gray-100);
+  --scope-empresa-text: var(--gray-700);
+  --scope-cc-bg: var(--info-blue-light);
+  --scope-cc-text: #1E40AF;
+  --scope-time-bg: var(--purple-light);
+  --scope-time-text: #6B21A8;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--gray-50);
+  color: var(--gray-800);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+button { font-family: inherit; cursor: pointer; }
+a { color: var(--info-blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+:focus-visible { outline: 3px solid var(--info-blue); outline-offset: 2px; }
+
+.app-layout { display: flex; min-height: 100vh; }
+
+/* Sidebar */
+.main-sidebar {
+  width: 212px;
+  background: var(--white);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  z-index: 100;
+}
+
+.sidebar-logo { padding: var(--spacing-lg); border-bottom: 1px solid var(--border); }
+.sidebar-logo-text { font-size: 24px; font-weight: 700; color: var(--primary-orange); letter-spacing: -0.5px; }
+
+.sidebar-nav { flex: 1; padding: var(--spacing-sm) 0; }
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--gray-600);
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  border-left: 3px solid transparent;
+  transition: all 0.15s;
+  min-height: 44px;
+  text-decoration: none;
+}
+.sidebar-item:hover { background: var(--gray-50); color: var(--gray-800); text-decoration: none; }
+.sidebar-item.active { border-left-color: var(--primary-orange); color: var(--gray-900); font-weight: 600; background: var(--primary-orange-light); }
+.sidebar-item svg { width: 20px; height: 20px; flex-shrink: 0; color: var(--gray-400); }
+.sidebar-item.active svg { color: var(--primary-orange); }
+
+.sidebar-separator { height: 1px; background: var(--border); margin: var(--spacing-sm) 0; }
+
+/* Settings sidebar */
+.settings-sidebar {
+  width: 212px;
+  background: var(--white);
+  border-right: 1px solid var(--border);
+  flex-shrink: 0;
+  overflow-y: auto;
+  padding: var(--spacing-lg) 0;
+}
+
+.settings-group-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--gray-400);
+  padding: var(--spacing-md) var(--spacing-lg) var(--spacing-xs);
+}
+
+.settings-item {
+  display: flex;
+  align-items: center;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gray-600);
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  border-left: 3px solid transparent;
+  transition: all 0.15s;
+  min-height: 44px;
+  text-decoration: none;
+}
+.settings-item:hover { background: var(--gray-50); color: var(--gray-800); text-decoration: none; }
+.settings-item.active { border-left-color: var(--primary-orange); color: var(--primary-orange); font-weight: 600; }
+
+.settings-separator { height: 1px; background: var(--border); margin: var(--spacing-sm) var(--spacing-lg); }
+
+/* Main content */
+.main-content { flex: 1; min-width: 0; overflow-y: auto; height: 100vh; }
+.content-wrapper { max-width: 1200px; padding: var(--spacing-xl) var(--spacing-2xl); }
+
+.page-header { margin-bottom: var(--spacing-lg); }
+.page-header-top { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--spacing-md); margin-bottom: var(--spacing-sm); }
+.page-title { font-size: 28px; font-weight: 700; color: var(--gray-900); line-height: 1.2; }
+
+.page-subtitle { font-size: 14px; color: var(--gray-500); margin-top: var(--spacing-xs); }
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--radius-lg);
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  transition: all 0.2s;
+  min-height: 44px;
+  white-space: nowrap;
+}
+.btn-primary { background: var(--primary-orange); color: var(--white); }
+.btn-primary:hover { background: var(--primary-orange-dark); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+.btn-secondary { background: var(--white); color: var(--gray-700); border: 1px solid var(--border); }
+.btn-secondary:hover { background: var(--gray-50); }
+.btn-ghost { background: transparent; color: var(--gray-600); padding: var(--spacing-sm); }
+.btn-ghost:hover { background: var(--gray-100); }
+.btn-sm { padding: var(--spacing-xs) var(--spacing-sm); font-size: 12px; min-height: 32px; border-radius: var(--radius-md); }
+.btn-danger { background: var(--danger-red-light); color: var(--danger-red); border: 1px solid var(--danger-red); }
+.btn-danger:hover { background: var(--danger-red); color: var(--white); }
+
+/* Search & Filters */
+.search-bar { display: flex; gap: var(--spacing-sm); margin-bottom: var(--spacing-md); flex-wrap: wrap; }
+.search-input {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  min-height: 40px;
+  min-width: 240px;
+  background: var(--white);
+  font-family: inherit;
+}
+.search-input:focus { border-color: var(--info-blue); outline: none; box-shadow: 0 0 0 3px rgba(59,130,246,0.1); }
+.filter-select {
+  padding: var(--spacing-sm) var(--spacing-md);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  min-height: 40px;
+  background: var(--white);
+  font-family: inherit;
+  color: var(--gray-700);
+}
+
+/* Table */
+.table-container {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.data-table { width: 100%; border-collapse: separate; border-spacing: 0; }
+
+.data-table th {
+  background: var(--gray-50);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+.data-table td {
+  padding: var(--spacing-md) var(--spacing-lg);
+  font-size: 13px;
+  color: var(--gray-700);
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+  height: 56px;
+}
+
+.data-table tbody tr { cursor: pointer; transition: background 0.15s; }
+.data-table tbody tr:hover td { background: var(--gray-50); }
+.data-table tbody tr:last-child td { border-bottom: none; }
+
+/* Badges */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-2xl);
+  font-size: 12px;
+  font-weight: 600;
+}
+.status-active { background: var(--success-green-light); color: var(--success-green); }
+.status-inactive { background: var(--gray-100); color: var(--gray-500); }
+
+.policy-badge {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-2xl);
+  font-size: 12px;
+  font-weight: 600;
+}
+.policy-default { background: var(--gray-100); color: var(--gray-500); }
+.policy-exception { background: var(--scope-cc-bg); color: var(--scope-cc-text); }
+
+.erp-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: 12px;
+  color: var(--gray-600);
+}
+.erp-dot { width: 8px; height: 8px; border-radius: 50%; }
+.erp-dot.active { background: var(--success-green); }
+
+/* Slide-over */
+.slideover-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 900;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.slideover-overlay.active { opacity: 1; pointer-events: auto; }
+
+.slideover {
+  position: fixed;
+  top: 0;
+  right: -520px;
+  width: 520px;
+  height: 100vh;
+  background: var(--white);
+  box-shadow: var(--shadow-xl);
+  z-index: 950;
+  transition: right 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid var(--border);
+}
+.slideover.open { right: 0; }
+
+.slideover-header {
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-shrink: 0;
+}
+.slideover-title { font-size: 20px; font-weight: 700; color: var(--gray-900); }
+.slideover-subtitle { font-size: 13px; color: var(--gray-500); margin-top: var(--spacing-xs); }
+
+.slideover-close {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background: var(--gray-100);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray-600);
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.slideover-close:hover { background: var(--gray-200); }
+
+.slideover-body { flex: 1; overflow-y: auto; padding: var(--spacing-lg); }
+
+.so-section { margin-bottom: var(--spacing-lg); }
+.so-section-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gray-700);
+  margin-bottom: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.so-field { margin-bottom: var(--spacing-md); }
+.so-label { font-size: 12px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: var(--spacing-xs); }
+.so-value { font-size: 14px; color: var(--gray-800); }
+
+/* General rules (read-only) */
+.rules-readonly {
+  background: var(--gray-50);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+}
+
+.rule-line {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xs) 0;
+  font-size: 13px;
+  color: var(--gray-700);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+.rule-line:last-child { border-bottom: none; }
+
+.readonly-note {
+  font-size: 12px;
+  color: var(--gray-500);
+  margin-top: var(--spacing-sm);
+  font-style: italic;
+}
+
+/* Exception blocks */
+.exception-block {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+}
+
+.exception-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--spacing-sm);
+}
+
+.exception-flow {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gray-800);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.exception-badge {
+  padding: 2px var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--scope-cc-bg);
+  color: var(--scope-cc-text);
+}
+
+.exception-detail {
+  font-size: 13px;
+  color: var(--gray-600);
+  padding: var(--spacing-sm) 0;
+  border-top: 1px solid var(--gray-100);
+}
+
+.exception-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
+}
+
+.empty-state {
+  text-align: center;
+  padding: var(--spacing-lg);
+  color: var(--gray-500);
+  font-size: 13px;
+}
+
+.empty-state-cta { margin-top: var(--spacing-sm); }
+
+.explanatory-text {
+  font-size: 12px;
+  color: var(--gray-500);
+  margin-top: var(--spacing-sm);
+  padding: var(--spacing-sm);
+  background: var(--gray-50);
+  border-radius: var(--radius-md);
+}
+
+/* Team cards */
+.teams-container { display: flex; flex-direction: column; gap: var(--spacing-xs); }
+.teams-container.scrollable { max-height: 240px; overflow-y: auto; padding-right: var(--spacing-xs); }
+.teams-container.scrollable::-webkit-scrollbar { width: 4px; }
+.teams-container.scrollable::-webkit-scrollbar-track { background: var(--gray-100); border-radius: 2px; }
+.teams-container.scrollable::-webkit-scrollbar-thumb { background: var(--gray-300); border-radius: 2px; }
+
+.team-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--gray-50);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.team-card:hover { border-color: var(--primary-orange); background: var(--primary-orange-light); }
+
+.team-card-name { font-size: 13px; font-weight: 500; color: var(--gray-700); }
+.team-card-count {
+  font-size: 12px;
+  color: var(--gray-500);
+  background: var(--white);
+  padding: 2px var(--spacing-sm);
+  border-radius: var(--radius-2xl);
+  border: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+/* Integration */
+.integration-card {
+  padding: var(--spacing-md);
+  background: var(--gray-50);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.integration-name { font-size: 14px; font-weight: 600; color: var(--gray-800); }
+.integration-detail { font-size: 12px; color: var(--gray-500); margin-top: var(--spacing-xs); }
+.integration-code { font-size: 12px; color: var(--gray-500); font-family: 'SF Mono', Monaco, monospace; }
+
+/* Approver list */
+.approver-list { display: flex; flex-direction: column; gap: var(--spacing-xs); }
+.approver-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: 13px;
+  color: var(--gray-700);
+}
+.approver-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--primary-orange-light);
+  color: var(--primary-orange);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* Toast */
+.toast-container {
+  position: fixed;
+  top: var(--spacing-lg);
+  right: var(--spacing-lg);
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
+.toast {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md) var(--spacing-lg);
+  box-shadow: var(--shadow-lg);
+  font-size: 13px;
+  color: var(--gray-700);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  animation: toastIn 0.3s ease;
+  min-width: 300px;
+}
+.toast.success { border-left: 4px solid var(--success-green); }
+.toast.error { border-left: 4px solid var(--danger-red); }
+@keyframes toastIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+
+/* Confirm modal */
+.confirm-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+.confirm-overlay.active { display: flex; }
+
+.confirm-modal {
+  background: var(--white);
+  border-radius: var(--radius-2xl);
+  max-width: 440px;
+  width: 90%;
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-xl);
+  animation: modalIn 0.3s ease;
+}
+@keyframes modalIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+.confirm-title { font-size: 18px; font-weight: 700; color: var(--gray-900); margin-bottom: var(--spacing-sm); }
+.confirm-text { font-size: 14px; color: var(--gray-600); margin-bottom: var(--spacing-lg); }
+.confirm-actions { display: flex; gap: var(--spacing-sm); justify-content: flex-end; }
+
+/* Modal overlay (for remove confirm) */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1100;
+  backdrop-filter: blur(4px);
+}
+.modal-overlay.active { display: flex; }
+
+.modal {
+  background: var(--white);
+  border-radius: var(--radius-2xl);
+  max-width: 560px;
+  width: 90%;
+  box-shadow: var(--shadow-xl);
+  animation: modalIn 0.3s ease;
+}
+.modal-header {
+  padding: var(--spacing-lg);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.modal-title { font-size: 18px; font-weight: 700; color: var(--gray-900); }
+.modal-close {
+  width: 36px; height: 36px;
+  border-radius: var(--radius-md);
+  background: var(--gray-100);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gray-600);
+  font-size: 16px;
+}
+.modal-close:hover { background: var(--gray-200); }
+.modal-body { padding: var(--spacing-lg); }
+.modal-actions { display: flex; gap: var(--spacing-sm); justify-content: flex-end; }
+
+/* Mobile card view */
+.mobile-cards { display: none; }
+.mobile-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+  cursor: pointer;
+}
+.mobile-card:hover { box-shadow: var(--shadow-md); }
+.mobile-card-title { font-size: 14px; font-weight: 600; color: var(--gray-900); }
+.mobile-card-detail { font-size: 12px; color: var(--gray-500); margin-top: var(--spacing-xs); display: flex; gap: var(--spacing-sm); flex-wrap: wrap; align-items: center; }
+
+/* Hamburger */
+.hamburger-btn {
+  display: none;
+  width: 44px;
+  height: 44px;
+  border: none;
+  background: var(--white);
+  border-radius: var(--radius-md);
+  font-size: 20px;
+  color: var(--gray-600);
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: var(--spacing-md);
+  left: var(--spacing-md);
+  z-index: 200;
+  box-shadow: var(--shadow-md);
+}
+
+/* Workflow Builder */
+.wb-container { border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: var(--spacing-md); }
+.wb-header { padding: var(--spacing-sm) var(--spacing-md); background: var(--gray-50); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.wb-header-title { font-size: 12px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.05em; }
+.wb-body { padding: var(--spacing-md); }
+.wb-trigger { display: flex; align-items: center; gap: var(--spacing-sm); padding: var(--spacing-sm) var(--spacing-md); background: var(--info-blue-light); border: 1px solid #BFDBFE; border-radius: var(--radius-md); font-size: 13px; color: var(--scope-cc-text); margin-bottom: var(--spacing-sm); }
+.wb-condition { display: flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-sm); background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); flex-wrap: wrap; border-left: 3px solid var(--info-blue); }
+.wb-condition select, .wb-condition input { padding: var(--spacing-xs) var(--spacing-sm); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px; font-family: inherit; min-height: 32px; background: var(--white); }
+.wb-condition-keyword { font-size: 12px; font-weight: 600; color: var(--info-blue); white-space: nowrap; }
+.wb-connector { display: flex; align-items: center; gap: var(--spacing-sm); margin-bottom: var(--spacing-sm); }
+.wb-connector-line { width: 2px; height: 16px; background: var(--gray-300); margin-left: var(--spacing-lg); }
+.wb-connector-label { font-size: 11px; font-weight: 600; padding: 2px var(--spacing-sm); border-radius: var(--radius-sm); background: var(--gray-100); color: var(--gray-500); }
+.wb-action { display: flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-sm); background: var(--success-green-light); border: 1px solid #BBF7D0; border-radius: var(--radius-md); margin-bottom: var(--spacing-sm); border-left: 3px solid var(--success-green); flex-wrap: wrap; }
+.wb-action select, .wb-action input { padding: var(--spacing-xs) var(--spacing-sm); border: 1px solid var(--border); border-radius: var(--radius-sm); font-size: 12px; font-family: inherit; min-height: 32px; background: var(--white); }
+.wb-action-keyword { font-size: 12px; font-weight: 600; color: var(--success-green); white-space: nowrap; }
+.wb-remove-btn { width: 28px; height: 28px; border: none; background: transparent; border-radius: var(--radius-sm); color: var(--gray-400); font-size: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-left: auto; }
+.wb-remove-btn:hover { background: var(--danger-red-light); color: var(--danger-red); }
+.wb-add-btn { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-xs) var(--spacing-sm); border: 1px dashed var(--border); border-radius: var(--radius-md); background: transparent; font-size: 12px; color: var(--gray-500); min-height: 32px; }
+.wb-add-btn:hover { border-color: var(--primary-orange); color: var(--primary-orange); background: var(--primary-orange-light); }
+.wb-alert { display: flex; align-items: flex-start; gap: var(--spacing-sm); padding: var(--spacing-md); background: var(--warning-yellow-light); border: 1px solid #FDE68A; border-radius: var(--radius-md); font-size: 12px; color: #92400E; margin-bottom: var(--spacing-md); }
+.flow-selector { display: flex; flex-direction: column; gap: var(--spacing-sm); }
+.flow-option { display: flex; align-items: center; gap: var(--spacing-sm); padding: var(--spacing-sm) var(--spacing-md); border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 13px; color: var(--gray-700); cursor: pointer; min-height: 44px; transition: all 0.2s; }
+.flow-option:hover { border-color: var(--primary-orange); background: var(--primary-orange-light); }
+.flow-option.disabled { opacity: 0.5; cursor: not-allowed; background: var(--gray-50); }
+.flow-option.disabled:hover { border-color: var(--border); background: var(--gray-50); }
+.flow-option input[type="radio"] { accent-color: var(--primary-orange); width: 18px; height: 18px; }
+.flow-option-disabled-text { font-size: 11px; color: var(--gray-400); margin-left: auto; }
+.inline-form { animation: fadeSlideIn 0.3s ease; }
+@keyframes fadeSlideIn { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Responsive */
+@media (max-width: 1280px) {
+  .slideover { width: 480px; right: -480px; }
+  .content-wrapper { padding: var(--spacing-lg); }
+}
+
+@media (max-width: 1024px) {
+  .hamburger-btn { display: flex; }
+  .main-sidebar, .settings-sidebar {
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    z-index: 300;
+    transform: translateX(-100%);
+    transition: transform 0.3s;
+  }
+  .main-sidebar { left: 0; }
+  .settings-sidebar { left: 212px; }
+  .main-sidebar.open, .settings-sidebar.open { transform: translateX(0); }
+  .sidebar-backdrop {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 250;
+  }
+  .sidebar-backdrop.active { display: block; }
+  .slideover { width: 100%; right: -100%; }
+}
+
+@media (max-width: 768px) {
+  .content-wrapper { padding: var(--spacing-md); padding-top: 60px; }
+  .page-header-top { flex-direction: column; }
+  .search-bar { flex-direction: column; }
+  .data-table { display: none; }
+  .mobile-cards { display: block !important; }
+}
+
+@media (max-width: 480px) {
+  body { font-size: 16px; }
+  .page-title { font-size: 24px; }
+}
+
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+/* Audit metadata */
+.audit-meta { font-size: 11px; color: var(--gray-400); margin-top: var(--spacing-xs); padding-top: var(--spacing-xs); border-top: 1px solid rgba(0,0,0,0.05); }
+.audit-meta-ref { font-family: 'SF Mono', Monaco, monospace; color: var(--info-blue); font-weight: 500; }
+
+/* V7 Workflow Builder */
+.wf-builder { padding: var(--spacing-md) 0; }
+.wf-block { position: relative; }
+.wf-connector { display: flex; flex-direction: column; align-items: center; padding: var(--spacing-xs) 0; }
+.wf-connector-line { width: 2px; height: 16px; background: var(--gray-300); }
+.wf-connector-arrow { color: var(--gray-400); font-size: 10px; line-height: 1; }
+.wf-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+.wf-card-header { padding: var(--spacing-sm) var(--spacing-md); display: flex; align-items: center; justify-content: space-between; gap: var(--spacing-sm); min-height: 44px; }
+.wf-card-header-left { display: flex; align-items: center; gap: var(--spacing-sm); flex: 1; }
+.wf-card-body { padding: var(--spacing-md); border-top: 1px solid var(--border); }
+.wf-trigger .wf-card-header { background: #F0FDF4; border-bottom: 2px solid var(--success-green); }
+.wf-condition .wf-card-header { background: var(--info-blue-light); border-bottom: 2px solid var(--info-blue); }
+.wf-fallback .wf-card-header { background: var(--warning-yellow-light); border-bottom: 2px solid var(--warning-yellow); }
+.wf-end { background: var(--success-green-light); border: 1px solid #BBF7D0; border-radius: var(--radius-lg); padding: var(--spacing-sm) var(--spacing-md); text-align: center; font-size: 13px; font-weight: 600; color: var(--success-green); }
+.wf-icon { font-size: 16px; flex-shrink: 0; }
+.wf-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+.wf-desc { font-size: 13px; color: var(--gray-700); }
+.wf-cond-row { display: flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-xs) 0; font-size: 13px; }
+.wf-cond-kw { font-weight: 600; color: var(--info-blue); font-size: 12px; }
+.wf-cond-field { color: var(--gray-800); font-weight: 500; }
+.wf-action-badge { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-md); font-size: 12px; font-weight: 600; margin-top: var(--spacing-sm); }
+.wf-action-approve { background: var(--success-green-light); color: var(--success-green); }
+.wf-action-escalate { background: var(--warning-yellow-light); color: #92400E; }
+.wf-action-block { background: var(--danger-red-light); color: var(--danger-red); }
+.wf-action-agent { background: var(--purple-light); color: var(--purple); }
+.wf-action-alert { background: var(--info-blue-light); color: var(--scope-cc-text); }
+.wf-add-block { display: flex; align-items: center; justify-content: center; padding: var(--spacing-xs); }
+.wf-add-btn { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-xs) var(--spacing-sm); border: 1px dashed var(--gray-300); border-radius: var(--radius-md); background: transparent; font-size: 12px; color: var(--gray-400); min-height: 32px; transition: all 0.2s; }
+.wf-add-btn:hover { border-color: var(--primary-orange); color: var(--primary-orange); background: var(--primary-orange-light); }
+.wf-card-actions { display: flex; gap: var(--spacing-xs); }
+.wf-card-action { width: 28px; height: 28px; border: none; background: transparent; border-radius: var(--radius-sm); color: var(--gray-400); font-size: 14px; display: flex; align-items: center; justify-content: center; }
+.wf-card-action:hover { background: var(--gray-100); color: var(--gray-600); }
+/* R4: Disabled sidebar */
+.sidebar-item.disabled, .settings-item.disabled { opacity: 0.5; color: var(--gray-400) !important; cursor: default !important; pointer-events: none; }
+.sidebar-item.disabled:hover, .settings-item.disabled:hover { background: transparent !important; }
+.sidebar-item.disabled svg { color: var(--gray-400) !important; }
+</style>
+</head>
+<body>
+
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+<div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeSidebars()"></div>
+<button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menu" onclick="toggleSidebars()">☰</button>
+
+<div class="app-layout">
+  <!-- MAIN SIDEBAR -->
+  <nav class="main-sidebar" id="mainSidebar" aria-label="Navegação principal">
+    <div class="sidebar-logo"><span class="sidebar-logo-text">payfy</span></div>
+    <div class="sidebar-nav">
+      <a class="sidebar-item disabled"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>Início</a>
+      <a class="sidebar-item disabled"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/></svg>Solicitações</a>
+      <a class="sidebar-item disabled"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/><path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd"/></svg>Cartões</a>
+      <a class="sidebar-item disabled"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg>Usuários</a>
+      <a href="despesas.html" class="sidebar-item"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"/></svg>Despesas</a>
+      <a class="sidebar-item disabled"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/></svg>Passagens</a>
+      <a class="sidebar-item disabled"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm2 0a1 1 0 10-1-1v1h1z" clip-rule="evenodd"/><path d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z"/></svg>Benefícios</a>
+      <a class="sidebar-item disabled"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11 4a1 1 0 10-2 0v4a1 1 0 102 0V7zm-3 1a1 1 0 10-2 0v3a1 1 0 102 0V8zM8 9a1 1 0 00-2 0v2a1 1 0 102 0V9z" clip-rule="evenodd"/></svg>Relatórios</a>
+      <div class="sidebar-separator"></div>
+      <a href="#" class="sidebar-item active"><svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/></svg>Configurações</a>
+    </div>
+  </nav>
+
+  <!-- SETTINGS SUB-SIDEBAR -->
+  <nav class="settings-sidebar" id="settingsSidebar" aria-label="Configurações">
+    <div class="settings-group-label">Organização</div>
+    <a class="settings-item disabled">Geral</a>
+    <a href="#" class="settings-item active">Unidades</a>
+    <a href="times.html" class="settings-item">Times</a>
+    <a class="settings-item disabled">Categorias</a>
+    <a class="settings-item disabled">Projetos</a>
+    <a class="settings-item disabled">Permissões</a>
+    <div class="settings-separator"></div>
+    <div class="settings-group-label">Política de Gastos</div>
+    <a href="index.html" class="settings-item">Políticas de Gastos</a>
+    <a class="settings-item disabled">Despesas</a>
+    <a class="settings-item disabled">Categorias</a>
+    <a class="settings-item disabled">Reembolsos</a>
+    <a class="settings-item disabled">Níveis de Aprovação</a>
+    <a class="settings-item disabled">Regras de Gastos</a>
+    <a class="settings-item disabled">Regras de Bloqueio</a>
+    <div class="settings-separator"></div>
+    <div class="settings-group-label">Integrações</div>
+    <a class="settings-item disabled">ERP</a>
+    <div class="settings-separator"></div>
+    <div class="settings-group-label">Cartões</div>
+    <a class="settings-item disabled">Recarga em Lote</a>
+    <a class="settings-item disabled">Plástico</a>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    <div class="content-wrapper">
+      <div class="page-header">
+        <div class="page-header-top">
+          <div>
+            <h1 class="page-title">Centros de Custo</h1>
+            <div class="page-subtitle" id="pageSubtitle"></div>
+          </div>
+          <button class="btn btn-primary" onclick="showToast('Funcionalidade de criação em desenvolvimento.','info')">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 2a1 1 0 011 1v4h4a1 1 0 110 2H9v4a1 1 0 11-2 0V9H3a1 1 0 010-2h4V3a1 1 0 011-1z"/></svg>
+            Novo Centro de Custo
+          </button>
+        </div>
+      </div>
+
+      <!-- Search & Filters -->
+      <div class="search-bar">
+        <input type="text" class="search-input" id="searchInput" placeholder="Buscar centros de custo..." aria-label="Buscar centros de custo" oninput="renderTable()">
+        <select class="filter-select" id="filterStatus" aria-label="Filtrar por status" onchange="renderTable()">
+          <option value="">Todos os status</option>
+          <option value="ativo">Ativo</option>
+          <option value="desativado">Desativado</option>
+        </select>
+        <select class="filter-select" id="filterPolicy" aria-label="Filtrar por política" onchange="renderTable()">
+          <option value="">Todas as políticas</option>
+          <option value="padrao">Padrão</option>
+          <option value="excecao">Com exceções</option>
+        </select>
+        <select class="filter-select" id="filterCC" aria-label="Filtrar por centro de custo" onchange="renderTable()">
+          <option value="">Todos os CCs</option>
+        </select>
+      </div>
+
+      <!-- Table -->
+      <div class="table-container">
+        <table class="data-table" aria-label="Centros de custo">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Responsável</th>
+              <th>Times</th>
+              <th>Integração ERP</th>
+              <th>Política</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Mobile cards -->
+      <div class="mobile-cards" id="mobileCards">
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- SLIDE-OVER -->
+<div class="slideover-overlay" id="slideoverOverlay" onclick="closeSlideover()"></div>
+<div class="slideover" id="slideover" role="dialog" aria-modal="true" aria-label="Detalhe do centro de custo">
+  <div class="slideover-header">
+    <div>
+      <div class="slideover-title" id="soTitle">Marketing</div>
+      <div class="slideover-subtitle">Centro de Custo</div>
+    </div>
+    <button class="slideover-close" onclick="closeSlideover()" aria-label="Fechar painel">✕</button>
+  </div>
+  <div class="slideover-body" id="soBody">
+    <!-- Content injected by JS -->
+  </div>
+</div>
+
+<!-- CONFIRM MODAL (legacy) -->
+<div class="confirm-overlay" id="confirmModal" onclick="if(event.target===this)closeConfirm()">
+  <div class="confirm-modal" role="dialog" aria-modal="true" aria-label="Confirmação">
+    <div class="confirm-title">Remover exceção?</div>
+    <div class="confirm-text">Esta ação não pode ser desfeita. O centro de custo voltará a usar a regra padrão da empresa para este fluxo.</div>
+    <div class="confirm-actions">
+      <button class="btn btn-secondary btn-sm" onclick="closeConfirm()">Cancelar</button>
+      <button class="btn btn-danger btn-sm" onclick="removeException()">Remover exceção</button>
+    </div>
+  </div>
+</div>
+
+<!-- REMOVE CONFIRM MODAL -->
+<div class="modal-overlay" id="removeConfirmModal" onclick="if(event.target===this)closeModal('removeConfirmModal')">
+  <div class="modal" style="max-width:440px;" role="dialog" aria-modal="true">
+    <div class="modal-header"><div><div class="modal-title" style="font-size:18px;">Confirmar</div></div><button class="modal-close" onclick="closeModal('removeConfirmModal')">✕</button></div>
+    <div class="modal-body">
+      <div id="removeConfirmText" style="font-size:14px;color:var(--gray-600);margin-bottom:var(--spacing-lg);"></div>
+      <div class="modal-actions">
+        <button class="btn btn-secondary btn-sm" onclick="closeModal('removeConfirmModal')">Cancelar</button>
+        <button class="btn btn-danger btn-sm" id="removeConfirmBtn">Confirmar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// CC data — 18 centros de custo
+const ccData = {
+  vendas: { name:'Vendas', responsible:'Maria Oliveira', approvers:['Maria Oliveira','Carlos Santos'], teams:[{name:'Vendas Inbound',members:8},{name:'Vendas Outbound',members:10},{name:'Vendas Enterprise',members:6},{name:'Vendas PME',members:12},{name:'Pré-vendas',members:5},{name:'Vendas Canal',members:4},{name:'Inside Sales',members:9},{name:'Vendas Governo',members:3},{name:'Comercial',members:12},{name:'Pré-vendas B2B',members:4},{name:'Key Accounts',members:5}], erp:{name:'SAP',desc:'SAP Business One',code:'CC-001',status:'Ativo'}, exceptions:[{flow:'Reembolsos',detail:'Reembolso de viagem sem limite (geral: R$ 3.000)',id:'vnd-reemb',conditions:[{field:'Categoria',op:'igual a',value:'Viagem'}],actions:['Aprovar automaticamente'],audit:{ref:'EXC-2026-03-0020',created:'10/03/2026',by:'Maria O.'}}] },
+  marketing: { name:'Marketing', responsible:'Francisco Duarte', approvers:['Francisco Duarte','Ana Paula'], teams:[{name:'Growth',members:7},{name:'Conteúdo',members:5},{name:'Performance',members:6},{name:'Branding',members:4},{name:'Eventos',members:8},{name:'Marketing Produto',members:5},{name:'Social Media',members:4},{name:'CRM Marketing',members:3},{name:'Marketing Digital',members:8},{name:'Relações Públicas',members:3}], erp:{name:'SAP',desc:'SAP Business One',code:'CC-002',status:'Ativo'}, exceptions:[{flow:'Solicitações',detail:'Limite auto-aprovação: R$ 5.000 (geral: R$ 2.000)',id:'mkt-sol',conditions:[{field:'Valor',op:'menor que',value:'R$ 5.000'}],actions:['Aprovar automaticamente'],audit:{ref:'EXC-2026-03-0005',created:'12/03/2026',by:'Francisco D.'}},{flow:'Despesas de Cartão',detail:'Sem comprovante até R$ 200 (geral: R$ 50)',id:'mkt-desp',conditions:[{field:'Valor',op:'menor que',value:'R$ 200'}],actions:['Aprovar automaticamente'],audit:{ref:'EXC-2026-03-0006',created:'12/03/2026',by:'Francisco D.'}}] },
+  produto: { name:'Produto', responsible:'João Mendes', approvers:['João Mendes'], teams:[{name:'Product Discovery',members:6},{name:'Product Growth',members:5},{name:'Product Platform',members:4},{name:'Design',members:7},{name:'UX Research',members:3},{name:'Produto Core',members:5}], erp:{name:'SAP',desc:'SAP Business One',code:'CC-003',status:'Ativo'}, exceptions:[] },
+  engenharia: { name:'Engenharia', responsible:'Lucas Ferreira', approvers:['Lucas Ferreira','João Mendes'], teams:[{name:'Frontend',members:10},{name:'Backend',members:12},{name:'Mobile',members:8},{name:'DevOps',members:5},{name:'QA',members:7},{name:'Platform',members:6},{name:'Data Engineering',members:5},{name:'SRE',members:4},{name:'Engenharia IA',members:6},{name:'Engenharia',members:15}], erp:{name:'SAP',desc:'SAP Business One',code:'CC-004',status:'Ativo'}, exceptions:[{flow:'Solicitações',detail:'SaaS auto-aprovado até R$ 5.000 (geral: R$ 2.000)',id:'eng-sol',conditions:[{field:'Categoria',op:'igual a',value:'SaaS'}],actions:['Aprovar automaticamente'],audit:{ref:'EXC-2026-03-0025',created:'14/03/2026',by:'Lucas F.'}}] },
+  administrativo: { name:'Administrativo', responsible:'Camila Vieira', approvers:['Camila Vieira','Sandra Ferreira'], teams:[{name:'Administrativo Geral',members:5},{name:'Compras',members:4},{name:'Patrimônio',members:3},{name:'Recepção',members:6}], erp:{name:'Totvs',desc:'Totvs Protheus',code:'CC-005',status:'Ativo'}, exceptions:[] },
+  financeiro: { name:'Financeiro', responsible:'Roberto Alves', approvers:['Roberto Alves','Camila Vieira'], teams:[{name:'Contabilidade',members:5},{name:'Tesouraria',members:3},{name:'FP&A',members:4},{name:'Fiscal',members:4},{name:'Financeiro',members:6},{name:'Contas a Pagar',members:3}], erp:{name:'Totvs',desc:'Totvs Protheus',code:'CC-006',status:'Ativo'}, exceptions:[] },
+  rh: { name:'Recursos Humanos', responsible:'Sandra Ferreira', approvers:['Sandra Ferreira'], teams:[{name:'Recrutamento',members:6},{name:'Treinamento',members:4},{name:'People Ops',members:5},{name:'DP',members:4},{name:'RH',members:4},{name:'Cultura',members:3}], erp:{name:'Totvs',desc:'Totvs Protheus',code:'CC-007',status:'Ativo'}, exceptions:[] },
+  operacoes: { name:'Operações', responsible:'Ricardo Lopes', approvers:['Ricardo Lopes','Sandra Ferreira'], teams:[{name:'Logística',members:8},{name:'Facilities',members:5},{name:'Frotas',members:4},{name:'Supply Chain',members:6},{name:'Almoxarifado',members:3},{name:'Operações',members:10},{name:'Expedição',members:5}], erp:{name:'SAP',desc:'SAP Business One',code:'CC-008',status:'Ativo'}, exceptions:[] },
+  juridico: { name:'Jurídico', responsible:'Ana Pereira', approvers:['Ana Pereira','Camila Vieira'], teams:[{name:'Contratos',members:4},{name:'Compliance',members:3},{name:'Jurídico',members:3}], erp:{name:'SAP',desc:'SAP Business One',code:'CC-009',status:'Ativo'}, exceptions:[] },
+  cs: { name:'Customer Success', responsible:'Beatriz Souza', approvers:['Beatriz Souza','Maria Oliveira'], teams:[{name:'Onboarding',members:6},{name:'Ongoing CS',members:8},{name:'Enterprise CS',members:5},{name:'Renovações',members:4},{name:'Expansão',members:5},{name:'CS PME',members:4},{name:'CS Mid-Market',members:5}], erp:{name:'SAP',desc:'SAP Business One',code:'CC-010',status:'Ativo'}, exceptions:[] },
+  suporte: { name:'Suporte', responsible:'Felipe Santos', approvers:['Felipe Santos'], teams:[{name:'Suporte N1',members:12},{name:'Suporte N2',members:8},{name:'Suporte Enterprise',members:5},{name:'Suporte Técnico',members:6},{name:'Suporte Chat',members:4}], erp:{name:'Totvs',desc:'Totvs Protheus',code:'CC-011',status:'Ativo'}, exceptions:[] },
+  data: { name:'Data & Analytics', responsible:'Gabriela Costa', approvers:['Gabriela Costa','Lucas Ferreira'], teams:[{name:'BI',members:4},{name:'Data Science',members:5},{name:'Analytics',members:4},{name:'Data Ops',members:3},{name:'Engenharia de Dados',members:4}], erp:{name:'SAP',desc:'SAP Business One',code:'CC-012',status:'Ativo'}, exceptions:[{flow:'Solicitações',detail:'Ferramentas de dados auto-aprovadas até R$ 8.000',id:'data-sol',conditions:[{field:'Categoria',op:'igual a',value:'Ferramentas'}],actions:['Aprovar automaticamente'],audit:{ref:'EXC-2026-03-0030',created:'16/03/2026',by:'Gabriela C.'}}] },
+  infra: { name:'Infraestrutura', responsible:'Thiago Nunes', approvers:['Thiago Nunes'], teams:[{name:'Cloud',members:5},{name:'Redes',members:4},{name:'Infra On-Prem',members:3}], erp:{name:'SAP',desc:'SAP Business One',code:'CC-013',status:'Ativo'}, exceptions:[] },
+  seguranca: { name:'Segurança da Informação', responsible:'Marcos Miranda', approvers:['Marcos Miranda','Thiago Nunes'], teams:[{name:'AppSec',members:4},{name:'SOC',members:5},{name:'Pentest',members:3}], erp:{name:'SAP',desc:'SAP Business One',code:'CC-014',status:'Ativo'}, exceptions:[] },
+  latam: { name:'Internacional — LATAM', responsible:'Pedro Henrique', approvers:['Pedro Henrique','Marcos Miranda'], teams:[{name:'LATAM Comercial',members:8},{name:'LATAM Suporte',members:5},{name:'LATAM Ops',members:4},{name:'LATAM CS',members:4}], erp:{name:'SAP',desc:'SAP Business One',code:'CC-015',status:'Ativo'}, exceptions:[{flow:'Solicitações',detail:'Auto-aprovação até R$ 15.000 (geral: R$ 2.000)',id:'latam-sol',conditions:[{field:'Valor',op:'menor que',value:'R$ 15.000'}],actions:['Aprovar automaticamente'],audit:{ref:'EXC-2026-03-0035',created:'18/03/2026',by:'Pedro H.'}},{flow:'Viagens',detail:'Hospedagem até R$ 1.500/noite (geral: R$ 500)',id:'latam-viag',conditions:[{field:'Categoria',op:'igual a',value:'Hospedagem'}],actions:['Aprovar automaticamente'],audit:{ref:'EXC-2026-03-0036',created:'18/03/2026',by:'Pedro H.'}}] },
+  europa: { name:'Internacional — Europa', responsible:'Carolina Lima', approvers:['Carolina Lima','André Costa'], teams:[{name:'Europa Comercial',members:6},{name:'Europa Suporte',members:4},{name:'Europa Ops',members:3}], erp:{name:'SAP',desc:'SAP Business One',code:'CC-016',status:'Ativo'}, exceptions:[{flow:'Solicitações',detail:'Auto-aprovação até R$ 20.000 (geral: R$ 2.000)',id:'eur-sol',conditions:[{field:'Valor',op:'menor que',value:'R$ 20.000'}],actions:['Aprovar automaticamente'],audit:{ref:'EXC-2026-03-0037',created:'18/03/2026',by:'Carolina L.'}}] },
+  eua: { name:'Internacional — EUA', responsible:'Daniel Araújo', approvers:['Daniel Araújo','André Costa'], teams:[{name:'EUA Comercial',members:7},{name:'EUA Suporte',members:5},{name:'EUA Enterprise',members:4},{name:'EUA Ops',members:3}], erp:{name:'SAP',desc:'SAP Business One',code:'CC-017',status:'Ativo'}, exceptions:[{flow:'Solicitações',detail:'Auto-aprovação até R$ 25.000 (geral: R$ 2.000)',id:'eua-sol',conditions:[{field:'Valor',op:'menor que',value:'R$ 25.000'}],actions:['Aprovar automaticamente'],audit:{ref:'EXC-2026-03-0038',created:'18/03/2026',by:'Daniel A.'}},{flow:'Viagens',detail:'Hospedagem até R$ 2.500/noite (geral: R$ 500)',id:'eua-viag',conditions:[{field:'Categoria',op:'igual a',value:'Hospedagem'}],actions:['Aprovar automaticamente'],audit:{ref:'EXC-2026-03-0039',created:'18/03/2026',by:'Daniel A.'}}] },
+  diretoria: { name:'Diretoria', responsible:'André Costa', approvers:['André Costa','Camila Vieira'], teams:[{name:'C-Level',members:5},{name:'Board',members:3},{name:'Diretoria',members:5}], erp:{name:'SAP',desc:'SAP Business One',code:'CC-018',status:'Ativo'}, exceptions:[{flow:'Solicitações',detail:'CFO aprova tudo, sem limite',id:'dir-sol',conditions:[{field:'Valor',op:'maior que',value:'R$ 0'}],actions:['Escalar para Camila Vieira (CFO)'],audit:{ref:'EXC-2026-03-0040',created:'19/03/2026',by:'André C.'}}] }
+};
+
+const generalRules = [
+  { icon: '🤖', text: 'Auto-aprovação até R$ 2.000 (Agent)' },
+  { icon: '🚩', text: 'Valor divergente → Escalar para admin' },
+  { icon: '💳', text: 'Comprovante obrigatório acima de R$ 50' },
+  { icon: '💰', text: 'Limite mensal reembolso: R$ 3.000' },
+  { icon: '📄', text: 'NF-e obrigatória acima de R$ 200' }
+];
+
+const defaultRules = {
+  'Solicitações': 'Quando solicitação ocorre → Se valor ≤ R$ 2.000 → Auto-aprovar. Se valor > R$ 2.000 → Escalar para gestor.',
+  'Despesas de Cartão': 'Quando despesa de cartão ocorre → Se valor > R$ 50 → Exigir comprovante. Categorização automática por MCC.',
+  'Reembolsos': 'Quando reembolso ocorre → Limite mensal R$ 3.000. Prazo 30 dias. Se > R$ 1.000 → Aprovação dupla.',
+  'Viagens': 'Quando viagem ocorre → Classe econômica obrigatória. Hospedagem até R$ 500/noite. Antecedência 7 dias.'
+};
+
+const flowOptions = ['Solicitações', 'Despesas de Cartão', 'Reembolsos', 'Viagens'];
+
+let currentCC = null;
+
+// Temporary state for workflow builder
+let tempConditions = [];
+let tempActions = [];
+let builderCCKey = null;
+let builderFlow = null;
+
+// ========== Dynamic Rendering ==========
+
+function getShortName(fullName) {
+  const parts = fullName.split(' ');
+  if (parts.length < 2) return fullName;
+  return parts[0] + ' ' + parts[parts.length - 1][0] + '.';
+}
+
+function getFilteredCCs() {
+  const search = document.getElementById('searchInput').value.toLowerCase().trim();
+  const statusFilter = document.getElementById('filterStatus').value;
+  const policyFilter = document.getElementById('filterPolicy').value;
+  const ccFilter = document.getElementById('filterCC').value;
+
+  return Object.entries(ccData).filter(([key, cc]) => {
+    // Search filter
+    if (search && !cc.name.toLowerCase().includes(search) && !cc.responsible.toLowerCase().includes(search)) {
+      return false;
+    }
+    // Status filter
+    if (statusFilter === 'ativo' && cc.erp.status !== 'Ativo') return false;
+    if (statusFilter === 'desativado' && cc.erp.status === 'Ativo') return false;
+    // Policy filter
+    if (policyFilter === 'padrao' && cc.exceptions.length > 0) return false;
+    if (policyFilter === 'excecao' && cc.exceptions.length === 0) return false;
+    // CC filter
+    if (ccFilter && ccFilter !== key) return false;
+    return true;
+  });
+}
+
+function renderTable() {
+  const filtered = getFilteredCCs();
+  const tbody = document.getElementById('tableBody');
+  const mobileCards = document.getElementById('mobileCards');
+
+  // Table rows
+  let tableHtml = '';
+  let mobileHtml = '';
+
+  filtered.forEach(([key, cc]) => {
+    const teamCount = cc.teams.length;
+    const teamLabel = teamCount === 1 ? '1 time' : teamCount + ' times';
+    const shortName = getShortName(cc.responsible);
+    const excCount = cc.exceptions.length;
+    const policyClass = excCount > 0 ? 'policy-exception' : 'policy-default';
+    const policyLabel = excCount > 0 ? (excCount === 1 ? '1 exceção' : excCount + ' exceções') : 'Padrão';
+
+    tableHtml += '<tr onclick="openSlideover(\'' + key + '\')">';
+    tableHtml += '<td><strong>' + cc.name + '</strong></td>';
+    tableHtml += '<td>' + shortName + '</td>';
+    tableHtml += '<td>' + teamLabel + '</td>';
+    tableHtml += '<td><span class="erp-badge"><span class="erp-dot active"></span>' + cc.erp.name + '</span></td>';
+    tableHtml += '<td><span class="policy-badge ' + policyClass + '">' + policyLabel + '</span></td>';
+    tableHtml += '<td><span class="status-badge status-active">' + cc.erp.status + '</span></td>';
+    tableHtml += '</tr>';
+
+    mobileHtml += '<div class="mobile-card" onclick="openSlideover(\'' + key + '\')"><div class="mobile-card-title">' + cc.name + '</div><div class="mobile-card-detail">' + shortName + ' · ' + teamLabel + ' · <span class="policy-badge ' + policyClass + '">' + policyLabel + '</span> · <span class="status-badge status-active">' + cc.erp.status + '</span></div></div>';
+  });
+
+  tbody.innerHTML = tableHtml;
+  mobileCards.innerHTML = mobileHtml;
+}
+
+function renderSubtitle() {
+  const totalCCs = Object.keys(ccData).length;
+  const withExceptions = Object.values(ccData).filter(cc => cc.exceptions.length > 0).length;
+  document.getElementById('pageSubtitle').textContent = totalCCs + ' centros de custo · ' + withExceptions + ' com exceções';
+}
+
+function populateCCFilter() {
+  const select = document.getElementById('filterCC');
+  // Clear existing options except the first
+  while (select.options.length > 1) select.remove(1);
+  Object.entries(ccData).forEach(([key, cc]) => {
+    const opt = document.createElement('option');
+    opt.value = key;
+    opt.textContent = cc.name;
+    select.appendChild(opt);
+  });
+}
+
+// ========== Slide-over ==========
+
+function openSlideover(ccKey) {
+  currentCC = ccKey;
+  const cc = ccData[ccKey];
+  document.getElementById('soTitle').textContent = cc.name;
+
+  let html = '';
+
+  // Responsável
+  html += '<div class="so-section"><div class="so-field"><div class="so-label">Responsável</div><div class="so-value">' + cc.responsible + '</div></div></div>';
+
+  // Aprovadores
+  html += '<div class="so-section"><div class="so-section-title">Aprovadores</div><div class="approver-list">';
+  cc.approvers.forEach(a => {
+    const initials = a.split(' ').map(n => n[0]).join('');
+    html += '<div class="approver-item"><div class="approver-avatar">' + initials + '</div><span>' + a + '</span></div>';
+  });
+  html += '</div></div>';
+
+  // Política de Gastos
+  html += '<div class="so-section"><div class="so-section-title">📋 Política de Gastos</div>';
+
+  // General rules (read-only)
+  html += '<div style="margin-bottom:var(--spacing-md);"><div class="so-label">Regra geral da empresa</div><div class="rules-readonly">';
+  generalRules.forEach(r => {
+    html += '<div class="rule-line"><span>' + r.icon + '</span><span>' + r.text + '</span></div>';
+  });
+  html += '</div><div class="readonly-note">Estas regras são definidas na Política Geral da empresa. <a href="index.html">Ver Política Geral →</a></div></div>';
+
+  // Exceptions
+  html += '<div><div class="so-label">Exceções deste Centro de Custo</div>';
+  if (cc.exceptions.length === 0) {
+    html += '<div class="empty-state">Este centro de custo segue a política padrão da empresa.<div class="empty-state-cta"><button class="btn btn-secondary btn-sm" onclick="showCreateExceptionForm(\'' + ccKey + '\')">Criar exceção →</button></div></div>';
+  } else {
+    cc.exceptions.forEach(ex => {
+      html += '<div class="exception-block" id="exc-' + ex.id + '">';
+      html += '<div class="exception-header"><div class="exception-flow"><span>' + ex.flow + '</span><span class="exception-badge">Exceção CC</span></div></div>';
+      html += '<div class="exception-detail">' + ex.detail + '</div>';
+      if (ex.audit) html += '<div class="audit-meta">Criada em ' + ex.audit.created + ' por ' + ex.audit.by + ' · <span class="audit-meta-ref">' + ex.audit.ref + '</span></div>';
+      html += '<div class="exception-actions"><button class="btn btn-secondary btn-sm" onclick="showEditExceptionForm(\'' + ccKey + '\',\'' + ex.id + '\')">Editar</button><button class="btn btn-ghost btn-sm" style="color:var(--danger-red);" onclick="showRemoveConfirm(\'' + ccKey + '\',\'' + ex.id + '\')">Remover exceção</button></div>';
+      html += '</div>';
+    });
+    html += '<div class="explanatory-text">Exceções deste CC substituem inteiramente a regra geral para o fluxo correspondente. Times dentro deste CC podem ter suas próprias exceções.</div>';
+    html += '<button class="btn btn-ghost btn-sm" style="margin-top:var(--spacing-sm);" onclick="showCreateExceptionForm(\'' + ccKey + '\')">+ Nova exceção</button>';
+  }
+  html += '<div id="exceptionFormArea"></div>';
+  html += '</div></div>';
+
+  // Times
+  const totalMembers = cc.teams.reduce((sum, t) => sum + t.members, 0);
+  html += '<div class="so-section"><div class="so-section-title">Times <span style="font-size:12px;font-weight:400;color:var(--gray-400);">(' + cc.teams.length + ' times · ' + totalMembers + ' membros)</span></div>';
+  html += '<div class="teams-container' + (cc.teams.length > 5 ? ' scrollable' : '') + '">';
+  cc.teams.forEach(t => {
+    html += '<div class="team-card" onclick="showToast(\'Navegação para time ' + t.name.replace(/'/g, "\\'") + ' em desenvolvimento.\',\'info\')">';
+    html += '<div class="team-card-name">' + t.name + '</div>';
+    html += '<div class="team-card-count">' + t.members + ' membros</div>';
+    html += '</div>';
+  });
+  html += '</div></div>';
+
+  // Integração
+  html += '<div class="so-section"><div class="so-section-title">Integração ERP</div><div class="integration-card">';
+  html += '<div class="integration-name">' + cc.erp.name + '</div>';
+  html += '<div class="integration-detail">' + cc.erp.desc + '</div>';
+  html += '<div style="display:flex;justify-content:space-between;margin-top:var(--spacing-sm);">';
+  html += '<div class="integration-code">Código: ' + cc.erp.code + '</div>';
+  html += '<span class="status-badge status-active">' + cc.erp.status + '</span>';
+  html += '</div></div></div>';
+
+  document.getElementById('soBody').innerHTML = html;
+  document.getElementById('slideoverOverlay').classList.add('active');
+  document.getElementById('slideover').classList.add('open');
+  trapFocus(document.getElementById('slideover'));
+}
+
+function closeSlideover() {
+  document.getElementById('slideoverOverlay').classList.remove('active');
+  document.getElementById('slideover').classList.remove('open');
+}
+
+// ========== Exception Creation Flow ==========
+
+function showCreateExceptionForm(ccKey) {
+  const cc = ccData[ccKey];
+  const existingFlows = cc.exceptions.map(e => e.flow);
+  const area = document.getElementById('exceptionFormArea');
+
+  let html = '<div class="inline-form" style="margin-top:var(--spacing-md);">';
+  html += '<div class="so-label" style="margin-bottom:var(--spacing-sm);">Selecione o fluxo para criar exceção</div>';
+  html += '<div class="flow-selector">';
+
+  flowOptions.forEach(flow => {
+    const isUsed = existingFlows.includes(flow);
+    if (isUsed) {
+      html += '<label class="flow-option disabled"><input type="radio" name="flowSelect" value="' + flow + '" disabled><span>' + flow + '</span><span class="flow-option-disabled-text">Já possui exceção</span></label>';
+    } else {
+      html += '<label class="flow-option"><input type="radio" name="flowSelect" value="' + flow + '"><span>' + flow + '</span></label>';
+    }
+  });
+
+  html += '</div>';
+  html += '<div style="margin-top:var(--spacing-md);display:flex;gap:var(--spacing-sm);">';
+  html += '<button class="btn btn-primary btn-sm" onclick="proceedToWorkflowBuilder(\'' + ccKey + '\')">Continuar</button>';
+  html += '<button class="btn btn-secondary btn-sm" onclick="document.getElementById(\'exceptionFormArea\').innerHTML=\'\'">Cancelar</button>';
+  html += '</div></div>';
+
+  area.innerHTML = html;
+  area.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function proceedToWorkflowBuilder(ccKey) {
+  const selected = document.querySelector('input[name="flowSelect"]:checked');
+  if (!selected) {
+    showToast('Selecione um fluxo para continuar.', 'error');
+    return;
+  }
+  showWorkflowBuilder(ccKey, selected.value, null);
+}
+
+function showWorkflowBuilder(ccKey, flow, existingException) {
+  builderCCKey = ccKey;
+  builderFlow = flow;
+
+  if (existingException) {
+    tempConditions = JSON.parse(JSON.stringify(existingException.conditions || [{field:'Valor',op:'menor que',value:''}]));
+    tempActions = existingException.actions ? [...existingException.actions] : ['Aprovar automaticamente'];
+  } else {
+    tempConditions = [{field:'Valor',op:'menor que',value:''}];
+    tempActions = ['Aprovar automaticamente'];
+  }
+
+  renderWorkflowBuilder(ccKey, flow, !!existingException);
+}
+
+function renderWorkflowBuilder(ccKey, flow, isEdit) {
+  const area = document.getElementById('exceptionFormArea');
+  const ruleText = defaultRules[flow] || '';
+
+  let html = '<div class="inline-form" style="margin-top:var(--spacing-md);">';
+  html += '<div class="wb-alert"><span>⚠️</span><div><strong>Regra padrão para ' + flow + ':</strong><br>' + ruleText + '</div></div>';
+
+  // V7 Visual Workflow Builder
+  html += '<div class="wf-builder" role="list">';
+
+  // Trigger
+  html += '<div class="wf-block wf-trigger" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🟢</span><span class="wf-label" style="color:var(--success-green);">Trigger</span><span class="wf-desc">Quando <strong>' + flow.toLowerCase() + '</strong> ocorre neste CC</span></div></div></div></div>';
+  html += '<div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>';
+
+  // Conditions
+  tempConditions.forEach((c, idx) => {
+    html += renderConditionBlock(c, idx);
+    html += '<div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>';
+  });
+
+  // Add block
+  html += '<div class="wf-add-block"><button class="wf-add-btn" onclick="addCondition()">+ Adicionar bloco</button></div>';
+  html += '<div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>';
+
+  // Fallback with actions
+  html += '<div class="wf-block wf-fallback" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🟡</span><span class="wf-label" style="color:var(--warning-yellow);">Fallback</span><span class="wf-desc">Se nenhuma condição é atendida</span></div></div><div class="wf-card-body">';
+  tempActions.forEach((a, idx) => { html += renderActionBlock(a, idx); });
+  html += '</div></div></div>';
+  html += '<div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>';
+  html += '<div class="wf-end" role="listitem">✅ Workflow concluído</div>';
+  html += '</div>';
+
+  // Save/Cancel
+  html += '<div style="margin-top:var(--spacing-md);display:flex;gap:var(--spacing-sm);">';
+  html += '<button class="btn btn-primary btn-sm" onclick="saveException(\'' + ccKey + '\',\'' + flow + '\',' + isEdit + ')">Salvar exceção</button>';
+  html += '<button class="btn btn-secondary btn-sm" onclick="document.getElementById(\'exceptionFormArea\').innerHTML=\'\'">Cancelar</button>';
+  html += '</div></div>';
+
+  area.innerHTML = html;
+  area.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function renderConditionBlock(c, idx) {
+  let html = '<div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions">';
+  if (tempConditions.length > 1) html += '<button class="wf-card-action" onclick="removeCondition(' + idx + ')" aria-label="Remover">🗑</button>';
+  html += '</div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span>';
+  html += '<select onchange="tempConditions[' + idx + '].field=this.value;renderWorkflowBuilder(builderCCKey,builderFlow,false)" style="padding:var(--spacing-xs) var(--spacing-sm);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:12px;font-family:inherit;min-height:32px;">';
+  ['Valor','Categoria','Fornecedor','Descrição','Tipo'].forEach(f => {
+    html += '<option value="' + f + '"' + (c.field === f ? ' selected' : '') + '>' + f + '</option>';
+  });
+  html += '</select>';
+  html += '<select onchange="tempConditions[' + idx + '].op=this.value" style="padding:var(--spacing-xs) var(--spacing-sm);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:12px;font-family:inherit;min-height:32px;">';
+  ['menor que','maior que','igual a','diferente de','contém'].forEach(op => {
+    html += '<option value="' + op + '"' + (c.op === op ? ' selected' : '') + '>' + op + '</option>';
+  });
+  html += '</select>';
+  html += '<input type="text" placeholder="Valor..." value="' + (c.value || '') + '" onchange="tempConditions[' + idx + '].value=this.value" style="width:120px;padding:var(--spacing-xs) var(--spacing-sm);border:1px solid var(--border);border-radius:var(--radius-sm);font-size:12px;font-family:inherit;min-height:32px;">';
+  html += '</div></div></div></div>';
+  return html;
+}
+
+function renderActionBlock(a, idx) {
+  var cls = a.startsWith('Aprovar')?'wf-action-approve':a.startsWith('Escalar')?'wf-action-escalate':a==='Bloquear'?'wf-action-block':'wf-action-alert';
+  var icon = a.startsWith('Aprovar')?'✓':a.startsWith('Escalar')?'↗':a==='Bloquear'?'🚫':'⚠️';
+  let html = '<div class="wf-action-badge ' + cls + '">' + icon + ' ';
+  html += '<select onchange="updateAction(' + idx + ',this.value)" style="border:none;background:transparent;font-size:12px;font-weight:600;font-family:inherit;color:inherit;">';
+  ['Aprovar automaticamente','Escalar para gestor','Exigir comprovante','Bloquear','Notificar admin'].forEach(act => {
+    html += '<option value="' + act + '"' + (a === act ? ' selected' : '') + '>' + act + '</option>';
+  });
+  html += '</select>';
+  if (tempActions.length > 1) html += '<button style="border:none;background:transparent;color:inherit;cursor:pointer;font-size:12px;margin-left:var(--spacing-xs);" onclick="removeAction(' + idx + ')">✕</button>';
+  html += '</div>';
+  return html;
+}
+
+function addCondition() {
+  tempConditions.push({field:'Valor',op:'menor que',value:''});
+  renderWorkflowBuilder(builderCCKey, builderFlow, false);
+}
+
+function removeCondition(idx) {
+  tempConditions.splice(idx, 1);
+  renderWorkflowBuilder(builderCCKey, builderFlow, false);
+}
+
+function updateAction(idx, val) {
+  tempActions[idx] = val;
+}
+
+function removeAction(idx) {
+  tempActions.splice(idx, 1);
+  renderWorkflowBuilder(builderCCKey, builderFlow, false);
+}
+
+function saveException(ccKey, flow, isEdit) {
+  // Validate that at least one condition has a value
+  const hasValue = tempConditions.some(c => c.value && c.value.trim() !== '');
+  if (!hasValue) {
+    showToast('Preencha pelo menos uma condição com um valor.', 'error');
+    return;
+  }
+
+  const cc = ccData[ccKey];
+  const condCopy = JSON.parse(JSON.stringify(tempConditions));
+  const actCopy = [...tempActions];
+
+  // Build detail string
+  const detailParts = condCopy.map(c => c.field + ' ' + c.op + ' ' + c.value);
+  const actionParts = actCopy.join(', ');
+  const detail = detailParts.join(' e ') + ' → ' + actionParts;
+
+  if (isEdit) {
+    // Find existing exception for this flow and update it
+    const existing = cc.exceptions.find(e => e.flow === flow);
+    if (existing) {
+      existing.conditions = condCopy;
+      existing.actions = actCopy;
+      existing.detail = detail;
+      existing.audit = {ref: existing.audit?.ref || 'EXC-2026-03-' + String(Date.now()).slice(-4), created: '26/03/2026', by: 'Você (editado)'};
+    }
+    showToast('Exceção do CC "' + cc.name + '" atualizada com sucesso.', 'success');
+  } else {
+    // Create new exception
+    const newId = ccKey.substring(0,3) + '-' + flow.substring(0,3).toLowerCase() + '-' + Date.now();
+    cc.exceptions.push({
+      flow: flow,
+      detail: detail,
+      id: newId,
+      conditions: condCopy,
+      actions: actCopy,
+      audit: {ref: 'EXC-2026-03-' + String(Date.now()).slice(-4), created: '26/03/2026', by: 'Você'}
+    });
+    showToast('Exceção criada para CC "' + cc.name + '" no fluxo "' + flow + '".', 'success');
+  }
+
+  // Re-render the slideover and table
+  openSlideover(ccKey);
+  renderTable();
+  renderSubtitle();
+}
+
+function showEditExceptionForm(ccKey, excId) {
+  const cc = ccData[ccKey];
+  const exc = cc.exceptions.find(e => e.id === excId);
+  if (!exc) return;
+  showWorkflowBuilder(ccKey, exc.flow, exc);
+}
+
+function showRemoveConfirm(ccKey, excId) {
+  const cc = ccData[ccKey];
+  const exc = cc.exceptions.find(e => e.id === excId);
+  if (!exc) return;
+
+  document.getElementById('removeConfirmText').innerHTML = 'Tem certeza que deseja remover a exceção <strong>' + exc.flow + '</strong> do centro de custo <strong>' + cc.name + '</strong>? O CC voltará a usar a regra padrão da empresa para este fluxo.';
+
+  const confirmBtn = document.getElementById('removeConfirmBtn');
+  // Clone to remove old event listeners
+  const newBtn = confirmBtn.cloneNode(true);
+  confirmBtn.parentNode.replaceChild(newBtn, confirmBtn);
+  newBtn.addEventListener('click', function() {
+    // Remove from data
+    const idx = cc.exceptions.findIndex(e => e.id === excId);
+    if (idx !== -1) cc.exceptions.splice(idx, 1);
+    closeModal('removeConfirmModal');
+    showToast('Exceção removida. CC "' + cc.name + '" voltou para regra padrão neste fluxo.', 'success');
+    // Re-render slideover and table
+    openSlideover(ccKey);
+    renderTable();
+    renderSubtitle();
+  });
+
+  openModal('removeConfirmModal');
+}
+
+// ========== Legacy confirm (kept for backward compat) ==========
+let pendingRemoveId = null;
+function openConfirm(excId) { pendingRemoveId = excId; document.getElementById('confirmModal').classList.add('active'); }
+function closeConfirm() { document.getElementById('confirmModal').classList.remove('active'); pendingRemoveId = null; }
+
+function removeException() {
+  if (pendingRemoveId) {
+    const el = document.getElementById('exc-' + pendingRemoveId);
+    if (el) el.remove();
+    showToast('Exceção removida. Centro de custo voltou para regra padrão.', 'success');
+  }
+  closeConfirm();
+}
+
+// ========== Modal helpers ==========
+function openModal(id) { document.getElementById(id).classList.add('active'); }
+function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+// ========== Utility functions ==========
+function showToast(message, type) {
+  const container = document.getElementById('toastContainer');
+  const toast = document.createElement('div');
+  toast.className = 'toast ' + (type || 'info');
+  toast.setAttribute('role', 'alert');
+  toast.innerHTML = '<span>' + (type === 'success' ? '✓' : 'ℹ') + '</span> ' + message;
+  container.appendChild(toast);
+  setTimeout(() => { toast.style.opacity = '0'; toast.style.transition = 'opacity 0.3s'; setTimeout(() => toast.remove(), 300); }, 4000);
+}
+
+function toggleSidebars() {
+  document.getElementById('mainSidebar').classList.toggle('open');
+  document.getElementById('settingsSidebar').classList.toggle('open');
+  document.getElementById('sidebarBackdrop').classList.toggle('active');
+}
+
+function closeSidebars() {
+  document.getElementById('mainSidebar').classList.remove('open');
+  document.getElementById('settingsSidebar').classList.remove('open');
+  document.getElementById('sidebarBackdrop').classList.remove('active');
+}
+
+function trapFocus(element) {
+  const focusable = element.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+  if (focusable.length === 0) return;
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+  element.addEventListener('keydown', function handler(e) {
+    if (e.key === 'Escape') { closeSlideover(); element.removeEventListener('keydown', handler); return; }
+    if (e.key !== 'Tab') return;
+    if (e.shiftKey) { if (document.activeElement === first) { e.preventDefault(); last.focus(); } }
+    else { if (document.activeElement === last) { e.preventDefault(); first.focus(); } }
+  });
+  first.focus();
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') { closeSlideover(); closeConfirm(); closeSidebars(); closeModal('removeConfirmModal'); }
+});
+
+// ========== Initialize ==========
+document.addEventListener('DOMContentLoaded', function() {
+  populateCCFilter();
+  renderSubtitle();
+  renderTable();
+});
+</script>
+</body>
+</html>
