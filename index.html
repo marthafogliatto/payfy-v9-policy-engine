@@ -304,8 +304,8 @@ a:hover { text-decoration: underline; }
    AGENT STATUS BANNER
    ============================================ */
 .agent-banner {
-  background: var(--info-blue-light);
-  border: 1px solid #BFDBFE;
+  background: var(--white);
+  border: 1px solid var(--gray-200);
   border-radius: var(--radius-lg);
   padding: var(--spacing-md) var(--spacing-lg);
   padding-right: 180px;
@@ -576,7 +576,7 @@ a:hover { text-decoration: underline; }
   justify-content: space-between;
   gap: var(--spacing-md);
   border: none;
-  background: linear-gradient(135deg, var(--bg-start, var(--gray-50)), var(--bg-end, var(--white)));
+  background: var(--white);
   width: 100%;
   text-align: left;
   min-height: 64px;
@@ -617,10 +617,11 @@ a:hover { text-decoration: underline; }
   white-space: nowrap;
 }
 
-.pill-agent { background: var(--badge-agent-bg); color: var(--badge-agent-text); }
-.pill-flag { background: var(--badge-flag-bg); color: var(--badge-flag-text); }
-.pill-conf { background: var(--badge-confidential-bg); color: var(--badge-confidential-text); }
-.pill-brasil { background: var(--badge-brasil-bg); color: var(--badge-brasil-text); }
+.pill-agent { background: var(--gray-100); color: var(--gray-600); border: 1px solid var(--gray-200); }
+.pill-flag { background: var(--gray-100); color: var(--gray-600); border: 1px solid var(--gray-200); }
+.pill-conf { background: var(--gray-100); color: var(--gray-600); border: 1px solid var(--gray-200); }
+.pill-brasil { background: var(--gray-100); color: var(--gray-600); border: 1px solid var(--gray-200); }
+.pill-exception { background: #FFF7ED; color: #E55A20; border: 1px solid #FDBA74; }
 
 .expand-icon {
   width: 20px;
@@ -649,10 +650,10 @@ a:hover { text-decoration: underline; }
   margin-bottom: var(--spacing-md);
 }
 
-.rule-group-agent { background: #F0FDF4; border-color: #BBF7D0; }
-.rule-group-flag { background: #FEF2F2; border-color: #FECACA; }
-.rule-group-confidential { background: var(--warning-yellow-light); border-color: #FDE68A; }
-.rule-group-brasil { background: var(--badge-brasil-bg); border-color: #A7F3D0; }
+.rule-group-agent { background: var(--white); border-color: var(--gray-200); }
+.rule-group-flag { background: var(--white); border-color: var(--gray-200); }
+.rule-group-confidential { background: var(--white); border-color: var(--gray-200); }
+.rule-group-brasil { background: var(--white); border-color: var(--gray-200); }
 
 .rule-group-header {
   display: flex;
@@ -670,10 +671,10 @@ a:hover { text-decoration: underline; }
   border-radius: var(--radius-2xl);
 }
 
-.badge-agent { background: var(--badge-agent-bg); color: var(--badge-agent-text); }
-.badge-flag { background: var(--badge-flag-bg); color: var(--badge-flag-text); }
-.badge-conf { background: var(--badge-confidential-bg); color: var(--badge-confidential-text); }
-.badge-brasil { background: var(--badge-brasil-bg); color: var(--badge-brasil-text); }
+.badge-agent { background: var(--gray-100); color: var(--gray-600); }
+.badge-flag { background: var(--gray-100); color: var(--gray-600); }
+.badge-conf { background: var(--gray-100); color: var(--gray-600); }
+.badge-brasil { background: var(--gray-100); color: var(--gray-600); }
 
 .rule-item {
   font-size: 13px;
@@ -1870,9 +1871,9 @@ a:hover { text-decoration: underline; }
 .wf-card-actions { display: flex; gap: var(--spacing-xs); }
 .wf-card-action { width: 28px; height: 28px; border: none; background: transparent; border-radius: var(--radius-sm); color: var(--gray-400); font-size: 14px; display: flex; align-items: center; justify-content: center; }
 .wf-card-action:hover { background: var(--gray-100); color: var(--gray-600); }
-.wf-trigger .wf-card-header { background: #F0FDF4; border-bottom: 2px solid var(--success-green); }
-.wf-condition .wf-card-header { background: var(--info-blue-light); border-bottom: 2px solid var(--info-blue); }
-.wf-fallback .wf-card-header { background: var(--warning-yellow-light); border-bottom: 2px solid var(--warning-yellow); }
+.wf-trigger .wf-card-header { background: var(--white); border-bottom: 2px solid var(--gray-200); }
+.wf-condition .wf-card-header { background: var(--white); border-bottom: 2px solid var(--gray-200); }
+.wf-fallback .wf-card-header { background: var(--white); border-bottom: 2px solid var(--gray-200); }
 .wf-end { background: var(--success-green-light); border: 1px solid #BBF7D0; border-radius: var(--radius-lg); padding: var(--spacing-sm) var(--spacing-md); text-align: center; font-size: 13px; font-weight: 600; color: var(--success-green); }
 .wf-icon { font-size: 16px; flex-shrink: 0; }
 .wf-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
@@ -1880,19 +1881,19 @@ a:hover { text-decoration: underline; }
 .wf-cond-row { display: flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-xs) 0; font-size: 13px; }
 .wf-cond-kw { font-weight: 600; color: var(--info-blue); font-size: 12px; }
 .wf-cond-field { color: var(--gray-800); font-weight: 500; }
-.wf-require { border: 2px dashed var(--primary-orange); border-radius: var(--radius-md); padding: var(--spacing-sm) var(--spacing-md); margin-top: var(--spacing-sm); background: var(--primary-orange-light); }
+.wf-require { border: 1px solid var(--gray-200); border-left: 3px solid #E55A20; border-radius: var(--radius-md); padding: var(--spacing-sm) var(--spacing-md); margin-top: var(--spacing-sm); background: var(--white); }
 .wf-require-label { font-size: 11px; font-weight: 700; color: var(--primary-orange); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: var(--spacing-xs); }
-.wf-show { border: 2px dashed var(--info-blue); border-radius: var(--radius-md); padding: var(--spacing-sm) var(--spacing-md); margin-top: var(--spacing-sm); background: var(--info-blue-light); }
+.wf-show { border: 1px solid var(--gray-200); border-left: 3px solid var(--gray-300); border-radius: var(--radius-md); padding: var(--spacing-sm) var(--spacing-md); margin-top: var(--spacing-sm); background: var(--white); }
 .wf-show-label { font-size: 11px; font-weight: 700; color: var(--info-blue); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: var(--spacing-xs); }
 .wf-chip { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: 2px var(--spacing-sm); background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-2xl); font-size: 12px; color: var(--gray-700); margin: 2px; }
 .wf-chip.chip-brasil { border-color: var(--success-green); }
 .wf-chip.chip-custom { border-color: var(--purple); }
 .wf-action-badge { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-xs) var(--spacing-sm); border-radius: var(--radius-md); font-size: 12px; font-weight: 600; margin-top: var(--spacing-sm); }
-.wf-action-approve { background: var(--success-green-light); color: var(--success-green); }
-.wf-action-escalate { background: var(--warning-yellow-light); color: #92400E; }
-.wf-action-block { background: var(--danger-red-light); color: var(--danger-red); }
-.wf-action-agent { background: var(--purple-light); color: var(--purple); }
-.wf-action-alert { background: var(--info-blue-light); color: var(--scope-cc-text); }
+.wf-action-approve { background: var(--gray-50); color: var(--success-green); border: 1px solid var(--gray-200); }
+.wf-action-escalate { background: var(--gray-50); color: #92400E; border: 1px solid var(--gray-200); }
+.wf-action-block { background: var(--gray-50); color: var(--danger-red); border: 1px solid var(--gray-200); }
+.wf-action-agent { background: var(--gray-50); color: var(--purple); border: 1px solid var(--gray-200); }
+.wf-action-alert { background: var(--gray-50); color: var(--scope-cc-text); border: 1px solid var(--gray-200); }
 .wf-add-block { display: flex; align-items: center; justify-content: center; padding: var(--spacing-xs); }
 .wf-add-btn { display: inline-flex; align-items: center; gap: var(--spacing-xs); padding: var(--spacing-xs) var(--spacing-sm); border: 1px dashed var(--gray-300); border-radius: var(--radius-md); background: transparent; font-size: 12px; color: var(--gray-400); min-height: 32px; transition: all 0.2s; }
 .wf-add-btn:hover { border-color: var(--primary-orange); color: var(--primary-orange); background: var(--primary-orange-light); }
@@ -2387,6 +2388,108 @@ a:hover { text-decoration: underline; }
 }
 .btn-danger { background: var(--danger-red); color: var(--white); border: none; padding: var(--spacing-sm) var(--spacing-md); border-radius: var(--radius-md); font-size: 13px; font-weight: 600; cursor: pointer; }
 .btn-danger:hover { background: #B91C1C; }
+
+/* ============================================
+   V9: M1 — Scope Popover
+   ============================================ */
+.scope-popover { position: absolute; background: var(--white); border: 1px solid var(--gray-200); border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); padding: 16px; width: 320px; z-index: 500; animation: scopeFadeIn 0.15s ease; }
+@keyframes scopeFadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+.scope-popover-title { font-size: 15px; font-weight: 600; color: var(--gray-900); margin-bottom: 12px; }
+.scope-popover-row { display: flex; justify-content: space-between; padding: 4px 0; font-size: 13px; }
+.scope-popover-label { color: var(--gray-500); }
+.scope-popover-value { color: var(--gray-900); font-weight: 500; }
+.scope-popover-link { color: #E55A20; font-size: 13px; margin-top: 12px; display: block; cursor: pointer; }
+.scope-popover-link:hover { text-decoration: underline; }
+.scope-badge-clickable { cursor: pointer; }
+.scope-badge-clickable:hover { text-decoration: underline; background: var(--gray-50); }
+
+/* ============================================
+   V9: M2 — Exception Matrix View
+   ============================================ */
+.matrix-container { overflow-x: auto; border: 1px solid var(--gray-200); border-radius: 12px; background: var(--white); }
+.matrix-table { border-collapse: collapse; min-width: 100%; }
+.matrix-table th { background: var(--gray-50); font-size: 11px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; padding: 12px 16px; border: 1px solid var(--gray-100); white-space: nowrap; position: sticky; top: 0; z-index: 2; }
+.matrix-table th:first-child { position: sticky; left: 0; z-index: 3; background: var(--gray-50); }
+.matrix-table td { padding: 12px 16px; border: 1px solid var(--gray-100); font-size: 13px; min-width: 140px; vertical-align: top; }
+.matrix-table td:first-child { position: sticky; left: 0; background: var(--white); z-index: 1; font-weight: 600; color: var(--gray-700); box-shadow: 2px 0 4px rgba(0,0,0,0.04); }
+.matrix-cell-general { color: var(--gray-400); }
+.matrix-cell-exception { background: #FFF7ED; border-left: 3px solid #E55A20; cursor: pointer; }
+.matrix-cell-exception:hover { background: #FEF3ED; }
+.matrix-cell-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #E55A20; margin-right: 6px; }
+.matrix-diverge { font-size: 11px; color: #D97706; margin-top: 4px; }
+.matrix-cc-header { cursor: pointer; }
+.matrix-cc-header:hover { color: #E55A20; }
+
+/* ============================================
+   V9: M4 — Inline Editing
+   ============================================ */
+.cell-editable { position: relative; }
+.cell-editable:hover::after { content: '\270F'; position: absolute; right: 4px; top: 50%; transform: translateY(-50%); font-size: 10px; opacity: 0.4; }
+.cell-editing { padding: 4px !important; }
+.cell-editing input, .cell-editing select { width: 100%; padding: 4px 8px; border: 2px solid #E55A20; border-radius: 6px; font-size: 13px; font-family: inherit; }
+.inline-actions { display: flex; gap: 4px; margin-top: 4px; }
+.inline-action-btn { border: none; background: none; font-size: 14px; cursor: pointer; padding: 2px 4px; border-radius: 4px; }
+.inline-action-btn:hover { background: var(--gray-100); }
+.cell-saved { animation: cellSaved 1s ease; }
+@keyframes cellSaved { 0% { background: #FFF7ED; } 100% { background: transparent; } }
+.th-editable-hint { font-size: 9px; opacity: 0.5; margin-left: 4px; }
+
+/* ============================================
+   V9: M5 — Conflicts Dashboard
+   ============================================ */
+.conflict-metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-md); margin-bottom: var(--spacing-lg); }
+.conflict-metric { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--spacing-md); text-align: center; }
+.conflict-metric-value { font-size: 28px; font-weight: 700; line-height: 1.2; }
+.conflict-metric-label { font-size: 12px; color: var(--gray-500); margin-top: var(--spacing-xs); }
+.conflict-filter-tabs { display: flex; gap: var(--spacing-sm); margin-bottom: var(--spacing-md); }
+.conflict-filter-tab { padding: var(--spacing-sm) var(--spacing-md); border: 1px solid var(--border); border-radius: var(--radius-2xl); font-size: 13px; font-weight: 500; color: var(--gray-600); background: var(--white); cursor: pointer; }
+.conflict-filter-tab.active { background: var(--gray-900); color: var(--white); border-color: var(--gray-900); }
+.conflict-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--spacing-lg); margin-bottom: var(--spacing-md); }
+.conflict-card-title { font-size: 15px; font-weight: 600; color: var(--gray-900); margin-bottom: var(--spacing-md); display: flex; align-items: center; gap: var(--spacing-sm); }
+.conflict-comparison { display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-md); margin-bottom: var(--spacing-md); }
+.conflict-side { padding: var(--spacing-md); border-radius: var(--radius-md); font-size: 13px; }
+.conflict-side-left { background: var(--gray-50); border: 1px solid var(--gray-200); }
+.conflict-side-right { background: #FFF7ED; border: 1px solid #FDBA74; }
+.conflict-side-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: var(--spacing-xs); }
+.conflict-side-left .conflict-side-label { color: var(--gray-500); }
+.conflict-side-right .conflict-side-label { color: #E55A20; }
+.conflict-side-value { font-weight: 500; color: var(--gray-800); }
+.conflict-diff { font-size: 13px; color: var(--gray-600); padding: var(--spacing-sm) var(--spacing-md); background: var(--gray-50); border-radius: var(--radius-md); margin-bottom: var(--spacing-md); border-left: 3px solid var(--warning-yellow); }
+.conflict-actions { display: flex; gap: var(--spacing-sm); }
+
+/* ============================================
+   V9: M6 — Simulator with Team Context
+   ============================================ */
+.sim-hierarchy-path { font-size: 12px; color: var(--gray-500); padding: var(--spacing-sm) var(--spacing-md); background: var(--gray-50); border-radius: var(--radius-md); margin-bottom: var(--spacing-md); display: flex; align-items: center; gap: var(--spacing-xs); }
+.sim-hierarchy-path .sim-path-segment { font-weight: 600; color: var(--gray-700); }
+.sim-hierarchy-path .sim-path-arrow { color: var(--gray-400); }
+.resolution-chain { margin-top: var(--spacing-md); }
+.resolution-chain-title { font-size: 14px; font-weight: 600; color: var(--gray-800); margin-bottom: var(--spacing-sm); }
+.resolution-level { border: 1px solid var(--gray-200); border-radius: var(--radius-md); padding: var(--spacing-md); margin-bottom: var(--spacing-sm); position: relative; }
+.resolution-level.level-overridden { opacity: 0.6; }
+.resolution-level.level-overridden .resolution-level-rule { text-decoration: line-through; }
+.resolution-level.level-effective { border-color: #E55A20; background: #FFF7ED; }
+.resolution-level-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--spacing-xs); }
+.resolution-level-name { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gray-500); }
+.resolution-level.level-effective .resolution-level-name { color: #E55A20; }
+.resolution-level-badge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: var(--radius-2xl); }
+.resolution-level-rule { font-size: 13px; color: var(--gray-700); }
+.resolution-connector { display: flex; flex-direction: column; align-items: center; padding: 2px 0; color: var(--gray-400); font-size: 10px; }
+
+/* ============================================
+   V9: M3 — Propagate CC to Teams
+   ============================================ */
+.propagate-section { margin-top: var(--spacing-md); padding: var(--spacing-md); border: 1px dashed var(--border); border-radius: var(--radius-md); background: var(--gray-50); }
+.propagate-checkbox { display: flex; align-items: center; gap: var(--spacing-sm); font-size: 13px; color: var(--gray-700); cursor: pointer; }
+.propagate-checkbox input[type="checkbox"] { accent-color: #E55A20; width: 16px; height: 16px; }
+.propagate-warning { font-size: 12px; color: var(--warning-yellow); margin-top: var(--spacing-xs); margin-left: 24px; }
+.propagate-confirm-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 500; display: none; align-items: center; justify-content: center; }
+.propagate-confirm-overlay.active { display: flex; }
+.propagate-confirm-modal { background: var(--white); border-radius: var(--radius-2xl); width: 440px; max-width: 90vw; box-shadow: var(--shadow-xl); }
+.propagate-confirm-header { padding: var(--spacing-lg); border-bottom: 1px solid var(--border); }
+.propagate-confirm-title { font-size: 18px; font-weight: 700; color: var(--gray-900); }
+.propagate-confirm-body { padding: var(--spacing-lg); }
+.propagate-confirm-footer { padding: var(--spacing-md) var(--spacing-lg); border-top: 1px solid var(--border); display: flex; gap: var(--spacing-sm); justify-content: flex-end; }
 </style>
 </head>
 <body>
@@ -2621,6 +2724,7 @@ a:hover { text-decoration: underline; }
           <div class="view-toggle" role="radiogroup" aria-label="Modo de visualização">
             <button class="view-toggle-btn active" role="radio" aria-checked="true" onclick="switchView('cards')">Cards</button>
             <button class="view-toggle-btn" role="radio" aria-checked="false" onclick="switchView('table')">Tabela</button>
+            <button class="view-toggle-btn" role="radio" aria-checked="false" onclick="switchView('matrix')">Matriz</button>
           </div>
         </div>
 
@@ -2915,8 +3019,8 @@ a:hover { text-decoration: underline; }
                   <th>Regra</th>
                   <th>Tipo</th>
                   <th>Escopo</th>
-                  <th>Trigger</th>
-                  <th>Ação</th>
+                  <th>Trigger<span class="th-editable-hint">&#9998;</span></th>
+                  <th>Ação<span class="th-editable-hint">&#9998;</span></th>
                   <th>Status</th>
                   <th>Auditoria</th>
                 </tr>
@@ -2927,8 +3031,8 @@ a:hover { text-decoration: underline; }
                   <td>Auto-aprovação ≤ R$ 2.000</td>
                   <td><span class="type-badge badge-agent">Agent</span></td>
                   <td><span class="scope-badge scope-geral">Geral</span></td>
-                  <td>Valor ≤ R$ 2.000</td>
-                  <td>Auto-aprovar</td>
+                  <td class="cell-editable" ondblclick="event.stopPropagation();enableInlineEdit(this,'value','Valor ≤ R$ 2.000')">Valor ≤ R$ 2.000</td>
+                  <td class="cell-editable" ondblclick="event.stopPropagation();enableInlineEdit(this,'action','Auto-aprovar')">Auto-aprovar</td>
                   <td><span class="status-badge status-active">Ativo</span></td>
                   <td><span class="audit-meta-ref">POL-2026-03-0015</span></td>
                 </tr>
@@ -2937,8 +3041,8 @@ a:hover { text-decoration: underline; }
                   <td>Escalar &gt; R$ 2.000</td>
                   <td><span class="type-badge badge-agent">Agent</span></td>
                   <td><span class="scope-badge scope-geral">Geral</span></td>
-                  <td>Valor &gt; R$ 2.000</td>
-                  <td>Escalar gestor</td>
+                  <td class="cell-editable" ondblclick="event.stopPropagation();enableInlineEdit(this,'value','Valor > R$ 2.000')">Valor &gt; R$ 2.000</td>
+                  <td class="cell-editable" ondblclick="event.stopPropagation();enableInlineEdit(this,'action','Escalar gestor')">Escalar gestor</td>
                   <td><span class="status-badge status-active">Ativo</span></td>
                   <td><span class="audit-meta-ref">POL-2026-03-0015</span></td>
                 </tr>
@@ -3036,9 +3140,9 @@ a:hover { text-decoration: underline; }
                   <td><strong>Solicitações</strong></td>
                   <td>Auto-aprovação R$ 10.000</td>
                   <td><span class="type-badge badge-agent">Agent</span></td>
-                  <td><span class="scope-badge scope-cc">CC Internacional</span></td>
-                  <td>Valor ≤ R$ 10.000</td>
-                  <td>Auto-aprovar</td>
+                  <td><span class="scope-badge scope-cc scope-badge-clickable" onclick="event.stopPropagation();showScopePopover(event,'cc','Internacional')">CC Internacional</span></td>
+                  <td class="cell-editable" ondblclick="event.stopPropagation();enableInlineEdit(this,'value','Valor ≤ R$ 10.000')">Valor ≤ R$ 10.000</td>
+                  <td class="cell-editable" ondblclick="event.stopPropagation();enableInlineEdit(this,'action','Auto-aprovar')">Auto-aprovar</td>
                   <td><span class="status-badge status-active">Ativo</span></td>
                   <td><span class="audit-meta-ref">EXC-2026-03-0012</span></td>
                 </tr>
@@ -3046,7 +3150,7 @@ a:hover { text-decoration: underline; }
                   <td><strong>Solicitações</strong></td>
                   <td>CFO aprova &gt; R$ 5.000</td>
                   <td><span class="type-badge badge-agent">Agent</span></td>
-                  <td><span class="scope-badge scope-time">Time Diretoria</span></td>
+                  <td><span class="scope-badge scope-time scope-badge-clickable" onclick="event.stopPropagation();showScopePopover(event,'time','Diretoria')">Time Diretoria</span></td>
                   <td>Valor &gt; R$ 5.000</td>
                   <td>Escalar CFO</td>
                   <td><span class="status-badge status-active">Ativo</span></td>
@@ -3057,9 +3161,9 @@ a:hover { text-decoration: underline; }
                   <td><strong>Solicitações</strong></td>
                   <td>Auto-aprovação R$ 5.000</td>
                   <td><span class="type-badge badge-agent">Agent</span></td>
-                  <td><span class="scope-badge scope-cc">CC Marketing</span></td>
-                  <td>Valor &le; R$ 5.000</td>
-                  <td>Auto-aprovar</td>
+                  <td><span class="scope-badge scope-cc scope-badge-clickable" onclick="event.stopPropagation();showScopePopover(event,'cc','Marketing')">CC Marketing</span></td>
+                  <td class="cell-editable" ondblclick="event.stopPropagation();enableInlineEdit(this,'value','Valor ≤ R$ 5.000')">Valor &le; R$ 5.000</td>
+                  <td class="cell-editable" ondblclick="event.stopPropagation();enableInlineEdit(this,'action','Auto-aprovar')">Auto-aprovar</td>
                   <td><span class="status-badge status-active">Ativo</span></td>
                   <td><span class="audit-meta-ref">EXC-2026-03-0025</span></td>
                 </tr>
@@ -3067,9 +3171,9 @@ a:hover { text-decoration: underline; }
                   <td><strong>Solicitações</strong></td>
                   <td>Escalar VP Marketing</td>
                   <td><span class="type-badge badge-agent">Agent</span></td>
-                  <td><span class="scope-badge scope-time">Time Growth</span> <span class="diverge-badge diverge-badge-warning" title="Regra diferente do CC Marketing">&#9888;&#65039; Diverge do CC<span class="diverge-tooltip">Time Growth tem regra diferente do CC Marketing (R$5k auto-aprovar)</span></span></td>
-                  <td>Valor &ge; R$ 3.000</td>
-                  <td>Escalar VP</td>
+                  <td><span class="scope-badge scope-time scope-badge-clickable" onclick="event.stopPropagation();showScopePopover(event,'time','Growth')">Time Growth</span> <span class="diverge-badge diverge-badge-warning" title="Regra diferente do CC Marketing">&#9888;&#65039; Diverge do CC<span class="diverge-tooltip">Time Growth tem regra diferente do CC Marketing (R$5k auto-aprovar)</span></span></td>
+                  <td class="cell-editable" ondblclick="event.stopPropagation();enableInlineEdit(this,'value','Valor ≥ R$ 3.000')">Valor &ge; R$ 3.000</td>
+                  <td class="cell-editable" ondblclick="event.stopPropagation();enableInlineEdit(this,'action','Escalar VP')">Escalar VP</td>
                   <td><span class="status-badge status-active">Ativo</span></td>
                   <td><span class="audit-meta-ref">EXC-2026-03-0026</span></td>
                 </tr>
@@ -3077,9 +3181,9 @@ a:hover { text-decoration: underline; }
                   <td><strong>Solicitações</strong></td>
                   <td>Escalar VP Marketing</td>
                   <td><span class="type-badge badge-agent">Agent</span></td>
-                  <td><span class="scope-badge scope-time">Time Performance</span> <span class="diverge-badge diverge-badge-warning" title="Regra diferente do CC Marketing">&#9888;&#65039; Diverge do CC<span class="diverge-tooltip">Time Performance tem regra diferente do CC Marketing (R$5k auto-aprovar)</span></span></td>
-                  <td>Valor &ge; R$ 3.000</td>
-                  <td>Escalar VP</td>
+                  <td><span class="scope-badge scope-time scope-badge-clickable" onclick="event.stopPropagation();showScopePopover(event,'time','Performance')">Time Performance</span> <span class="diverge-badge diverge-badge-warning" title="Regra diferente do CC Marketing">&#9888;&#65039; Diverge do CC<span class="diverge-tooltip">Time Performance tem regra diferente do CC Marketing (R$5k auto-aprovar)</span></span></td>
+                  <td class="cell-editable" ondblclick="event.stopPropagation();enableInlineEdit(this,'value','Valor ≥ R$ 3.000')">Valor &ge; R$ 3.000</td>
+                  <td class="cell-editable" ondblclick="event.stopPropagation();enableInlineEdit(this,'action','Escalar VP')">Escalar VP</td>
                   <td><span class="status-badge status-active">Ativo</span></td>
                   <td><span class="audit-meta-ref">EXC-2026-03-0027</span></td>
                 </tr>
@@ -3087,9 +3191,9 @@ a:hover { text-decoration: underline; }
                   <td><strong>Despesas Cartão</strong></td>
                   <td>Comprovante &ge; R$ 100</td>
                   <td><span class="type-badge badge-agent">Agent</span></td>
-                  <td><span class="scope-badge scope-cc">CC Vendas</span></td>
-                  <td>Valor &gt; R$ 100</td>
-                  <td>Exigir comprovante</td>
+                  <td><span class="scope-badge scope-cc scope-badge-clickable" onclick="event.stopPropagation();showScopePopover(event,'cc','Vendas')">CC Vendas</span></td>
+                  <td class="cell-editable" ondblclick="event.stopPropagation();enableInlineEdit(this,'value','Valor > R$ 100')">Valor &gt; R$ 100</td>
+                  <td class="cell-editable" ondblclick="event.stopPropagation();enableInlineEdit(this,'action','Exigir comprovante')">Exigir comprovante</td>
                   <td><span class="status-badge status-active">Ativo</span></td>
                   <td><span class="audit-meta-ref">EXC-2026-03-0028</span></td>
                 </tr>
@@ -3097,9 +3201,9 @@ a:hover { text-decoration: underline; }
                   <td><strong>Solicitações</strong></td>
                   <td>Auto-aprovação R$ 8.000</td>
                   <td><span class="type-badge badge-agent">Agent</span></td>
-                  <td><span class="scope-badge scope-time">Time Enterprise</span> <span class="diverge-badge diverge-badge-warning">&#9888;&#65039; Diverge do CC<span class="diverge-tooltip">Time Enterprise diverge do CC Vendas</span></span></td>
-                  <td>Valor &le; R$ 8.000</td>
-                  <td>Auto-aprovar</td>
+                  <td><span class="scope-badge scope-time scope-badge-clickable" onclick="event.stopPropagation();showScopePopover(event,'time','Enterprise')">Time Enterprise</span> <span class="diverge-badge diverge-badge-warning">&#9888;&#65039; Diverge do CC<span class="diverge-tooltip">Time Enterprise diverge do CC Vendas</span></span></td>
+                  <td class="cell-editable" ondblclick="event.stopPropagation();enableInlineEdit(this,'value','Valor ≤ R$ 8.000')">Valor &le; R$ 8.000</td>
+                  <td class="cell-editable" ondblclick="event.stopPropagation();enableInlineEdit(this,'action','Auto-aprovar')">Auto-aprovar</td>
                   <td><span class="status-badge status-active">Ativo</span></td>
                   <td><span class="audit-meta-ref">EXC-2026-03-0029</span></td>
                 </tr>
@@ -3107,9 +3211,9 @@ a:hover { text-decoration: underline; }
                   <td><strong>Solicitações</strong></td>
                   <td>Auto-aprovação R$ 3.000</td>
                   <td><span class="type-badge badge-agent">Agent</span></td>
-                  <td><span class="scope-badge scope-time">Time Inside Sales</span> <span class="diverge-badge diverge-badge-follows">Segue CC<span class="diverge-tooltip">Time Inside Sales segue a regra do CC Vendas</span></span></td>
-                  <td>Valor &le; R$ 3.000</td>
-                  <td>Auto-aprovar</td>
+                  <td><span class="scope-badge scope-time scope-badge-clickable" onclick="event.stopPropagation();showScopePopover(event,'time','Inside Sales')">Time Inside Sales</span> <span class="diverge-badge diverge-badge-follows">Segue CC<span class="diverge-tooltip">Time Inside Sales segue a regra do CC Vendas</span></span></td>
+                  <td class="cell-editable" ondblclick="event.stopPropagation();enableInlineEdit(this,'value','Valor ≤ R$ 3.000')">Valor &le; R$ 3.000</td>
+                  <td class="cell-editable" ondblclick="event.stopPropagation();enableInlineEdit(this,'action','Auto-aprovar')">Auto-aprovar</td>
                   <td><span class="status-badge status-active">Ativo</span></td>
                   <td><span class="audit-meta-ref">EXC-2026-03-0030</span></td>
                 </tr>
@@ -3117,9 +3221,9 @@ a:hover { text-decoration: underline; }
                   <td><strong>Solicitações</strong></td>
                   <td>SaaS auto-aprovado R$ 5.000</td>
                   <td><span class="type-badge badge-agent">Agent</span></td>
-                  <td><span class="scope-badge scope-cc">CC Engenharia</span></td>
-                  <td>Categoria = SaaS &amp; Valor &le; R$ 5.000</td>
-                  <td>Auto-aprovar</td>
+                  <td><span class="scope-badge scope-cc scope-badge-clickable" onclick="event.stopPropagation();showScopePopover(event,'cc','Engenharia')">CC Engenharia</span></td>
+                  <td class="cell-editable" ondblclick="event.stopPropagation();enableInlineEdit(this,'value','Categoria = SaaS & Valor ≤ R$ 5.000')">Categoria = SaaS &amp; Valor &le; R$ 5.000</td>
+                  <td class="cell-editable" ondblclick="event.stopPropagation();enableInlineEdit(this,'action','Auto-aprovar')">Auto-aprovar</td>
                   <td><span class="status-badge status-active">Ativo</span></td>
                   <td><span class="audit-meta-ref">EXC-2026-03-0031</span></td>
                 </tr>
@@ -3127,9 +3231,9 @@ a:hover { text-decoration: underline; }
                   <td><strong>Solicitações</strong></td>
                   <td>Ferramentas auto-aprovadas R$ 8.000</td>
                   <td><span class="type-badge badge-agent">Agent</span></td>
-                  <td><span class="scope-badge scope-time">Time DevOps</span> <span class="diverge-badge diverge-badge-warning">&#9888;&#65039; Diverge do CC<span class="diverge-tooltip">Time DevOps diverge do CC Engenharia (SaaS R$5k)</span></span></td>
-                  <td>Categoria = Ferramentas &amp; Valor &le; R$ 8.000</td>
-                  <td>Auto-aprovar</td>
+                  <td><span class="scope-badge scope-time scope-badge-clickable" onclick="event.stopPropagation();showScopePopover(event,'time','DevOps')">Time DevOps</span> <span class="diverge-badge diverge-badge-warning">&#9888;&#65039; Diverge do CC<span class="diverge-tooltip">Time DevOps diverge do CC Engenharia (SaaS R$5k)</span></span></td>
+                  <td class="cell-editable" ondblclick="event.stopPropagation();enableInlineEdit(this,'value','Categoria = Ferramentas & Valor ≤ R$ 8.000')">Categoria = Ferramentas &amp; Valor &le; R$ 8.000</td>
+                  <td class="cell-editable" ondblclick="event.stopPropagation();enableInlineEdit(this,'action','Auto-aprovar')">Auto-aprovar</td>
                   <td><span class="status-badge status-active">Ativo</span></td>
                   <td><span class="audit-meta-ref">EXC-2026-03-0032</span></td>
                 </tr>
@@ -3137,9 +3241,9 @@ a:hover { text-decoration: underline; }
                   <td><strong>Solicitações</strong></td>
                   <td>Auto-aprovação R$ 10.000</td>
                   <td><span class="type-badge badge-agent">Agent</span></td>
-                  <td><span class="scope-badge scope-cc">CC Internacional</span></td>
-                  <td>Valor &le; R$ 10.000</td>
-                  <td>Auto-aprovar</td>
+                  <td><span class="scope-badge scope-cc scope-badge-clickable" onclick="event.stopPropagation();showScopePopover(event,'cc','Internacional')">CC Internacional</span></td>
+                  <td class="cell-editable" ondblclick="event.stopPropagation();enableInlineEdit(this,'value','Valor ≤ R$ 10.000')">Valor &le; R$ 10.000</td>
+                  <td class="cell-editable" ondblclick="event.stopPropagation();enableInlineEdit(this,'action','Auto-aprovar')">Auto-aprovar</td>
                   <td><span class="status-badge status-active">Ativo</span></td>
                   <td><span class="audit-meta-ref">EXC-2026-03-0012</span></td>
                 </tr>
@@ -3147,9 +3251,9 @@ a:hover { text-decoration: underline; }
                   <td><strong>Viagens</strong></td>
                   <td>Hospedagem até R$ 2.000/noite</td>
                   <td><span class="type-badge badge-agent">Agent</span></td>
-                  <td><span class="scope-badge scope-cc">CC Internacional</span></td>
-                  <td>Valor hospedagem &le; R$ 2.000</td>
-                  <td>Auto-aprovar</td>
+                  <td><span class="scope-badge scope-cc scope-badge-clickable" onclick="event.stopPropagation();showScopePopover(event,'cc','Internacional')">CC Internacional</span></td>
+                  <td class="cell-editable" ondblclick="event.stopPropagation();enableInlineEdit(this,'value','Valor hospedagem ≤ R$ 2.000')">Valor hospedagem &le; R$ 2.000</td>
+                  <td class="cell-editable" ondblclick="event.stopPropagation();enableInlineEdit(this,'action','Auto-aprovar')">Auto-aprovar</td>
                   <td><span class="status-badge status-active">Ativo</span></td>
                   <td><span class="audit-meta-ref">EXC-2026-03-0033</span></td>
                 </tr>
@@ -3191,10 +3295,32 @@ a:hover { text-decoration: underline; }
           </div>
         </div>
 
-        <!-- Simulation panel -->
+        <!-- V9 M2: MATRIX VIEW -->
+        <div id="matrixView" style="display:none;">
+          <div class="matrix-container" id="matrixContainer"></div>
+        </div>
+
+        <!-- Simulation panel (V9 M6: Enhanced with CC/Time context) -->
         <div class="simulation-panel" id="simulationPanel" style="display:none;">
           <div class="simulation-title">Testar Política</div>
-          <div class="simulation-form">
+          <div class="simulation-form" style="grid-template-columns: 1fr 1fr 1fr 1fr;">
+            <div class="form-group">
+              <label class="form-label" for="simCC">Centro de Custo</label>
+              <select class="form-input" id="simCC" onchange="updateSimTeams()">
+                <option value="">Geral (Empresa)</option>
+                <option value="Marketing">Marketing</option>
+                <option value="Vendas">Vendas</option>
+                <option value="Engenharia">Engenharia</option>
+                <option value="Internacional">Internacional</option>
+                <option value="Financeiro">Financeiro</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="simTeam">Time</label>
+              <select class="form-input" id="simTeam">
+                <option value="">Nenhum (usa regra do CC)</option>
+              </select>
+            </div>
             <div class="form-group">
               <label class="form-label" for="simCategoria">Categoria</label>
               <select class="form-input" id="simCategoria">
@@ -3202,20 +3328,13 @@ a:hover { text-decoration: underline; }
                 <option>Transporte</option>
                 <option>Hospedagem</option>
                 <option>Material de escritório</option>
+                <option>SaaS</option>
+                <option>Ferramentas</option>
               </select>
             </div>
             <div class="form-group">
               <label class="form-label" for="simValor">Valor (R$)</label>
               <input type="text" class="form-input" id="simValor" placeholder="1.500,00">
-            </div>
-            <div class="form-group">
-              <label class="form-label" for="simTime">Time</label>
-              <select class="form-input" id="simTime">
-                <option>Engenharia</option>
-                <option>Marketing Digital</option>
-                <option>Comercial</option>
-                <option>Diretoria</option>
-              </select>
             </div>
             <div class="form-group">
               <label class="form-label" for="simTipo">Tipo</label>
@@ -3226,14 +3345,20 @@ a:hover { text-decoration: underline; }
               </select>
             </div>
           </div>
-          <button class="btn btn-primary btn-sm" onclick="runSimulation()">Simular</button>
+          <div class="sim-hierarchy-path" id="simHierarchyPath">
+            <span class="sim-path-segment">Geral</span>
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="runSimulationV9()">Simular</button>
           <div class="simulation-result" id="simulationResult">
             <div class="simulation-result-title">Resultado da simulação</div>
-            <div style="display:flex;align-items:center;gap:var(--spacing-sm);margin-bottom:var(--spacing-sm);">
-              <span class="status-badge status-active" style="font-size:14px;">✓ Aprovação recomendada (95%)</span>
+            <div id="simResultContent">
+              <div style="display:flex;align-items:center;gap:var(--spacing-sm);margin-bottom:var(--spacing-sm);">
+                <span class="status-badge status-active" style="font-size:14px;">&#10003; Aprovação recomendada (95%)</span>
+              </div>
+              <p style="font-size:13px;color:var(--gray-600);margin-bottom:var(--spacing-sm);">Regra aplicada: <strong>Auto-aprovação &le; R$ 2.000</strong></p>
+              <p style="font-size:13px;color:var(--gray-600);">Flags ativadas: <strong>Nenhuma</strong></p>
             </div>
-            <p style="font-size:13px;color:var(--gray-600);margin-bottom:var(--spacing-sm);">Regra aplicada: <strong>Auto-aprovação ≤ R$ 2.000</strong></p>
-            <p style="font-size:13px;color:var(--gray-600);">Flags ativadas: <strong>Nenhuma</strong></p>
+            <div class="resolution-chain" id="resolutionChain"></div>
           </div>
         </div>
 
@@ -3331,13 +3456,29 @@ a:hover { text-decoration: underline; }
            ============================================ -->
       <div class="tab-panel" id="tabCompliance" role="tabpanel" aria-labelledby="tabBtnCompliance">
   <div class="sub-tabs">
-    <button class="sub-tab active" onclick="switchSubTab('compliance',this,'compDashboard')">Dashboard</button>
+    <button class="sub-tab active" onclick="switchSubTab('compliance',this,'compConflitos')">Conflitos <span style="font-size:11px;background:var(--primary-orange-light);color:var(--primary-orange);padding:1px 6px;border-radius:10px;font-weight:700;">12</span></button>
+    <button class="sub-tab" onclick="switchSubTab('compliance',this,'compDashboard')">Dashboard</button>
     <button class="sub-tab" onclick="switchSubTab('compliance',this,'compRegras')">Regras</button>
     <button class="sub-tab" onclick="switchSubTab('compliance',this,'compViolacoes')">Violações</button>
   </div>
 
+  <!-- SUB: Conflitos (V9 M5) -->
+  <div class="sub-panel active" id="compConflitos">
+    <div class="conflict-metrics">
+      <div class="conflict-metric"><div class="conflict-metric-value" style="color:#E55A20;">12</div><div class="conflict-metric-label">Conflitos ativos</div></div>
+      <div class="conflict-metric"><div class="conflict-metric-value" style="color:var(--success-green);">8</div><div class="conflict-metric-label">Resolvidos este mês</div></div>
+      <div class="conflict-metric"><div class="conflict-metric-value" style="color:var(--warning-yellow);">4</div><div class="conflict-metric-label">Novos esta semana</div></div>
+    </div>
+    <div class="conflict-filter-tabs">
+      <button class="conflict-filter-tab active" onclick="filterConflicts(this,'all')">Todos (12)</button>
+      <button class="conflict-filter-tab" onclick="filterConflicts(this,'diverge')">Divergências (8)</button>
+      <button class="conflict-filter-tab" onclick="filterConflicts(this,'overlap')">Sobreposições (4)</button>
+    </div>
+    <div id="conflictsList"></div>
+  </div>
+
   <!-- SUB: Dashboard -->
-  <div class="sub-panel active" id="compDashboard">
+  <div class="sub-panel" id="compDashboard">
     <div class="dashboard-layout">
       <div>
         <div class="metric-grid">
@@ -3985,11 +4126,38 @@ a:hover { text-decoration: underline; }
         <div class="impact-detail-list">
           CC Vendas (Enterprise, Inside Sales, Governo) · CC Internacional (LATAM, Europa, EUA, EUA Enterprise, LATAM Comercial) · CC Diretoria (Time Diretoria) · CC Engenharia (DevOps, Engenharia IA) · CC Marketing (Growth, Performance)
         </div>
+        <!-- V9 M3: Propagate CC to Teams -->
+        <div class="propagate-section">
+          <label class="propagate-checkbox">
+            <input type="checkbox" id="propagateCheckbox" onchange="togglePropagateMode()">
+            <span>Sobrescrever exceções destes times?</span>
+          </label>
+          <div class="propagate-warning" id="propagateWarning" style="display:none;">Esta ação substituirá as regras customizadas de 18 times/CCs pela regra geral.</div>
+        </div>
       </div>
     </div>
     <div class="impact-modal-footer">
       <button class="btn btn-secondary" onclick="closeImpactModal()">Cancelar</button>
-      <button class="btn btn-primary" onclick="closeImpactModal();showToast('Alteração salva com sucesso!','success')">Confirmar e salvar</button>
+      <button class="btn btn-primary" id="impactConfirmBtn" onclick="handleImpactConfirm()">Confirmar e salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- V9 M3: Propagate Confirmation Modal -->
+<div class="propagate-confirm-overlay" id="propagateConfirmModal" onclick="if(event.target===this)closePropagateModal()">
+  <div class="propagate-confirm-modal" onclick="event.stopPropagation()">
+    <div class="propagate-confirm-header">
+      <div class="propagate-confirm-title">&#9888;&#65039; Confirmar propagação destrutiva</div>
+    </div>
+    <div class="propagate-confirm-body">
+      <div class="delete-warning" style="background:var(--danger-red-light);border-left:4px solid var(--danger-red);padding:var(--spacing-md);border-radius:var(--radius-md);margin-bottom:var(--spacing-md);font-size:13px;color:#991B1B;">
+        Esta ação é irreversível. As exceções de <strong>18 times/CCs</strong> serão removidas e substituídas pela regra geral.
+      </div>
+      <p style="font-size:13px;color:var(--gray-600);">Times afetados: Enterprise, Inside Sales, Growth, Performance, DevOps, Diretoria, LATAM, Europa, EUA e mais 9 times.</p>
+    </div>
+    <div class="propagate-confirm-footer">
+      <button class="btn btn-secondary" onclick="closePropagateModal()">Cancelar</button>
+      <button class="btn btn-danger" onclick="closePropagateModal();closeImpactModal();showToast('Regra propagada para 18 times. Exceções removidas.','success')">Confirmar e propagar para 18 times</button>
     </div>
   </div>
 </div>
@@ -4032,16 +4200,22 @@ function switchView(view) {
     btn.classList.remove('active');
     btn.setAttribute('aria-checked', 'false');
   });
+  document.getElementById('cardsView').style.display = 'none';
+  document.getElementById('tableView').style.display = 'none';
+  document.getElementById('matrixView').style.display = 'none';
   if (view === 'cards') {
     document.getElementById('cardsView').style.display = '';
-    document.getElementById('tableView').style.display = 'none';
     document.querySelectorAll('.view-toggle-btn')[0].classList.add('active');
     document.querySelectorAll('.view-toggle-btn')[0].setAttribute('aria-checked', 'true');
-  } else {
-    document.getElementById('cardsView').style.display = 'none';
+  } else if (view === 'table') {
     document.getElementById('tableView').style.display = '';
     document.querySelectorAll('.view-toggle-btn')[1].classList.add('active');
     document.querySelectorAll('.view-toggle-btn')[1].setAttribute('aria-checked', 'true');
+  } else if (view === 'matrix') {
+    document.getElementById('matrixView').style.display = '';
+    document.querySelectorAll('.view-toggle-btn')[2].classList.add('active');
+    document.querySelectorAll('.view-toggle-btn')[2].setAttribute('aria-checked', 'true');
+    renderMatrix();
   }
 }
 
@@ -4075,10 +4249,10 @@ function setAgentMode(mode) {
   items.forEach(i => i.classList.remove('active'));
 
   const modes = {
-    off: { label: 'Policy Agent desativado', bg: 'var(--gray-100)', border: 'var(--gray-300)', dotColor: 'var(--gray-400)', idx: 0 },
-    test: { label: 'Policy Agent em teste', bg: 'var(--warning-yellow-light)', border: '#FDE68A', dotColor: 'var(--warning-yellow)', idx: 1 },
-    recommend: { label: 'Policy Agent ativo', bg: 'var(--info-blue-light)', border: '#BFDBFE', dotColor: 'var(--success-green)', idx: 2 },
-    auto: { label: 'Policy Agent — Aprovação automática', bg: 'var(--success-green-light)', border: '#BBF7D0', dotColor: 'var(--success-green)', idx: 3 }
+    off: { label: 'Policy Agent desativado', bg: 'var(--gray-50)', border: 'var(--gray-200)', dotColor: 'var(--gray-400)', idx: 0 },
+    test: { label: 'Policy Agent em teste', bg: 'var(--gray-50)', border: 'var(--gray-200)', dotColor: 'var(--warning-yellow)', idx: 1 },
+    recommend: { label: 'Policy Agent ativo', bg: 'var(--white)', border: 'var(--gray-200)', dotColor: 'var(--success-green)', idx: 2 },
+    auto: { label: 'Policy Agent — Aprovação automática', bg: 'var(--white)', border: 'var(--gray-200)', dotColor: 'var(--success-green)', idx: 3 }
   };
 
   const m = modes[mode];
@@ -4886,6 +5060,424 @@ function closeImpactModal() {
 
 // Also add "Salvar alterações" button to slideover that triggers impact modal
 // Hook into existing save workflow on the general slideover
+
+// ========================================================================
+// V9 M1: Scope Popover
+// ========================================================================
+var scopePopoverData = {
+  cc: {
+    'Marketing': { teams: 6, budget: 'R$ 450k/mês', rules: 4, exceptions: 2, head: 'Ana Pereira' },
+    'Vendas': { teams: 6, budget: 'R$ 380k/mês', rules: 3, exceptions: 3, head: 'Ricardo Lopes' },
+    'Engenharia': { teams: 6, budget: 'R$ 620k/mês', rules: 5, exceptions: 2, head: 'Matheus R.' },
+    'Internacional': { teams: 5, budget: 'R$ 1.2M/mês', rules: 3, exceptions: 4, head: 'Carlos M.' },
+    'Financeiro': { teams: 4, budget: 'R$ 180k/mês', rules: 2, exceptions: 0, head: 'André A.' }
+  },
+  time: {
+    'Growth': { cc: 'Marketing', members: 12, budget: 'R$ 85k/mês', rules: 2, head: 'João Mendes' },
+    'Performance': { cc: 'Marketing', members: 8, budget: 'R$ 65k/mês', rules: 2, head: 'Sandra F.' },
+    'Enterprise': { cc: 'Vendas', members: 15, budget: 'R$ 120k/mês', rules: 3, head: 'Thiago B.' },
+    'Inside Sales': { cc: 'Vendas', members: 20, budget: 'R$ 90k/mês', rules: 1, head: 'Camila V.' },
+    'DevOps': { cc: 'Engenharia', members: 6, budget: 'R$ 95k/mês', rules: 2, head: 'Gabriel S.' },
+    'Diretoria': { cc: 'Executivo', members: 5, budget: 'R$ 200k/mês', rules: 3, head: 'André C.' }
+  }
+};
+
+function showScopePopover(event, type, name) {
+  closeScopePopover();
+  var data = scopePopoverData[type] && scopePopoverData[type][name];
+  if (!data) return;
+
+  var popover = document.createElement('div');
+  popover.className = 'scope-popover';
+  popover.id = 'activeScopePopover';
+
+  var html = '<div class="scope-popover-title">' + (type === 'cc' ? 'CC ' : 'Time ') + name + '</div>';
+  if (type === 'cc') {
+    html += '<div class="scope-popover-row"><span class="scope-popover-label">Times</span><span class="scope-popover-value">' + data.teams + '</span></div>';
+    html += '<div class="scope-popover-row"><span class="scope-popover-label">Budget mensal</span><span class="scope-popover-value">' + data.budget + '</span></div>';
+    html += '<div class="scope-popover-row"><span class="scope-popover-label">Regras ativas</span><span class="scope-popover-value">' + data.rules + '</span></div>';
+    html += '<div class="scope-popover-row"><span class="scope-popover-label">Exceções</span><span class="scope-popover-value">' + data.exceptions + '</span></div>';
+    html += '<div class="scope-popover-row"><span class="scope-popover-label">Responsável</span><span class="scope-popover-value">' + data.head + '</span></div>';
+    html += '<a class="scope-popover-link" href="centros-custo.html">Ver Centro de Custo →</a>';
+  } else {
+    html += '<div class="scope-popover-row"><span class="scope-popover-label">CC</span><span class="scope-popover-value">' + data.cc + '</span></div>';
+    html += '<div class="scope-popover-row"><span class="scope-popover-label">Membros</span><span class="scope-popover-value">' + data.members + '</span></div>';
+    html += '<div class="scope-popover-row"><span class="scope-popover-label">Budget mensal</span><span class="scope-popover-value">' + data.budget + '</span></div>';
+    html += '<div class="scope-popover-row"><span class="scope-popover-label">Regras específicas</span><span class="scope-popover-value">' + data.rules + '</span></div>';
+    html += '<div class="scope-popover-row"><span class="scope-popover-label">Líder</span><span class="scope-popover-value">' + data.head + '</span></div>';
+    html += '<a class="scope-popover-link" href="times.html">Ver Time →</a>';
+  }
+
+  popover.innerHTML = html;
+  document.body.appendChild(popover);
+
+  var rect = event.target.getBoundingClientRect();
+  popover.style.top = (rect.bottom + window.scrollY + 8) + 'px';
+  popover.style.left = Math.max(8, Math.min(rect.left + window.scrollX, window.innerWidth - 340)) + 'px';
+}
+
+function closeScopePopover() {
+  var existing = document.getElementById('activeScopePopover');
+  if (existing) existing.remove();
+}
+
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.scope-popover') && !e.target.closest('.scope-badge-clickable')) {
+    closeScopePopover();
+  }
+});
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeScopePopover();
+});
+
+// ========================================================================
+// V9 M2: Exception Matrix View
+// ========================================================================
+var matrixData = {
+  flows: ['Solicitações', 'Despesas Cartão', 'Reembolsos', 'Viagens'],
+  ccs: ['Marketing', 'Vendas', 'Engenharia', 'Financeiro', 'Produto', 'RH', 'Operações', 'Diretoria'],
+  exceptions: {
+    'Solicitações|Marketing': { rule: 'Auto-aprovar ≤ R$ 5k', diverge: '2/4 times divergem' },
+    'Solicitações|Vendas': null,
+    'Solicitações|Engenharia': { rule: 'SaaS auto R$ 5k', diverge: '1/5 times diverge' },
+    'Solicitações|Financeiro': { rule: 'Aprovação CFO > R$ 1k', diverge: null },
+    'Despesas Cartão|Vendas': { rule: 'Comprovante ≥ R$ 100', diverge: null },
+    'Despesas Cartão|Engenharia': { rule: 'SaaS sem comprovante', diverge: '1/5 times diverge' },
+    'Reembolsos|Marketing': { rule: 'Limite R$ 5k/mês', diverge: null },
+    'Reembolsos|Financeiro': { rule: 'Sem limite mensal', diverge: null },
+    'Viagens|Vendas': { rule: 'Executiva voos > 4h', diverge: null },
+    'Viagens|Internacional': null // will be shown as special
+  }
+};
+
+function renderMatrix() {
+  var container = document.getElementById('matrixContainer');
+  var html = '<table class="matrix-table"><thead><tr><th>Fluxo / CC</th>';
+  matrixData.ccs.forEach(function(cc) {
+    html += '<th class="matrix-cc-header" onclick="showScopePopover(event,\'cc\',\'' + cc + '\')">' + cc + '</th>';
+  });
+  html += '</tr></thead><tbody>';
+
+  matrixData.flows.forEach(function(flow) {
+    html += '<tr><td>' + flow + '</td>';
+    matrixData.ccs.forEach(function(cc) {
+      var key = flow + '|' + cc;
+      var exc = matrixData.exceptions[key];
+      if (exc) {
+        html += '<td class="matrix-cell-exception" onclick="showToast(\'Exceção: ' + cc + ' — ' + flow + '\',\'info\')">';
+        html += '<span class="matrix-cell-dot"></span>' + exc.rule;
+        if (exc.diverge) {
+          html += '<div class="matrix-diverge">⚠ ' + exc.diverge + '</div>';
+        }
+        html += '</td>';
+      } else {
+        html += '<td class="matrix-cell-general">— Geral</td>';
+      }
+    });
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  container.innerHTML = html;
+}
+
+// ========================================================================
+// V9 M3: Propagate CC to Teams
+// ========================================================================
+function togglePropagateMode() {
+  var checkbox = document.getElementById('propagateCheckbox');
+  var warning = document.getElementById('propagateWarning');
+  var btn = document.getElementById('impactConfirmBtn');
+  if (checkbox.checked) {
+    warning.style.display = 'block';
+    btn.textContent = 'Confirmar e propagar para 18 times';
+    btn.style.background = 'var(--warning-yellow)';
+  } else {
+    warning.style.display = 'none';
+    btn.textContent = 'Confirmar e salvar';
+    btn.style.background = '';
+  }
+}
+
+function handleImpactConfirm() {
+  var checkbox = document.getElementById('propagateCheckbox');
+  if (checkbox && checkbox.checked) {
+    document.getElementById('propagateConfirmModal').classList.add('active');
+  } else {
+    closeImpactModal();
+    showToast('Alteração salva com sucesso!', 'success');
+  }
+}
+
+function closePropagateModal() {
+  document.getElementById('propagateConfirmModal').classList.remove('active');
+}
+
+// ========================================================================
+// V9 M4: Inline Editing in Table View
+// ========================================================================
+function enableInlineEdit(cell, type, currentValue) {
+  if (cell.classList.contains('cell-editing')) return;
+  var originalHTML = cell.innerHTML;
+  cell.classList.add('cell-editing');
+  cell.classList.remove('cell-editable');
+
+  if (type === 'action') {
+    var options = ['Auto-aprovar', 'Escalar gestor', 'Escalar VP', 'Escalar CFO', 'Bloquear', 'Alertar gestor', 'Exigir comprovante', 'Exigir NF-e', 'Categorizar', 'Preencher campos'];
+    var html = '<select>';
+    options.forEach(function(opt) {
+      html += '<option' + (opt === currentValue ? ' selected' : '') + '>' + opt + '</option>';
+    });
+    html += '</select>';
+    html += '<div class="inline-actions"><button class="inline-action-btn" onclick="confirmInlineEdit(this.closest(\'td\'))">&#10003;</button><button class="inline-action-btn" onclick="cancelInlineEdit(this.closest(\'td\'),\'' + encodeURIComponent(originalHTML) + '\')">&#10007;</button></div>';
+    cell.innerHTML = html;
+    cell.querySelector('select').focus();
+  } else {
+    var html = '<input type="text" value="' + currentValue.replace(/"/g, '&quot;') + '">';
+    html += '<div class="inline-actions"><button class="inline-action-btn" onclick="confirmInlineEdit(this.closest(\'td\'))">&#10003;</button><button class="inline-action-btn" onclick="cancelInlineEdit(this.closest(\'td\'),\'' + encodeURIComponent(originalHTML) + '\')">&#10007;</button></div>';
+    cell.innerHTML = html;
+    var input = cell.querySelector('input');
+    input.focus();
+    input.select();
+  }
+
+  // Enter to confirm, Esc to cancel
+  cell.addEventListener('keydown', function handler(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      confirmInlineEdit(cell);
+      cell.removeEventListener('keydown', handler);
+    } else if (e.key === 'Escape') {
+      cancelInlineEdit(cell, encodeURIComponent(originalHTML));
+      cell.removeEventListener('keydown', handler);
+    }
+  });
+}
+
+function confirmInlineEdit(cell) {
+  var input = cell.querySelector('input') || cell.querySelector('select');
+  var newValue = input ? input.value : '';
+  cell.classList.remove('cell-editing');
+  cell.classList.add('cell-editable');
+  cell.classList.add('cell-saved');
+  cell.innerHTML = newValue;
+  setTimeout(function() { cell.classList.remove('cell-saved'); }, 1000);
+  showToast('Valor atualizado: ' + newValue, 'success');
+}
+
+function cancelInlineEdit(cell, encodedOriginal) {
+  cell.classList.remove('cell-editing');
+  cell.classList.add('cell-editable');
+  cell.innerHTML = decodeURIComponent(encodedOriginal);
+}
+
+// ========================================================================
+// V9 M5: Conflicts Dashboard
+// ========================================================================
+var conflictsData = [
+  { id: 1, type: 'diverge', title: 'Time Growth diverge do CC Marketing em Solicitações', leftLabel: 'CC Marketing', leftValue: 'Auto-aprovar ≤ R$ 5.000', rightLabel: 'Time Growth', rightValue: 'Escalar VP ≥ R$ 3.000', diff: 'Time Growth tem limite de escalação mais baixo que o CC. Solicitações entre R$ 3k e R$ 5k são tratadas diferentemente.' },
+  { id: 2, type: 'diverge', title: 'Time Performance diverge do CC Marketing em Solicitações', leftLabel: 'CC Marketing', leftValue: 'Auto-aprovar ≤ R$ 5.000', rightLabel: 'Time Performance', rightValue: 'Escalar VP ≥ R$ 3.000', diff: 'Mesma divergência do Time Growth. Considere alinhar regras dos times de Marketing.' },
+  { id: 3, type: 'diverge', title: 'Time Enterprise diverge do CC Vendas', leftLabel: 'CC Vendas', leftValue: 'Comprovante ≥ R$ 100', rightLabel: 'Time Enterprise', rightValue: 'Auto-aprovação R$ 8.000', diff: 'Enterprise tem auto-aprovação muito superior ao padrão do CC Vendas.' },
+  { id: 4, type: 'overlap', title: 'Sobreposição: NF-e obrigatória x Comprovante obrigatório', leftLabel: 'Flag Brasil: NF-e', leftValue: 'Valor > R$ 200 → Exigir NF-e', rightLabel: 'Agent: Comprovante', rightValue: 'Valor > R$ 50 → Exigir comprovante', diff: 'Ambas as regras exigem documentos para gastos > R$ 200. NF-e já inclui comprovante — possível duplicidade.' },
+  { id: 5, type: 'diverge', title: 'Time DevOps diverge do CC Engenharia', leftLabel: 'CC Engenharia', leftValue: 'SaaS auto-aprovado R$ 5.000', rightLabel: 'Time DevOps', rightValue: 'Ferramentas auto R$ 8.000', diff: 'DevOps tem limite 60% maior que o CC. Verificar se intencional.' },
+  { id: 6, type: 'overlap', title: 'Sobreposição: Recibo duplicado x Comprovante AI-generated', leftLabel: 'Flag: Recibo duplicado', leftValue: 'Duplicata → Bloquear', rightLabel: 'Flag: AI-generated', rightValue: 'IA detectada → Escalar', diff: 'Um recibo gerado por IA que é duplicado ativa ambas as flags. Qual prevalece?' },
+  { id: 7, type: 'diverge', title: 'CC Internacional com limites muito acima do geral', leftLabel: 'Geral (Empresa)', leftValue: 'Auto-aprovar ≤ R$ 2.000', rightLabel: 'CC Internacional', rightValue: 'Auto-aprovar ≤ R$ 10.000', diff: 'Limite 5x acima da regra geral. 45 colaboradores afetados.' },
+  { id: 8, type: 'diverge', title: 'Inside Sales segue CC mas com limite diferente', leftLabel: 'CC Vendas', leftValue: 'Sem regra específica', rightLabel: 'Time Inside Sales', rightValue: 'Auto-aprovação R$ 3.000', diff: 'Inside Sales tem exceção própria embora marcado como "Segue CC".' },
+  { id: 9, type: 'overlap', title: 'Sobreposição: Gasto fora de horário x Uber após 22h', leftLabel: 'Flag: Fora de horário', leftValue: 'Horário não-comercial → Alertar', rightLabel: 'Regra: Uber após 22h', rightValue: 'Uber/99 após 22h → Escalar', diff: 'Uber após 22h ativa ambas. Flag alerta, regra escala. Ações conflitantes.' },
+  { id: 10, type: 'diverge', title: 'Financeiro com aprovação CFO atípica', leftLabel: 'Geral', leftValue: 'Escalar gestor > R$ 2.000', rightLabel: 'CC Financeiro', rightValue: 'Aprovação CFO > R$ 1.000', diff: 'Financeiro exige CFO para valores menores que o geral exige gestor.' },
+  { id: 11, type: 'overlap', title: 'Sobreposição: Split de despesas x Valor divergente', leftLabel: 'Regra: Split despesas', leftValue: '2+ despesas > limite', rightLabel: 'Flag: Valor divergente', rightValue: '> 2x média → Escalar', diff: 'Splits que individualmente não ativam flag mas somados sim criam ambiguidade.' },
+  { id: 12, type: 'diverge', title: 'Diretoria: limite confidencial desatualizado', leftLabel: 'Geral', leftValue: 'Auto-aprovar ≤ R$ 2.000', rightLabel: 'Regra Confidencial', rightValue: 'Diretoria: auto R$ 10.000', diff: 'Regra confidencial não foi atualizada junto com aumento do limite geral.' }
+];
+
+var conflictFilter = 'all';
+
+function filterConflicts(btn, filter) {
+  conflictFilter = filter;
+  document.querySelectorAll('.conflict-filter-tab').forEach(function(t) { t.classList.remove('active'); });
+  btn.classList.add('active');
+  renderConflicts();
+}
+
+function renderConflicts() {
+  var filtered = conflictsData;
+  if (conflictFilter === 'diverge') filtered = conflictsData.filter(function(c) { return c.type === 'diverge'; });
+  if (conflictFilter === 'overlap') filtered = conflictsData.filter(function(c) { return c.type === 'overlap'; });
+
+  var html = filtered.map(function(c) {
+    var typeIcon = c.type === 'diverge' ? '&#9888;&#65039;' : '&#128260;';
+    var typeLabel = c.type === 'diverge' ? 'Divergência' : 'Sobreposição';
+    return '<div class="conflict-card" id="conflict-' + c.id + '">' +
+      '<div class="conflict-card-title">' + typeIcon + ' ' + c.title + '</div>' +
+      '<div class="conflict-comparison">' +
+        '<div class="conflict-side conflict-side-left">' +
+          '<div class="conflict-side-label">' + c.leftLabel + '</div>' +
+          '<div class="conflict-side-value">' + c.leftValue + '</div>' +
+        '</div>' +
+        '<div class="conflict-side conflict-side-right">' +
+          '<div class="conflict-side-label">' + c.rightLabel + '</div>' +
+          '<div class="conflict-side-value">' + c.rightValue + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="conflict-diff">' + c.diff + '</div>' +
+      '<div class="conflict-actions">' +
+        '<button class="btn btn-primary btn-sm" onclick="resolveConflict(' + c.id + ',\'align\')">Alinhar ao CC</button>' +
+        '<button class="btn btn-secondary btn-sm" onclick="resolveConflict(' + c.id + ',\'keep\')">Manter time</button>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  document.getElementById('conflictsList').innerHTML = html || '<div style="text-align:center;padding:var(--spacing-lg);color:var(--gray-500);">Nenhum conflito encontrado</div>';
+}
+
+function resolveConflict(id, action) {
+  var card = document.getElementById('conflict-' + id);
+  if (card) {
+    card.style.transition = 'opacity 0.3s, max-height 0.3s';
+    card.style.opacity = '0';
+    card.style.maxHeight = card.offsetHeight + 'px';
+    setTimeout(function() {
+      card.style.maxHeight = '0';
+      card.style.overflow = 'hidden';
+      card.style.padding = '0';
+      card.style.margin = '0';
+    }, 150);
+    setTimeout(function() { card.remove(); }, 500);
+  }
+  if (action === 'align') {
+    showToast('Conflito resolvido: time alinhado ao CC.', 'success');
+  } else {
+    showToast('Conflito mantido: regra do time preservada.', 'info');
+  }
+  conflictsData = conflictsData.filter(function(c) { return c.id !== id; });
+}
+
+// Initialize conflicts on load
+setTimeout(renderConflicts, 100);
+
+// ========================================================================
+// V9 M6: Simulator with Team Context
+// ========================================================================
+var simTeamsMap = {
+  'Marketing': ['Growth', 'Performance', 'Conteúdo', 'SEO', 'Branding', 'Eventos'],
+  'Vendas': ['Inside Sales', 'Field Sales', 'Enterprise', 'SDR'],
+  'Engenharia': ['Backend', 'Frontend', 'Mobile', 'QA', 'DevOps', 'Platform'],
+  'Internacional': ['LATAM', 'Europa', 'EUA'],
+  'Financeiro': ['Contas a Pagar', 'Tesouraria', 'FP&A']
+};
+
+function updateSimTeams() {
+  var cc = document.getElementById('simCC').value;
+  var teamSelect = document.getElementById('simTeam');
+  teamSelect.innerHTML = '<option value="">Nenhum (usa regra do CC)</option>';
+  if (cc && simTeamsMap[cc]) {
+    simTeamsMap[cc].forEach(function(t) {
+      teamSelect.innerHTML += '<option value="' + t + '">' + t + '</option>';
+    });
+  }
+  updateSimHierarchyPath();
+}
+
+function updateSimHierarchyPath() {
+  var cc = document.getElementById('simCC').value;
+  var team = document.getElementById('simTeam').value;
+  var pathEl = document.getElementById('simHierarchyPath');
+  var html = '<span class="sim-path-segment">Geral</span>';
+  if (cc) {
+    html += ' <span class="sim-path-arrow">→</span> <span class="sim-path-segment">CC ' + cc + '</span>';
+  }
+  if (team) {
+    html += ' <span class="sim-path-arrow">→</span> <span class="sim-path-segment">Time ' + team + '</span>';
+  }
+  pathEl.innerHTML = html;
+}
+
+// Hook team select change
+document.getElementById('simTeam').addEventListener('change', updateSimHierarchyPath);
+
+function runSimulationV9() {
+  var cc = document.getElementById('simCC').value;
+  var team = document.getElementById('simTeam').value;
+  var valor = document.getElementById('simValor').value || '1.500';
+  var valorNum = parseFloat(valor.replace(/\./g, '').replace(',', '.')) || 1500;
+  var categoria = document.getElementById('simCategoria').value;
+
+  var result = document.getElementById('simulationResult');
+  result.classList.add('show');
+
+  // Build resolution chain
+  var chainHtml = '<div class="resolution-chain-title">Cadeia de resolução</div>';
+
+  // Level 1: Geral
+  var geralRule = 'Valor ≤ R$ 2.000 → Auto-aprovar';
+  var geralResult = valorNum <= 2000 ? 'Auto-aprovar' : 'Escalar gestor';
+  var geralEffective = !cc;
+  chainHtml += '<div class="resolution-level ' + (cc ? 'level-overridden' : 'level-effective') + '">';
+  chainHtml += '<div class="resolution-level-header"><span class="resolution-level-name">Geral (Empresa)</span>';
+  if (!cc) chainHtml += '<span class="resolution-level-badge" style="background:#FFF7ED;color:#E55A20;">Regra efetiva</span>';
+  chainHtml += '</div>';
+  chainHtml += '<div class="resolution-level-rule">' + geralRule + ' → <strong>' + geralResult + '</strong></div>';
+  chainHtml += '</div>';
+
+  // Level 2: CC (if selected)
+  if (cc) {
+    chainHtml += '<div class="resolution-connector">↓ sobrescrito</div>';
+    var ccRules = {
+      'Marketing': { rule: 'Valor ≤ R$ 5.000 → Auto-aprovar', threshold: 5000 },
+      'Vendas': { rule: 'Comprovante ≥ R$ 100', threshold: 2000 },
+      'Engenharia': { rule: 'SaaS ≤ R$ 5.000 → Auto-aprovar', threshold: 5000 },
+      'Internacional': { rule: 'Valor ≤ R$ 10.000 → Auto-aprovar', threshold: 10000 },
+      'Financeiro': { rule: 'Aprovação CFO > R$ 1.000', threshold: 1000 }
+    };
+    var ccData = ccRules[cc] || { rule: 'Regra padrão CC', threshold: 2000 };
+    var ccResult = valorNum <= ccData.threshold ? 'Auto-aprovar' : 'Escalar';
+    var ccEffective = !team;
+    chainHtml += '<div class="resolution-level ' + (team ? 'level-overridden' : 'level-effective') + '">';
+    chainHtml += '<div class="resolution-level-header"><span class="resolution-level-name">CC ' + cc + '</span>';
+    if (!team) chainHtml += '<span class="resolution-level-badge" style="background:#FFF7ED;color:#E55A20;">Regra efetiva</span>';
+    chainHtml += '</div>';
+    chainHtml += '<div class="resolution-level-rule">' + ccData.rule + ' → <strong>' + ccResult + '</strong></div>';
+    chainHtml += '</div>';
+
+    // Level 3: Time (if selected)
+    if (team) {
+      chainHtml += '<div class="resolution-connector">↓ sobrescrito</div>';
+      var teamRules = {
+        'Growth': { rule: 'Valor ≥ R$ 3.000 → Escalar VP Marketing', threshold: 3000 },
+        'Performance': { rule: 'Valor ≥ R$ 3.000 → Escalar VP Marketing', threshold: 3000 },
+        'Enterprise': { rule: 'Valor ≤ R$ 8.000 → Auto-aprovar', threshold: 8000 },
+        'Inside Sales': { rule: 'Valor ≤ R$ 3.000 → Auto-aprovar', threshold: 3000 },
+        'DevOps': { rule: 'Ferramentas ≤ R$ 8.000 → Auto-aprovar', threshold: 8000 }
+      };
+      var teamData = teamRules[team] || { rule: 'Segue regra do CC', threshold: ccData.threshold };
+      var teamResult = valorNum <= teamData.threshold ? 'Auto-aprovar' : 'Escalar';
+      chainHtml += '<div class="resolution-level level-effective">';
+      chainHtml += '<div class="resolution-level-header"><span class="resolution-level-name">Time ' + team + ' (CC ' + cc + ')</span>';
+      chainHtml += '<span class="resolution-level-badge" style="background:#FFF7ED;color:#E55A20;">Regra efetiva</span>';
+      chainHtml += '</div>';
+      chainHtml += '<div class="resolution-level-rule">' + teamData.rule + ' → <strong>' + teamResult + '</strong></div>';
+      chainHtml += '</div>';
+      geralResult = teamResult;
+    } else {
+      geralResult = ccResult;
+    }
+  }
+
+  document.getElementById('resolutionChain').innerHTML = chainHtml;
+
+  // Update result content
+  var finalResult = geralResult;
+  var confidence = valorNum <= 2000 ? 95 : (valorNum <= 5000 ? 87 : 72);
+  var statusClass = finalResult === 'Auto-aprovar' ? 'status-active' : 'status-error';
+  var statusIcon = finalResult === 'Auto-aprovar' ? '&#10003;' : '&#9888;&#65039;';
+  var statusText = finalResult === 'Auto-aprovar' ? 'Aprovação recomendada (' + confidence + '%)' : 'Escalação necessária (' + confidence + '%)';
+
+  var contentHtml = '<div style="display:flex;align-items:center;gap:var(--spacing-sm);margin-bottom:var(--spacing-sm);">';
+  contentHtml += '<span class="status-badge ' + statusClass + '" style="font-size:14px;">' + statusIcon + ' ' + statusText + '</span>';
+  contentHtml += '</div>';
+  contentHtml += '<p style="font-size:13px;color:var(--gray-600);margin-bottom:var(--spacing-sm);">Regra efetiva: <strong>' + finalResult + '</strong></p>';
+  contentHtml += '<p style="font-size:13px;color:var(--gray-600);">Categoria: ' + categoria + ' · Valor: R$ ' + valor + '</p>';
+  document.getElementById('simResultContent').innerHTML = contentHtml;
+}
 </script>
 
 </body>
