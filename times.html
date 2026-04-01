@@ -564,15 +564,43 @@ a:hover { text-decoration: underline; }
 
 <!-- BULK EDIT MODAL -->
 <div class="modal-overlay" id="bulkEditModal" onclick="if(event.target===this)closeModal('bulkEditModal')">
-  <div class="modal" role="dialog" aria-modal="true">
-    <div class="modal-header"><div><div class="modal-title" id="bulkEditTitle">Editar em lote</div></div><button class="modal-close" onclick="closeModal('bulkEditModal')">✕</button></div>
+  <div class="modal" style="max-width:640px;" role="dialog" aria-modal="true">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="bulkEditTitle">Editar política em lote</div>
+        <div class="modal-subtitle" id="bulkEditSubtitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal('bulkEditModal')">✕</button>
+    </div>
     <div class="modal-body">
-      <div id="bulkEditNames" style="font-size:13px;color:var(--gray-500);margin-bottom:16px;"></div>
-      <div class="so-field"><div class="so-label">Aprovador</div><select class="form-input"><option value="">Manter atual</option><option>VP Marketing</option><option>Diretor Vendas</option><option>CFO</option><option>CEO</option></select></div>
-      <div class="so-field"><div class="so-label">Valor mínimo para escalar</div><input type="text" class="form-input" placeholder="Manter atual"></div>
-      <div class="so-field"><div class="so-label">Ação</div><select class="form-input"><option value="">Manter atual</option><option>Aprovar automaticamente</option><option>Escalar</option><option>Bloquear</option></select></div>
-      <div style="padding:12px;background:#FEF3C7;border-radius:8px;font-size:12px;color:#92400E;margin-top:16px;">⚠️ Apenas os campos alterados serão aplicados. Campos em branco mantêm o valor atual de cada exceção.</div>
-      <div class="modal-actions"><button class="btn btn-secondary btn-sm" onclick="closeModal('bulkEditModal')">Cancelar</button><button class="btn btn-primary btn-sm" id="bulkEditApply" onclick="applyBulkEdit()">Aplicar</button></div>
+      <!-- Step 1: Flow selection -->
+      <div id="bulkEditStep1">
+        <div style="font-size:14px;font-weight:500;color:var(--gray-700);margin-bottom:12px;">Qual fluxo deseja editar?</div>
+        <div style="display:flex;flex-direction:column;gap:8px;" id="bulkFlowOptions">
+          <label style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid var(--gray-200);border-radius:8px;cursor:pointer;font-size:14px;color:var(--gray-700);" onmouseenter="this.style.background='var(--gray-50)'" onmouseleave="this.style.background='white'"><input type="radio" name="bulkFlow" value="Solicitação de Cartão" style="accent-color:#E55A20;width:16px;height:16px;" onchange="document.getElementById('bulkNextBtn').disabled=false"> Solicitação de Cartão</label>
+          <label style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid var(--gray-200);border-radius:8px;cursor:pointer;font-size:14px;color:var(--gray-700);" onmouseenter="this.style.background='var(--gray-50)'" onmouseleave="this.style.background='white'"><input type="radio" name="bulkFlow" value="Solicitação de Reembolso" style="accent-color:#E55A20;width:16px;height:16px;" onchange="document.getElementById('bulkNextBtn').disabled=false"> Solicitação de Reembolso</label>
+          <label style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid var(--gray-200);border-radius:8px;cursor:pointer;font-size:14px;color:var(--gray-700);" onmouseenter="this.style.background='var(--gray-50)'" onmouseleave="this.style.background='white'"><input type="radio" name="bulkFlow" value="Despesas de Cartão" style="accent-color:#E55A20;width:16px;height:16px;" onchange="document.getElementById('bulkNextBtn').disabled=false"> Despesas de Cartão</label>
+          <label style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid var(--gray-200);border-radius:8px;cursor:pointer;font-size:14px;color:var(--gray-700);" onmouseenter="this.style.background='var(--gray-50)'" onmouseleave="this.style.background='white'"><input type="radio" name="bulkFlow" value="Reembolsos" style="accent-color:#E55A20;width:16px;height:16px;" onchange="document.getElementById('bulkNextBtn').disabled=false"> Reembolsos</label>
+          <label style="display:flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid var(--gray-200);border-radius:8px;cursor:pointer;font-size:14px;color:var(--gray-700);" onmouseenter="this.style.background='var(--gray-50)'" onmouseleave="this.style.background='white'"><input type="radio" name="bulkFlow" value="Viagens" style="accent-color:#E55A20;width:16px;height:16px;" onchange="document.getElementById('bulkNextBtn').disabled=false"> Viagens</label>
+        </div>
+        <div class="modal-actions" style="margin-top:20px;">
+          <button class="btn btn-secondary btn-sm" onclick="closeModal('bulkEditModal')">Cancelar</button>
+          <button class="btn btn-primary btn-sm" id="bulkNextBtn" disabled onclick="showBulkEditStep2()">Próximo</button>
+        </div>
+      </div>
+      <!-- Step 2: Compare + Edit -->
+      <div id="bulkEditStep2" style="display:none;">
+        <div id="bulkCompareTable" style="margin-bottom:16px;overflow-x:auto;"></div>
+        <div id="bulkDivergenceWarning" style="display:none;font-size:13px;color:#D97706;margin-bottom:16px;">⚠️ Valores divergentes entre os times selecionados</div>
+        <div style="font-size:13px;font-weight:600;color:var(--gray-700);margin-bottom:12px;">Novos valores</div>
+        <div style="font-size:12px;color:var(--gray-400);margin-bottom:12px;">Apenas os campos alterados serão aplicados.</div>
+        <div id="bulkEditFields" style="display:flex;flex-direction:column;gap:12px;"></div>
+        <div class="modal-actions" style="margin-top:20px;">
+          <button class="btn btn-ghost btn-sm" onclick="showBulkEditStep1()">Voltar</button>
+          <button class="btn btn-secondary btn-sm" onclick="closeModal('bulkEditModal')">Cancelar</button>
+          <button class="btn btn-primary btn-sm" id="bulkApplyBtn" disabled onclick="applyBulkEdit()">Aplicar</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -1593,18 +1621,109 @@ function getSelectedTeamIds() {
 
 function openBulkEditModal() {
   var ids = getSelectedTeamIds();
-  var names = ids.map(function(id) { var t = getTeamById(id); return t ? t.name : id; });
-  document.getElementById('bulkEditTitle').textContent = 'Editar ' + ids.length + ' time' + (ids.length > 1 ? 's' : '') + ' em lote';
-  document.getElementById('bulkEditNames').textContent = 'Editando: ' + names.join(', ');
-  document.getElementById('bulkEditApply').textContent = 'Aplicar a ' + ids.length + ' time' + (ids.length > 1 ? 's' : '');
+  var names = ids.map(function(id) { var t = allTeams.find(function(x){return x.id===id;}); return t ? t.name : id; });
+  var subtitle = names.length <= 5 ? names.length + ' times selecionados: ' + names.join(', ') : names.length + ' times selecionados';
+  document.getElementById('bulkEditTitle').textContent = 'Editar política em lote';
+  document.getElementById('bulkEditSubtitle').textContent = subtitle;
+  document.getElementById('bulkEditStep1').style.display = 'block';
+  document.getElementById('bulkEditStep2').style.display = 'none';
+  document.getElementById('bulkNextBtn').disabled = true;
+  document.querySelectorAll('input[name="bulkFlow"]').forEach(function(r){r.checked=false;});
   openModal('bulkEditModal');
 }
 
+function showBulkEditStep1() {
+  document.getElementById('bulkEditStep1').style.display = 'block';
+  document.getElementById('bulkEditStep2').style.display = 'none';
+}
+
+function showBulkEditStep2() {
+  var flow = document.querySelector('input[name="bulkFlow"]:checked');
+  if (!flow) return;
+  var flowName = flow.value;
+  document.getElementById('bulkEditTitle').textContent = 'Editar: ' + flowName;
+  document.getElementById('bulkEditStep1').style.display = 'none';
+  document.getElementById('bulkEditStep2').style.display = 'block';
+
+  var ids = getSelectedTeamIds();
+  var teams = ids.map(function(id) { return allTeams.find(function(x){return x.id===id;}) || {name:id}; });
+
+  // Mock current values per team
+  var fields = ['Aprovador','Limite auto-aprovar','Escalar para','Comprovante obrigatório'];
+  var mockValues = {};
+  var approvers = ['Gestor direto','Diretor do CC','VP da área','CFO'];
+  var limits = ['R$ 2.000','R$ 3.000','R$ 5.000','R$ 1.000'];
+  var escalars = ['Dir. Engenharia','VP Dados','Dir. Marketing','Gestor direto'];
+  var comprovs = ['≥ R$ 50','≥ R$ 100','≥ R$ 200','≥ R$ 50'];
+
+  teams.forEach(function(t, i) {
+    mockValues[t.name] = {
+      'Aprovador': approvers[i % approvers.length],
+      'Limite auto-aprovar': limits[i % limits.length],
+      'Escalar para': escalars[i % escalars.length],
+      'Comprovante obrigatório': comprovs[i % comprovs.length]
+    };
+  });
+
+  // Build comparison table
+  var hasDivergence = false;
+  var tableHtml = '<table style="width:100%;border-collapse:collapse;font-size:13px;">';
+  tableHtml += '<thead><tr><th style="text-align:left;padding:8px;color:var(--gray-500);font-size:12px;font-weight:600;border-bottom:1px solid var(--gray-200);"></th>';
+  teams.forEach(function(t) { tableHtml += '<th style="text-align:left;padding:8px;color:var(--gray-700);font-size:12px;font-weight:600;border-bottom:1px solid var(--gray-200);">' + t.name + '</th>'; });
+  tableHtml += '</tr></thead><tbody>';
+
+  fields.forEach(function(field) {
+    var values = teams.map(function(t) { return mockValues[t.name][field]; });
+    var allSame = values.every(function(v) { return v === values[0]; });
+    if (!allSame) hasDivergence = true;
+    tableHtml += '<tr>';
+    tableHtml += '<td style="padding:8px;color:var(--gray-500);font-weight:500;border-bottom:1px solid var(--gray-100);white-space:nowrap;">' + field + '</td>';
+    values.forEach(function(v) {
+      var bg = allSame ? '' : 'background:#FFFBEB;';
+      var warn = allSame ? '' : ' ⚠️';
+      tableHtml += '<td style="padding:8px;border-bottom:1px solid var(--gray-100);color:var(--gray-800);' + bg + '">' + v + warn + '</td>';
+    });
+    tableHtml += '</tr>';
+  });
+  tableHtml += '</tbody></table>';
+
+  document.getElementById('bulkCompareTable').innerHTML = tableHtml;
+  document.getElementById('bulkDivergenceWarning').style.display = hasDivergence ? 'block' : 'none';
+
+  // Build edit fields
+  var editHtml = '';
+  var editOptions = {
+    'Aprovador': ['Manter atual','Gestor direto','Diretor do CC','VP da área','CFO','Auto-aprovar'],
+    'Limite auto-aprovar': ['Manter atual','R$ 500','R$ 1.000','R$ 2.000','R$ 3.000','R$ 5.000','R$ 10.000','Sem limite'],
+    'Escalar para': ['Manter atual','Gestor direto','Diretor do CC','VP da área','CFO','CEO'],
+    'Comprovante obrigatório': ['Manter atual','R$ 0 (sempre)','≥ R$ 50','≥ R$ 100','≥ R$ 200','≥ R$ 500','Não obrigatório']
+  };
+
+  fields.forEach(function(field) {
+    editHtml += '<div style="display:flex;align-items:center;gap:12px;">';
+    editHtml += '<label style="min-width:160px;font-size:13px;color:var(--gray-600);font-weight:500;">' + field + '</label>';
+    editHtml += '<select class="bulkEditSelect" onchange="checkBulkApplyEnabled()" style="flex:1;padding:8px 12px;border:1px solid var(--gray-300);border-radius:8px;font-size:13px;font-family:Inter,sans-serif;background:white;">';
+    editOptions[field].forEach(function(opt) { editHtml += '<option>' + opt + '</option>'; });
+    editHtml += '</select></div>';
+  });
+
+  document.getElementById('bulkEditFields').innerHTML = editHtml;
+  document.getElementById('bulkApplyBtn').disabled = true;
+}
+
+function checkBulkApplyEnabled() {
+  var selects = document.querySelectorAll('.bulkEditSelect');
+  var anyChanged = Array.from(selects).some(function(s) { return s.value !== 'Manter atual'; });
+  document.getElementById('bulkApplyBtn').disabled = !anyChanged;
+}
+
 function applyBulkEdit() {
+  var flow = document.querySelector('input[name="bulkFlow"]:checked');
+  var flowName = flow ? flow.value : 'Política';
   var count = getSelectedTeamIds().length;
-  showToast(count + ' time' + (count > 1 ? 's' : '') + ' atualizado' + (count > 1 ? 's' : '') + ' com sucesso.', 'success');
   closeModal('bulkEditModal');
   clearSelection();
+  showToast('✓ ' + flowName + ' atualizado para ' + count + ' times', 'success');
 }
 
 function openBulkRemoveModal() {
