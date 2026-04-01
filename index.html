@@ -2733,6 +2733,13 @@ select.form-input {
           </div>
         </div>
 
+        <!-- Active filters bar (shows when filters are active) -->
+        <div id="activeFiltersBar" style="display:none;margin-bottom:12px;padding:8px 12px;background:var(--primary-orange-light);border:1px solid #FDBA74;border-radius:var(--radius-md);align-items:center;gap:8px;font-size:13px;color:var(--gray-600);flex-wrap:wrap;">
+          <span style="color:var(--gray-500);font-weight:500;">Filtros ativos:</span>
+          <span id="activeFiltersChips" style="display:inline-flex;gap:6px;flex-wrap:wrap;"></span>
+          <a id="clearAllFiltersBtn" style="color:var(--primary-orange);cursor:pointer;margin-left:8px;font-weight:500;font-size:12px;" onclick="clearAllFilters()">Limpar filtros</a>
+        </div>
+
         <!-- CARDS VIEW -->
         <div id="cardsView" class="accordion-list">
 
@@ -4282,7 +4289,9 @@ function toggleAccordion(card) {
 }
 
 // View toggle
+var currentView = 'cards';
 function switchView(view) {
+  currentView = view;
   document.querySelectorAll('.view-toggle-btn').forEach(btn => {
     btn.classList.remove('active');
     btn.setAttribute('aria-checked', 'false');
@@ -4298,12 +4307,14 @@ function switchView(view) {
     document.getElementById('tableView').style.display = '';
     document.querySelectorAll('.view-toggle-btn')[1].classList.add('active');
     document.querySelectorAll('.view-toggle-btn')[1].setAttribute('aria-checked', 'true');
+    applyTableFilters();
   } else if (view === 'matrix') {
     document.getElementById('matrixView').style.display = '';
     document.querySelectorAll('.view-toggle-btn')[2].classList.add('active');
     document.querySelectorAll('.view-toggle-btn')[2].setAttribute('aria-checked', 'true');
     renderMatrix();
   }
+  updateActiveFiltersBar();
 }
 
 function setAgentMode(mode) {
@@ -4820,6 +4831,33 @@ function applyTableFilters() {
     row.style.display = show ? '' : 'none';
   });
   updateTableFooter();
+  // Re-render matrix if it is currently visible
+  if (typeof currentView !== 'undefined' && currentView === 'matrix') {
+    renderMatrix();
+  }
+  updateActiveFiltersBar();
+}
+
+// ========================================================================
+// Active Filters Bar — shows/hides based on active CC/Time filters
+// ========================================================================
+function updateActiveFiltersBar() {
+  var bar = document.getElementById('activeFiltersBar');
+  var chips = document.getElementById('activeFiltersChips');
+  if (!bar || !chips) return;
+  if (selectedCCs.length === 0 && selectedTimes.length === 0) {
+    bar.style.display = 'none';
+    return;
+  }
+  bar.style.display = 'flex';
+  var html = '';
+  selectedCCs.forEach(function(cc) {
+    html += '<span style="display:inline-flex;align-items:center;gap:4px;padding:2px 8px;background:var(--white);border:1px solid var(--primary-orange);border-radius:12px;font-size:12px;color:var(--primary-orange);font-weight:500;">CC: ' + cc + ' <span style="cursor:pointer;font-size:11px;" onclick="removeCCFilter(\'' + cc + '\')">&times;</span></span>';
+  });
+  selectedTimes.forEach(function(t) {
+    html += '<span style="display:inline-flex;align-items:center;gap:4px;padding:2px 8px;background:var(--white);border:1px solid var(--purple);border-radius:12px;font-size:12px;color:var(--purple);font-weight:500;">Time: ' + t + ' <span style="cursor:pointer;font-size:11px;" onclick="removeTimeFilter(\'' + t + '\')">&times;</span></span>';
+  });
+  chips.innerHTML = html;
 }
 
 // Close multi-filter dropdowns on outside click
@@ -5238,15 +5276,53 @@ var matrixData = {
 
 function renderMatrix() {
   var container = document.getElementById('matrixContainer');
+
+  // Determine which CCs to show based on active filters
+  var visibleCCs = matrixData.ccs.slice(); // start with all
+  if (selectedCCs.length > 0) {
+    visibleCCs = matrixData.ccs.filter(function(cc) {
+      return selectedCCs.indexOf(cc) >= 0;
+    });
+  }
+  // If Time filter is active, further narrow to only CCs that contain those teams
+  if (selectedTimes.length > 0) {
+    var ccsFromTimes = [];
+    Object.keys(ccTeamsMap).forEach(function(cc) {
+      var teams = ccTeamsMap[cc];
+      for (var i = 0; i < selectedTimes.length; i++) {
+        if (teams.indexOf(selectedTimes[i]) >= 0) {
+          if (ccsFromTimes.indexOf(cc) < 0) ccsFromTimes.push(cc);
+          break;
+        }
+      }
+    });
+    // If CC filter is also active, intersect; otherwise use CCs from teams
+    if (selectedCCs.length > 0) {
+      visibleCCs = visibleCCs.filter(function(cc) {
+        return ccsFromTimes.indexOf(cc) >= 0;
+      });
+    } else {
+      visibleCCs = matrixData.ccs.filter(function(cc) {
+        return ccsFromTimes.indexOf(cc) >= 0;
+      });
+    }
+  }
+
+  // If filters result in no visible CCs, show empty state
+  if (visibleCCs.length === 0 && (selectedCCs.length > 0 || selectedTimes.length > 0)) {
+    container.innerHTML = '<div style="text-align:center;padding:var(--spacing-2xl);color:var(--gray-500);"><p style="font-size:15px;font-weight:600;margin-bottom:var(--spacing-sm);">Nenhum CC corresponde aos filtros ativos</p><p style="font-size:13px;">Ajuste os filtros de Centro de Custo ou Time para ver a matriz.</p></div>';
+    return;
+  }
+
   var html = '<table class="matrix-table"><thead><tr><th>Fluxo / CC</th>';
-  matrixData.ccs.forEach(function(cc) {
+  visibleCCs.forEach(function(cc) {
     html += '<th class="matrix-cc-header" onclick="showScopePopover(event,\'cc\',\'' + cc + '\')">' + cc + '</th>';
   });
   html += '</tr></thead><tbody>';
 
   matrixData.flows.forEach(function(flow) {
     html += '<tr><td>' + flow + '</td>';
-    matrixData.ccs.forEach(function(cc) {
+    visibleCCs.forEach(function(cc) {
       var key = flow + '|' + cc;
       var exc = matrixData.exceptions[key];
       if (exc) {
@@ -5264,6 +5340,7 @@ function renderMatrix() {
   });
   html += '</tbody></table>';
   container.innerHTML = html;
+  updateActiveFiltersBar();
 }
 
 // ========================================================================
