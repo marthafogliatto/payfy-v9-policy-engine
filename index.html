@@ -3847,48 +3847,31 @@ select.form-input {
       </div>
     </div>
 
-    <!-- V8 FEATURE 5: Inheritance Chain -->
-    <div class="slideover-section">
-      <div class="inheritance-section">
-        <button class="inheritance-toggle" id="inhToggle" onclick="toggleInheritance()">
-          Cadeia de Herança <span class="inh-chevron">▼</span>
-        </button>
-        <div class="inheritance-body" id="inhBody">
-          <select class="inh-flow-select" id="inhFlowSelect" onchange="updateInheritanceChain()">
-            <option value="solicitacoes">Solicitação de Cartão</option>
-            <option value="solreembolso">Solicitação de Reembolso</option>
-            <option value="cartao">Despesas de Cartão</option>
-            <option value="reembolsos">Reembolsos</option>
-            <option value="viagens">Viagens</option>
+    <!-- V9: Inheritance Chain — Merged "Regras Efetivas" view -->
+    <div class="so-section" id="inheritanceSection" style="margin-bottom:var(--spacing-lg);">
+      <div class="slideover-section-title" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;" onclick="toggleInheritance()">
+        📋 Cadeia de Herança <span id="inheritanceChevron" style="color:var(--gray-400);font-size:12px;">▼</span>
+      </div>
+      <div id="inheritanceCollapsedText" style="font-size:14px;color:var(--gray-400);margin-top:4px;">Veja quais regras se aplicam a este fluxo e de onde cada uma foi herdada ou customizada.</div>
+      <div id="inheritanceBody" style="display:none;">
+        <!-- Flow selector dropdown -->
+        <div style="margin-bottom:16px;margin-top:12px;">
+          <select id="inheritanceFlowSelect" onchange="updateInheritanceView()" style="padding:8px 12px;border:1px solid var(--gray-300);border-radius:8px;font-size:14px;font-family:Inter,sans-serif;width:100%;background:white;">
+            <option>Solicitação de Cartão</option>
+            <option>Solicitação de Reembolso</option>
+            <option>Despesas de Cartão</option>
+            <option>Reembolsos</option>
+            <option>Viagens</option>
           </select>
-          <div id="inhChainContent">
-            <!-- Geral level -->
-            <div class="inh-level inh-level-geral">
-              <div class="inh-level-title">Geral (Empresa)</div>
-              <div class="inh-level-rule overridden">Valor &ge; R$ 2.000 &rarr; Escalar para gestor</div>
-              <div class="inh-level-rule overridden">Valor &lt; R$ 2.000 &rarr; Auto-aprovar</div>
-            </div>
-            <div class="inh-connector">
-              <div class="inh-connector-line"></div>
-              <div class="inh-connector-text">sobrescrito por &#9660;</div>
-              <div class="inh-connector-line"></div>
-            </div>
-            <!-- CC level -->
-            <div class="inh-level inh-level-cc">
-              <div class="inh-level-title">CC Marketing</div>
-              <div class="inh-level-rule overridden">Valor &le; R$ 5.000 &rarr; Auto-aprovar (Diretor Marketing)</div>
-            </div>
-            <div class="inh-connector">
-              <div class="inh-connector-line"></div>
-              <div class="inh-connector-text">sobrescrito por &#9660;</div>
-              <div class="inh-connector-line"></div>
-            </div>
-            <!-- Time level (active) -->
-            <div class="inh-level inh-level-time">
-              <div class="inh-level-title">Time Growth (CC Marketing)</div>
-              <div class="inh-level-rule effective">Valor &ge; R$ 3.000 &rarr; Escalar VP Marketing <span class="inh-effective-badge">Regra efetiva</span></div>
-            </div>
-          </div>
+        </div>
+
+        <div style="font-size:13px;font-weight:600;color:var(--gray-700);margin-bottom:12px;">Regras efetivas — <span id="inheritanceScopeLabel">Time Growth (CC Marketing)</span></div>
+
+        <div id="inheritanceRulesList" style="display:flex;flex-direction:column;gap:8px;"></div>
+
+        <a id="showFullChainLink" style="display:block;margin-top:16px;font-size:13px;color:#E55A20;cursor:pointer;" onclick="toggleFullChain()">Ver herança completa →</a>
+        <div id="fullChainView" style="display:none;margin-top:12px;padding:12px;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:8px;">
+          <!-- Old stacked view shown here as secondary -->
         </div>
       </div>
     </div>
@@ -5102,58 +5085,84 @@ function closeBulkDeleteModal() {
 }
 
 // ========================================================================
-// V8 FEATURE 5: Inheritance Chain
+// V9: Inheritance Chain — Merged "Regras Efetivas" view
 // ========================================================================
-var inhData = {
-  solicitacoes: {
-    geral: ['Valor &ge; R$ 2.000 &rarr; Escalar para gestor', 'Valor &lt; R$ 2.000 &rarr; Auto-aprovar'],
-    cc: { name: 'CC Marketing', rules: ['Valor &le; R$ 5.000 &rarr; Auto-aprovar (Diretor Marketing)'] },
-    time: { name: 'Time Growth (CC Marketing)', rules: ['Valor &ge; R$ 3.000 &rarr; Escalar VP Marketing'] }
-  },
-  cartao: {
-    geral: ['Valor &gt; R$ 50 &rarr; Exigir comprovante', 'Cartão virtual &rarr; Aprovar automaticamente'],
-    cc: { name: 'CC Vendas', rules: ['Valor &gt; R$ 100 &rarr; Exigir comprovante'] },
-    time: { name: 'Time Enterprise (CC Vendas)', rules: ['Sem limite de comprovante'] }
-  },
-  reembolsos: {
-    geral: ['Valor &ge; R$ 200 &rarr; Exigir NF-e + Justificativa', 'Quilometragem &rarr; Aprovar automaticamente'],
-    cc: { name: 'CC Vendas', rules: ['Sem limite de reembolso viagem'] },
-    time: { name: 'Time Comercial (CC Vendas)', rules: ['Reembolso ilimitado para viagens'] }
-  },
-  viagens: {
-    geral: ['Classe &ne; Econômica &rarr; Bloquear', 'Hospedagem &gt; R$ 500/diária &rarr; Escalar'],
-    cc: { name: 'CC Internacional', rules: ['Hospedagem até R$ 2.000/noite'] },
-    time: { name: 'Time EUA (CC Internacional)', rules: ['Hospedagem até R$ 3.000/noite'] }
-  }
+var inheritanceData = {
+  'Solicitação de Cartão': [
+    {text: 'Valor < R$ 3.000 → Auto-aprovar (Dir. Marketing)', origin: 'Herdado do CC'},
+    {text: 'Valor ≥ R$ 3.000 → Escalar VP Marketing', origin: 'Customizado'},
+    {text: 'Preenchimento automático IA', origin: 'Herdado da Empresa'}
+  ],
+  'Solicitação de Reembolso': [
+    {text: 'Valor < R$ 1.000 → Auto-aprovar', origin: 'Herdado da Empresa'},
+    {text: 'Valor ≥ R$ 1.000 → Escalar gestor', origin: 'Herdado da Empresa'},
+    {text: 'Justificativa obrigatória', origin: 'Herdado da Empresa'}
+  ],
+  'Despesas de Cartão': [
+    {text: 'Comprovante obrigatório ≥ R$ 50', origin: 'Herdado da Empresa'},
+    {text: 'Categorização automática por MCC', origin: 'Herdado da Empresa'},
+    {text: 'Sem comprovante até R$ 200', origin: 'Herdado do CC'}
+  ],
+  'Reembolsos': [
+    {text: 'Limite mensal R$ 3.000', origin: 'Herdado da Empresa'},
+    {text: 'Prazo de submissão: 30 dias', origin: 'Herdado da Empresa'},
+    {text: 'Aprovação dupla > R$ 1.000', origin: 'Herdado da Empresa'}
+  ],
+  'Viagens': [
+    {text: 'Classe econômica obrigatória', origin: 'Herdado da Empresa'},
+    {text: 'Hospedagem até R$ 500/noite', origin: 'Herdado da Empresa'},
+    {text: 'Antecedência mínima 7 dias', origin: 'Herdado da Empresa'}
+  ]
 };
 
 function toggleInheritance() {
-  var toggle = document.getElementById('inhToggle');
-  var body = document.getElementById('inhBody');
-  toggle.classList.toggle('open');
-  body.classList.toggle('open');
+  var body = document.getElementById('inheritanceBody');
+  var text = document.getElementById('inheritanceCollapsedText');
+  var chevron = document.getElementById('inheritanceChevron');
+  if (body.style.display === 'none') {
+    body.style.display = 'block';
+    text.style.display = 'none';
+    chevron.textContent = '▲';
+    updateInheritanceView();
+  } else {
+    body.style.display = 'none';
+    text.style.display = 'block';
+    chevron.textContent = '▼';
+  }
 }
 
-function updateInheritanceChain() {
-  var flow = document.getElementById('inhFlowSelect').value;
-  var data = inhData[flow];
-  if (!data) return;
-  var html = '';
-  // Geral
-  html += '<div class="inh-level inh-level-geral"><div class="inh-level-title">Geral (Empresa)</div>';
-  data.geral.forEach(function(r) { html += '<div class="inh-level-rule overridden">' + r + '</div>'; });
-  html += '</div>';
-  html += '<div class="inh-connector"><div class="inh-connector-line"></div><div class="inh-connector-text">sobrescrito por &#9660;</div><div class="inh-connector-line"></div></div>';
-  // CC
-  html += '<div class="inh-level inh-level-cc"><div class="inh-level-title">' + data.cc.name + '</div>';
-  data.cc.rules.forEach(function(r) { html += '<div class="inh-level-rule overridden">' + r + '</div>'; });
-  html += '</div>';
-  html += '<div class="inh-connector"><div class="inh-connector-line"></div><div class="inh-connector-text">sobrescrito por &#9660;</div><div class="inh-connector-line"></div></div>';
-  // Time
-  html += '<div class="inh-level inh-level-time"><div class="inh-level-title">' + data.time.name + '</div>';
-  data.time.rules.forEach(function(r) { html += '<div class="inh-level-rule effective">' + r + ' <span class="inh-effective-badge">Regra efetiva</span></div>'; });
-  html += '</div>';
-  document.getElementById('inhChainContent').innerHTML = html;
+function updateInheritanceView() {
+  var flow = document.getElementById('inheritanceFlowSelect').value;
+  var rules = inheritanceData[flow] || [];
+  var list = document.getElementById('inheritanceRulesList');
+  list.innerHTML = rules.map(function(r) {
+    var borderLeft = r.origin === 'Customizado' ? 'border-left:3px solid #E55A20;' : '';
+    var tagStyle = r.origin === 'Herdado da Empresa' ? 'background:var(--gray-100);color:var(--gray-500);' :
+                   r.origin === 'Herdado do CC' ? 'background:#FFFBEB;color:#D97706;' :
+                   'background:#FFF7ED;color:#E55A20;font-weight:500;';
+    return '<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border:1px solid var(--gray-200);border-radius:8px;background:white;' + borderLeft + '">' +
+      '<span style="font-size:13px;color:var(--gray-800);">' + r.text + '</span>' +
+      '<span style="font-size:11px;padding:2px 8px;border-radius:12px;white-space:nowrap;' + tagStyle + '">' + r.origin + '</span></div>';
+  }).join('');
+}
+
+function toggleFullChain() {
+  var el = document.getElementById('fullChainView');
+  var link = document.getElementById('showFullChainLink');
+  if (el.style.display === 'none') {
+    el.style.display = 'block';
+    link.textContent = 'Ocultar herança completa ↑';
+    el.innerHTML = '<div style="font-size:12px;color:var(--gray-500);line-height:1.8;">' +
+      '<div style="padding:8px 12px;background:var(--gray-50);border:1px solid var(--gray-200);border-radius:8px;margin-bottom:8px;"><strong style="color:var(--gray-600);">🏢 Empresa (Geral)</strong><br>Valor ≥ R$ 2.000 → Escalar gestor<br>Valor < R$ 2.000 → Auto-aprovar</div>' +
+      '<div style="text-align:center;color:var(--gray-400);font-size:11px;margin:4px 0;">sobrescrito por ▼</div>' +
+      '<div style="padding:8px 12px;background:white;border:1px solid var(--gray-300);border-radius:8px;margin-bottom:8px;"><strong style="color:var(--gray-600);">🏗️ CC Marketing</strong><br>Valor < R$ 5.000 → Auto-aprovar (Dir. Marketing)<br>Valor ≥ R$ 5.000 → Escalar Diretor</div>' +
+      '<div style="text-align:center;color:var(--gray-400);font-size:11px;margin:4px 0;">sobrescrito por ▼</div>' +
+      '<div style="padding:8px 12px;background:#FFF7ED;border:2px solid #E55A20;border-radius:8px;"><strong style="color:#E55A20;">👥 Time Growth ← ativo</strong><br>Valor ≥ R$ 3.000 → Escalar VP Marketing<br>Valor < R$ 3.000 → Auto-aprovar</div>' +
+      '</div>';
+  } else {
+    el.style.display = 'none';
+    link.textContent = 'Ver herança completa →';
+  }
 }
 
 // ========================================================================
