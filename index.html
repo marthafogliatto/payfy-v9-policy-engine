@@ -2609,48 +2609,60 @@ select.form-input {
             <span style="color:var(--gray-500);font-size:14px;">in-policy</span>
             <span class="agent-banner-chevron" id="agentBannerChevron">▾</span>
           </div>
-          <div style="position:relative;" onclick="event.stopPropagation()">
-            <button class="btn btn-secondary btn-sm" onclick="toggleAgentDropdown()" id="agentDropdownBtn" aria-expanded="false" aria-controls="agentDropdown" style="font-size:13px;padding:6px 12px;">Configurar ▾</button>
-            <div class="agent-dropdown" id="agentDropdown" role="menu" style="display:none;">
-              <button class="agent-dropdown-item" role="menuitem" onclick="setAgentMode('off')" style="align-items:flex-start;">
-                <span style="width:8px;height:8px;border-radius:50%;background:var(--gray-400);flex-shrink:0;margin-top:5px;"></span>
-                <div><div style="font-size:14px;font-weight:500;color:var(--gray-800);">Desativar Agent</div><div style="font-size:12px;color:var(--gray-500);line-height:1.4;margin-top:var(--spacing-xs);">Agent não analisa nenhuma despesa. Todas seguem o fluxo manual de aprovação.</div></div>
-              </button>
-              <button class="agent-dropdown-item" role="menuitem" onclick="setAgentMode('test')" style="align-items:flex-start;">
-                <span style="width:8px;height:8px;border-radius:50%;background:var(--warning-yellow);flex-shrink:0;margin-top:5px;"></span>
-                <div><div style="font-size:14px;font-weight:500;color:var(--gray-800);">Modo Teste</div><div style="font-size:12px;color:var(--gray-500);line-height:1.4;margin-top:var(--spacing-xs);">Agent analisa em segundo plano, mas nenhuma ação é tomada. Útil para validar regras antes de ativar.</div></div>
-              </button>
-              <button class="agent-dropdown-item active" role="menuitem" onclick="setAgentMode('recommend')" style="align-items:flex-start;">
-                <span style="width:8px;height:8px;border-radius:50%;background:var(--info-blue);flex-shrink:0;margin-top:5px;"></span>
-                <div><div style="font-size:14px;font-weight:500;color:var(--gray-800);">Recomendação</div><div style="font-size:12px;color:var(--gray-500);line-height:1.4;margin-top:var(--spacing-xs);">Agent sugere aprovar, revisar ou rejeitar. Gestor toma a decisão final.</div></div>
-              </button>
-              <button class="agent-dropdown-item" role="menuitem" onclick="setAgentMode('auto')" style="align-items:flex-start;">
-                <span style="width:8px;height:8px;border-radius:50%;background:var(--success-green);flex-shrink:0;margin-top:5px;"></span>
-                <div><div style="font-size:14px;font-weight:500;color:var(--gray-800);">Aprovação Automática</div><div style="font-size:12px;color:var(--gray-500);line-height:1.4;margin-top:var(--spacing-xs);">Agent aprova despesas dentro da política sem intervenção humana. Exceções vão para revisão.</div></div>
-            </button>
-            <div class="agent-dropdown-separator"></div>
-            <div class="threshold-section hidden" id="thresholdSection">
-              <div class="threshold-label">
-                <span>Nível mínimo para auto-aprovação</span>
-                <span id="thresholdValue">85%</span>
-              </div>
-              <input type="range" class="threshold-slider" min="50" max="99" value="85" oninput="document.getElementById('thresholdValue').textContent=this.value+'%'" aria-label="Nível mínimo para auto-aprovação do Agent">
-              <div style="font-size:12px;color:var(--gray-500);line-height:1.4;margin-top:var(--spacing-sm);">Despesas com confiança acima deste valor são processadas automaticamente. Abaixo, vão para revisão manual.</div>
-            </div>
-            </div>
-          </div>
         </div>
         <div class="agent-banner-details" id="agentBannerDetails">
+          <div style="display:flex;gap:8px;margin-bottom:16px;">
+            <div id="agentModeActive" onclick="setAgentMode('active')" style="flex:1;padding:12px;border-radius:8px;cursor:pointer;text-align:center;background:#FFF7ED;border:2px solid #E55A20;">
+              <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:4px;"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#16A34A;"></span><span style="font-weight:600;font-size:14px;color:#E55A20;">Ativo</span></div>
+              <div style="font-size:11px;color:var(--gray-500);">Agent decide e executa</div>
+            </div>
+            <div id="agentModeInactive" onclick="setAgentMode('inactive')" style="flex:1;padding:12px;border-radius:8px;cursor:pointer;text-align:center;background:var(--white);border:1px solid var(--gray-300);">
+              <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:4px;"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--gray-400);"></span><span style="font-weight:600;font-size:14px;color:var(--gray-600);">Inativo</span></div>
+              <div style="font-size:11px;color:var(--gray-500);">Fluxo manual</div>
+            </div>
+            <div id="agentModeTest" onclick="setAgentMode('test')" style="flex:1;padding:12px;border-radius:8px;cursor:pointer;text-align:center;background:var(--white);border:1px solid var(--gray-300);">
+              <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:4px;"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#D97706;"></span><span style="font-weight:600;font-size:14px;color:var(--gray-600);">Teste</span></div>
+              <div style="font-size:11px;color:var(--gray-500);">Registra mas não executa</div>
+            </div>
+          </div>
           <div class="agent-banner-metrics">
-            <div><div class="agent-banner-metric-label">Modo</div><div class="agent-banner-metric-value">Recomendação</div></div>
+            <div><div class="agent-banner-metric-label">Modo</div><div class="agent-banner-metric-value">Ativo</div></div>
             <div><div class="agent-banner-metric-label">Acurácia</div><div class="agent-banner-metric-value">99.1%</div></div>
             <div><div class="agent-banner-metric-label">Transações</div><div class="agent-banner-metric-value">2.847</div></div>
             <div><div class="agent-banner-metric-label">Economia estimada</div><div class="agent-banner-metric-value">R$ 185k</div></div>
             <div><div class="agent-banner-metric-label">Variação semanal</div><div class="agent-banner-metric-value"><span style="color:#DC2626;">↓ 2.3%</span> <span style="color:var(--gray-400);font-weight:400;">vs. semana anterior</span></div></div>
           </div>
           <div class="agent-banner-hierarchy">
-            <strong>Flags › Agent › Workflows</strong><br>
-            Flags são regras fixas que sempre valem. Agent é a IA que avalia cada despesa e recomenda ações. Workflows são regras condicionais. Flags prevalecem sobre o Agent, que prevalece sobre Workflows.
+            <strong>Flags e Controles Globais › Agent › Workflows</strong><br>
+            Flags e Controles Globais são regras fixas que sempre valem. Agent é a IA que avalia cada despesa e recomenda ações. Workflows são regras condicionais. Flags prevalecem sobre o Agent, que prevalece sobre Workflows.
+          </div>
+        </div>
+      </div>
+
+      <!-- INSIGHTS DO AGENTE -->
+      <div id="agentInsights" style="margin-bottom:var(--spacing-lg);">
+        <div onclick="toggleInsights()" style="background:#FFFBEB;border:1px solid #FDE68A;border-radius:12px;padding:12px 20px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;">
+          <div style="display:flex;align-items:center;gap:8px;"><span>💡</span><span style="font-weight:600;color:var(--gray-800);">Insights do Agente</span><span id="insightsCount" style="font-size:12px;background:#FEF3C7;color:#D97706;padding:2px 10px;border-radius:12px;font-weight:600;">3 sugestões</span></div>
+          <span id="insightsChevron" style="color:#E55A20;font-size:13px;">Expandir ▼</span>
+        </div>
+        <div id="insightsBody" style="display:none;padding-top:16px;">
+          <div id="insight1" style="background:var(--white);border:1px solid var(--gray-200);border-left:4px solid #D97706;border-radius:12px;padding:16px 20px;margin-bottom:12px;">
+            <div style="font-size:14px;font-weight:600;color:var(--gray-900);margin-bottom:8px;">🟡 Nova flag sugerida: "Localidade fora da base"</div>
+            <div style="font-size:13px;color:var(--gray-600);line-height:1.5;margin-bottom:8px;">O Agent detectou 23 despesas no último mês feitas em cidades diferentes da base do colaborador.</div>
+            <div style="margin-bottom:12px;"><span style="font-size:12px;background:#F0FDF4;color:#16A34A;padding:2px 8px;border-radius:8px;">Confiança: 87%</span></div>
+            <div style="display:flex;gap:8px;align-items:center;"><button class="btn btn-primary btn-sm" onclick="showToast('Flag criada com sucesso.','success');dismissInsight('insight1')">Criar flag</button><button class="btn btn-ghost btn-sm" onclick="dismissInsight('insight1')">Ignorar</button></div>
+          </div>
+          <div id="insight2" style="background:var(--white);border:1px solid var(--gray-200);border-left:4px solid #D97706;border-radius:12px;padding:16px 20px;margin-bottom:12px;">
+            <div style="font-size:14px;font-weight:600;color:var(--gray-900);margin-bottom:8px;">🟡 Limiar desatualizado: "Solicitação de Cartão"</div>
+            <div style="font-size:13px;color:var(--gray-600);line-height:1.5;margin-bottom:8px;">92% das solicitações ficam abaixo de R$ 1.500. Sugerimos reduzir o limiar de R$ 2.000.</div>
+            <div style="margin-bottom:12px;"><span style="font-size:12px;background:#FEF3C7;color:#D97706;padding:2px 8px;border-radius:8px;">Confiança: 74%</span></div>
+            <div style="display:flex;gap:8px;align-items:center;"><button class="btn btn-primary btn-sm" onclick="showToast('Limiar atualizado.','success');dismissInsight('insight2')">Aplicar</button><button class="btn btn-ghost btn-sm" onclick="dismissInsight('insight2')">Ignorar</button></div>
+          </div>
+          <div id="insight3" style="background:var(--white);border:1px solid var(--gray-200);border-left:4px solid #16A34A;border-radius:12px;padding:16px 20px;margin-bottom:12px;">
+            <div style="font-size:14px;font-weight:600;color:var(--gray-900);margin-bottom:8px;">🟢 Alinhamento possível: CC Vendas × CC Marketing</div>
+            <div style="font-size:13px;color:var(--gray-600);line-height:1.5;margin-bottom:8px;">Regras de Viagens quase idênticas (diferença de R$ 200). Alinhar simplificaria a gestão.</div>
+            <div style="margin-bottom:12px;"><span style="font-size:12px;background:#F0FDF4;color:#16A34A;padding:2px 8px;border-radius:8px;">Confiança: 91%</span></div>
+            <div style="display:flex;gap:8px;align-items:center;"><button class="btn btn-primary btn-sm" onclick="showToast('Regras alinhadas.','success');dismissInsight('insight3')">Alinhar</button><button class="btn btn-ghost btn-sm" onclick="dismissInsight('insight3')">Ignorar</button></div>
           </div>
         </div>
       </div>
@@ -2676,7 +2688,8 @@ select.form-input {
             <input type="text" class="search-input" placeholder="Buscar regras..." aria-label="Buscar regras">
             <select class="filter-select" aria-label="Filtrar por política">
               <option>Todas as Políticas</option>
-              <option>Solicitações</option>
+              <option>Solicitação de Cartão</option>
+              <option>Solicitação de Reembolso</option>
               <option>Despesas de Cartão</option>
               <option>Reembolsos</option>
               <option>Viagens</option>
@@ -2723,14 +2736,18 @@ select.form-input {
         <!-- CARDS VIEW -->
         <div id="cardsView" class="accordion-list">
 
-          <!-- Policy: Solicitações -->
+          <div style="background:#EFF6FF;border:1px solid #BFDBFE;border-radius:12px;padding:12px 20px;margin-bottom:16px;font-size:13px;color:#1E40AF;display:flex;align-items:center;gap:8px;">
+            <span>ℹ️</span> O antigo fluxo "Solicitações" foi dividido em <strong>Solicitação de Cartão</strong> e <strong>Solicitação de Reembolso</strong> para maior granularidade.
+          </div>
+
+          <!-- Policy: Solicitação de Cartão -->
           <div class="accordion-card" style="--bg-start: #F0F9FF; --bg-end: #E0F2FE;">
             <button class="accordion-header" aria-expanded="false" onclick="toggleAccordion(this.parentElement)">
               <div class="accordion-header-left">
-                <div class="policy-icon" style="background: var(--info-blue-light); color: var(--info-blue);">📋</div>
+                <div class="policy-icon" style="background: var(--info-blue-light); color: var(--info-blue);">💳</div>
                 <div>
-                  <div class="policy-name">Solicitações</div>
-                  <div class="policy-description">Fluxo de solicitação de compras e aprovações</div>
+                  <div class="policy-name">Solicitação de Cartão</div>
+                  <div class="policy-description">Solicitação de cartão corporativo ou virtual</div>
                 </div>
               </div>
               <div class="summary-pills">
@@ -2738,11 +2755,14 @@ select.form-input {
                 <span class="pill pill-flag">2 Flags</span>
                 <span class="pill pill-conf" title="1 regra confidencial (visível apenas para perfis autorizados)">🔒 1</span>
               </div>
+              <span class="gear-btn" onclick="event.stopPropagation();openSlideover('solicitacoes')" title="Configurar workflow" style="font-size:18px;cursor:pointer;padding:4px 8px;border-radius:6px;background:transparent;border:none;transition:background 0.2s;">⚙️</span>
               <svg class="expand-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
             </button>
             <div class="accordion-body">
-              <div class="wf-builder" role="list" aria-label="Workflow de Solicitações">
-                <div class="wf-block wf-trigger" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🟢</span><span class="wf-label" style="color:var(--success-green);">Trigger</span><span class="wf-desc">Quando <strong>Solicitação</strong> ocorre</span></div></div></div></div>
+              <div class="wf-builder" role="list" aria-label="Workflow de Solicitação de Cartão">
+                <div class="wf-block" role="listitem" style="margin-bottom:4px;"><div class="wf-card" style="background:#FEF3C7;border:1px dashed #D97706;"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🚩</span><span class="wf-label" style="color:#D97706;font-weight:600;">FLAGS E CONTROLES GLOBAIS</span></div></div><div class="wf-card-body" style="font-size:12px;color:var(--gray-600);line-height:1.6;">Antes de entrar no workflow, o sistema verifica:<br>• Merchant proibido → <strong>Bloqueia</strong><br>• Recibo duplicado → <strong>Bloqueia</strong><br>• Valor divergente (>2x média) → <strong>Escalar</strong><br>• Gasto fora de horário → <strong>Alertar</strong></div></div></div>
+                <div class="wf-connector"><div class="wf-connector-line" style="border-color:#D97706;"></div><div class="wf-connector-arrow" style="color:#D97706;">▼</div></div>
+                <div class="wf-block wf-trigger" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🟢</span><span class="wf-label" style="color:var(--success-green);">Trigger</span><span class="wf-desc">Quando <strong>Solicitação de Cartão</strong> ocorre</span></div></div></div></div>
                 <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
                 <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action" aria-label="Editar">✏️</button><button class="wf-card-action" aria-label="Remover">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">Valor total</span><span>≥</span><span class="wf-cond-field">R$ 2.000</span></div><div class="wf-require"><div class="wf-require-label">Exigir</div><span class="wf-chip">Justificativa</span><span class="wf-chip">Categoria</span><span class="wf-chip">Centro de Custo</span><span class="wf-chip">📋 Código do Projeto</span></div><div class="wf-action-badge wf-action-escalate">↗ Escalar para gestor</div></div></div></div>
                 <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
@@ -2823,6 +2843,59 @@ select.form-input {
             </div>
           </div>
 
+          <!-- Policy: Solicitação de Reembolso -->
+          <div class="accordion-card" style="--bg-start: #ECFDF5; --bg-end: #D1FAE5;">
+            <button class="accordion-header" aria-expanded="false" onclick="toggleAccordion(this.parentElement)">
+              <div class="accordion-header-left">
+                <div class="policy-icon" style="background: #D1FAE5; color: #059669;">🧾</div>
+                <div>
+                  <div class="policy-name">Solicitação de Reembolso</div>
+                  <div class="policy-description">Pedidos de reembolso e adiantamento</div>
+                </div>
+              </div>
+              <div class="summary-pills">
+                <span class="pill pill-agent">2 Agent</span>
+                <span class="pill pill-flag">2 Flags</span>
+                <span class="pill pill-brasil">1 Brasil</span>
+              </div>
+              <span class="gear-btn" onclick="event.stopPropagation();openSlideover('solreembolso')" title="Configurar workflow" style="font-size:18px;cursor:pointer;padding:4px 8px;border-radius:6px;background:transparent;border:none;transition:background 0.2s;">⚙️</span>
+              <svg class="expand-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+            <div class="accordion-body">
+              <div class="wf-builder" role="list" aria-label="Workflow de Solicitação de Reembolso">
+                <div class="wf-block" role="listitem" style="margin-bottom:4px;"><div class="wf-card" style="background:#FEF3C7;border:1px dashed #D97706;"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🚩</span><span class="wf-label" style="color:#D97706;font-weight:600;">FLAGS E CONTROLES GLOBAIS</span></div></div><div class="wf-card-body" style="font-size:12px;color:var(--gray-600);line-height:1.6;">Antes de entrar no workflow, o sistema verifica:<br>• Merchant proibido → <strong>Bloqueia</strong><br>• Recibo duplicado → <strong>Bloqueia</strong><br>• Valor divergente (>2x média) → <strong>Escalar</strong><br>• Gasto fora de horário → <strong>Alertar</strong></div></div></div>
+                <div class="wf-connector"><div class="wf-connector-line" style="border-color:#D97706;"></div><div class="wf-connector-arrow" style="color:#D97706;">▼</div></div>
+                <div class="wf-block wf-trigger" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🟢</span><span class="wf-label" style="color:var(--success-green);">Trigger</span><span class="wf-desc">Quando <strong>Solicitação de Reembolso</strong> ocorre</span></div></div></div></div>
+                <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
+                <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action" aria-label="Editar">✏️</button><button class="wf-card-action" aria-label="Remover">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">Valor total</span><span>≥</span><span class="wf-cond-field">R$ 500</span></div><div class="wf-require"><div class="wf-require-label">Exigir</div><span class="wf-chip">Comprovante</span><span class="wf-chip chip-brasil">NF-e 🇧🇷</span><span class="wf-chip">Justificativa</span></div><div class="wf-action-badge wf-action-escalate">↗ Escalar para gestor</div></div></div></div>
+                <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
+                <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action" aria-label="Editar">✏️</button><button class="wf-card-action" aria-label="Remover">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">Valor total</span><span>&lt;</span><span class="wf-cond-field">R$ 500</span></div><div class="wf-require"><div class="wf-require-label">Exigir</div><span class="wf-chip">Comprovante</span></div><div class="wf-action-badge wf-action-agent">🤖 Policy Agent decide</div></div></div></div>
+                <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
+                <div class="wf-add-block"><button class="wf-add-btn" onclick="showToast('Adicionar bloco em desenvolvimento.','info')">+ Adicionar bloco</button></div>
+                <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
+                <div class="wf-block wf-fallback" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🟡</span><span class="wf-label" style="color:var(--warning-yellow);">Fallback</span><span class="wf-desc">Se nenhuma condição é atendida</span></div></div><div class="wf-card-body"><div class="wf-action-badge wf-action-approve">✓ Aprovar automaticamente</div></div></div></div>
+                <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
+                <div class="wf-end" role="listitem">✅ Workflow concluído</div>
+              </div>
+              <div class="audit-meta">Última edição: 20/03/2026 por André A. · <span class="audit-meta-ref">POL-2026-03-0023</span></div>
+              <div class="exceptions-summary">
+                <div style="display:flex;align-items:center;justify-content:space-between;">
+                  <div class="exceptions-summary-title">Exceções ativas (5)</div>
+                  <button class="btn btn-primary btn-sm" onclick="openExceptionSlideover('solreembolso')">+ Nova exceção</button>
+                </div>
+                <div class="exc-checkbox-group">
+                  <div class="exc-checkbox-header"><input type="checkbox" onchange="toggleCCGroup(this, 'solr-vendas')"> <strong>CC Vendas</strong></div>
+                  <div class="exc-checkbox-item" data-group="solr-vendas"><input type="checkbox" onchange="updateBulkBar()"> Time Comercial: reembolso auto até R$ 1.000 <span class="diverge-badge diverge-badge-warning">&#9888;&#65039; Diverge do CC</span></div>
+                </div>
+                <div class="exceptions-count">5 exceções ativas · 95 CCs/times usando regra padrão</div>
+              </div>
+              <div class="accordion-actions">
+                <button class="btn btn-secondary btn-sm" onclick="openSlideover('solreembolso')">Editar Workflow</button>
+                <button class="btn btn-ghost btn-sm" onclick="showSimulation()">Testar Regras</button>
+              </div>
+            </div>
+          </div>
+
           <!-- Policy: Despesas de Cartão -->
           <div class="accordion-card" style="--bg-start: #FFF7ED; --bg-end: #FFEDD5;">
             <button class="accordion-header" aria-expanded="false" onclick="toggleAccordion(this.parentElement)">
@@ -2838,10 +2911,13 @@ select.form-input {
                 <span class="pill pill-flag">3 Flags</span>
                 <span class="pill pill-brasil">2 Brasil</span>
               </div>
+              <span class="gear-btn" onclick="event.stopPropagation();openSlideover('cartao')" title="Configurar workflow" style="font-size:18px;cursor:pointer;padding:4px 8px;border-radius:6px;background:transparent;border:none;transition:background 0.2s;">⚙️</span>
               <svg class="expand-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
             </button>
             <div class="accordion-body">
               <div class="wf-builder" role="list" aria-label="Workflow de Despesas de Cartão">
+                <div class="wf-block" role="listitem" style="margin-bottom:4px;"><div class="wf-card" style="background:#FEF3C7;border:1px dashed #D97706;"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🚩</span><span class="wf-label" style="color:#D97706;font-weight:600;">FLAGS E CONTROLES GLOBAIS</span></div></div><div class="wf-card-body" style="font-size:12px;color:var(--gray-600);line-height:1.6;">Antes de entrar no workflow, o sistema verifica:<br>• Merchant proibido → <strong>Bloqueia</strong><br>• Recibo duplicado → <strong>Bloqueia</strong><br>• Valor divergente (>2x média) → <strong>Escalar</strong><br>• Gasto fora de horário → <strong>Alertar</strong></div></div></div>
+                <div class="wf-connector"><div class="wf-connector-line" style="border-color:#D97706;"></div><div class="wf-connector-arrow" style="color:#D97706;">▼</div></div>
                 <div class="wf-block wf-trigger" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🟢</span><span class="wf-label" style="color:var(--success-green);">Trigger</span><span class="wf-desc">Quando <strong>Despesa de Cartão</strong> ocorre</span></div></div></div></div>
                 <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
                 <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action" aria-label="Editar">✏️</button><button class="wf-card-action" aria-label="Remover">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">Tipo</span><span>=</span><span class="wf-cond-field">Cartão Físico</span><span class="wf-cond-kw" style="margin-left:var(--spacing-xs);">E</span><span class="wf-cond-field">Valor</span><span>≥</span><span class="wf-cond-field">R$ 50</span></div><div class="wf-require"><div class="wf-require-label">Exigir</div><span class="wf-chip">Comprovante</span><span class="wf-chip">Categoria</span><span class="wf-chip">Centro de Custo</span></div><div class="wf-show"><div class="wf-show-label">🔷 Mostrar</div><span class="wf-chip">Projeto</span><span class="wf-chip">Observações</span></div><div class="wf-action-badge wf-action-agent">🤖 Policy Agent decide</div></div></div></div>
@@ -2897,10 +2973,13 @@ select.form-input {
                 <span class="pill pill-flag">2 Flags</span>
                 <span class="pill pill-brasil">1 Brasil</span>
               </div>
+              <span class="gear-btn" onclick="event.stopPropagation();openSlideover('reembolsos')" title="Configurar workflow" style="font-size:18px;cursor:pointer;padding:4px 8px;border-radius:6px;background:transparent;border:none;transition:background 0.2s;">⚙️</span>
               <svg class="expand-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
             </button>
             <div class="accordion-body">
               <div class="wf-builder" role="list" aria-label="Workflow de Reembolsos">
+                <div class="wf-block" role="listitem" style="margin-bottom:4px;"><div class="wf-card" style="background:#FEF3C7;border:1px dashed #D97706;"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🚩</span><span class="wf-label" style="color:#D97706;font-weight:600;">FLAGS E CONTROLES GLOBAIS</span></div></div><div class="wf-card-body" style="font-size:12px;color:var(--gray-600);line-height:1.6;">Antes de entrar no workflow, o sistema verifica:<br>• Merchant proibido → <strong>Bloqueia</strong><br>• Recibo duplicado → <strong>Bloqueia</strong><br>• Valor divergente (>2x média) → <strong>Escalar</strong><br>• Gasto fora de horário → <strong>Alertar</strong></div></div></div>
+                <div class="wf-connector"><div class="wf-connector-line" style="border-color:#D97706;"></div><div class="wf-connector-arrow" style="color:#D97706;">▼</div></div>
                 <div class="wf-block wf-trigger" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🟢</span><span class="wf-label" style="color:var(--success-green);">Trigger</span><span class="wf-desc">Quando <strong>Reembolso</strong> ocorre</span></div></div></div></div>
                 <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
                 <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action" aria-label="Editar">✏️</button><button class="wf-card-action" aria-label="Remover">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">Subtipo</span><span>=</span><span class="wf-cond-field">Do próprio bolso</span><span class="wf-cond-kw" style="margin-left:var(--spacing-xs);">E</span><span class="wf-cond-field">Valor</span><span>≥</span><span class="wf-cond-field">R$ 200</span></div><div class="wf-require"><div class="wf-require-label">Exigir</div><span class="wf-chip">Comprovante</span><span class="wf-chip chip-brasil">NF-e 🇧🇷</span><span class="wf-chip">Justificativa</span></div><div class="wf-action-badge wf-action-escalate">↗ Escalar para gestor</div></div></div></div>
@@ -2953,10 +3032,13 @@ select.form-input {
                 <span class="pill pill-flag">2 Flags</span>
                 <span class="pill pill-conf" title="1 regra confidencial (visível apenas para perfis autorizados)">🔒 1</span>
               </div>
+              <span class="gear-btn" onclick="event.stopPropagation();openSlideover('viagens')" title="Configurar workflow" style="font-size:18px;cursor:pointer;padding:4px 8px;border-radius:6px;background:transparent;border:none;transition:background 0.2s;">⚙️</span>
               <svg class="expand-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
             </button>
             <div class="accordion-body">
               <div class="wf-builder" role="list" aria-label="Workflow de Viagens">
+                <div class="wf-block" role="listitem" style="margin-bottom:4px;"><div class="wf-card" style="background:#FEF3C7;border:1px dashed #D97706;"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🚩</span><span class="wf-label" style="color:#D97706;font-weight:600;">FLAGS E CONTROLES GLOBAIS</span></div></div><div class="wf-card-body" style="font-size:12px;color:var(--gray-600);line-height:1.6;">Antes de entrar no workflow, o sistema verifica:<br>• Merchant proibido → <strong>Bloqueia</strong><br>• Recibo duplicado → <strong>Bloqueia</strong><br>• Valor divergente (>2x média) → <strong>Escalar</strong><br>• Gasto fora de horário → <strong>Alertar</strong></div></div></div>
+                <div class="wf-connector"><div class="wf-connector-line" style="border-color:#D97706;"></div><div class="wf-connector-arrow" style="color:#D97706;">▼</div></div>
                 <div class="wf-block wf-trigger" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🟢</span><span class="wf-label" style="color:var(--success-green);">Trigger</span><span class="wf-desc">Quando <strong>Viagem</strong> ocorre</span></div></div></div></div>
                 <div class="wf-connector"><div class="wf-connector-line"></div><div class="wf-connector-arrow">▼</div></div>
                 <div class="wf-block wf-condition" role="listitem"><div class="wf-card"><div class="wf-card-header"><div class="wf-card-header-left"><span class="wf-icon">🔵</span><span class="wf-label" style="color:var(--info-blue);">Condição</span></div><div class="wf-card-actions"><button class="wf-card-action" aria-label="Editar">✏️</button><button class="wf-card-action" aria-label="Remover">🗑</button></div></div><div class="wf-card-body"><div class="wf-cond-row"><span class="wf-cond-kw">SE</span><span class="wf-cond-field">Categoria</span><span>=</span><span class="wf-cond-field">Aéreo</span><span class="wf-cond-kw" style="margin-left:var(--spacing-xs);">E</span><span class="wf-cond-field">Classe</span><span>≠</span><span class="wf-cond-field">Econômica</span></div><div class="wf-action-badge wf-action-block">🚫 Bloquear <span style="font-weight:400;font-size:11px;">(exceto cargo = Diretor)</span></div></div></div></div>
@@ -3551,11 +3633,11 @@ select.form-input {
     <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius-lg);padding:var(--spacing-md);margin-bottom:var(--spacing-lg);">
       <div class="flag-toggle-item"><div class="flag-toggle-info"><div class="flag-toggle-name">Recibo duplicado</div><div class="flag-toggle-desc">Detecta comprovantes enviados mais de uma vez</div></div><span class="flag-toggle-action" style="background:var(--danger-red-light);color:var(--danger-red);">Bloqueio</span><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
       <div class="flag-toggle-item"><div class="flag-toggle-info"><div class="flag-toggle-name">Valor divergente</div><div class="flag-toggle-desc">Gasto >2x a média histórica do usuário</div></div><span class="flag-toggle-action" style="background:var(--warning-yellow-light);color:var(--warning-yellow);">Escalar</span><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
-      <div class="flag-toggle-item"><div class="flag-toggle-info"><div class="flag-toggle-name">Gasto fora de horário</div><div class="flag-toggle-desc">Transação em horário não-comercial</div></div><span class="flag-toggle-action" style="background:var(--info-blue-light);color:var(--info-blue);">Alertar</span><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+      <div class="flag-toggle-item" style="flex-wrap:wrap;"><div class="flag-toggle-info"><div class="flag-toggle-name">Gasto fora de horário</div><div class="flag-toggle-desc">Transação em horário não-comercial</div></div><span class="flag-toggle-action" style="background:var(--info-blue-light);color:var(--info-blue);">Alertar</span><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label><div style="width:100%;margin-top:4px;padding-left:4px;"><span style="font-size:11px;color:var(--gray-500);">Exceção:</span> <span style="font-size:11px;background:var(--scope-cc-bg);color:var(--scope-cc-text);padding:2px 8px;border-radius:8px;margin-left:4px;">🏗️ CC Internacional EUA</span></div></div>
       <div class="flag-toggle-item"><div class="flag-toggle-info"><div class="flag-toggle-name">Comprovante AI-generated</div><div class="flag-toggle-desc">Detecta comprovantes gerados por IA</div></div><span class="flag-toggle-action" style="background:var(--danger-red-light);color:var(--danger-red);">Escalar</span><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
       <div class="flag-toggle-item"><div class="flag-toggle-info"><div class="flag-toggle-name">CNPJ inativo 🇧🇷</div><div class="flag-toggle-desc">CNPJ do fornecedor com situação irregular</div></div><span class="flag-toggle-action" style="background:var(--danger-red-light);color:var(--danger-red);">Bloqueio</span><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
-      <div class="flag-toggle-item"><div class="flag-toggle-info"><div class="flag-toggle-name">Merchant proibido</div><div class="flag-toggle-desc">Fornecedor na lista negra da empresa</div></div><span class="flag-toggle-action" style="background:var(--danger-red-light);color:var(--danger-red);">Bloqueio</span><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
-      <div class="flag-toggle-item"><div class="flag-toggle-info"><div class="flag-toggle-name">NF-e ausente 🇧🇷</div><div class="flag-toggle-desc">Sem nota fiscal acima de R$ 200</div></div><span class="flag-toggle-action" style="background:var(--info-blue-light);color:var(--info-blue);">Alertar</span><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+      <div class="flag-toggle-item" style="flex-wrap:wrap;"><div class="flag-toggle-info"><div class="flag-toggle-name">Merchant proibido</div><div class="flag-toggle-desc">Fornecedor na lista negra da empresa</div></div><span class="flag-toggle-action" style="background:var(--danger-red-light);color:var(--danger-red);">Bloqueio</span><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label><div style="width:100%;margin-top:4px;padding-left:4px;"><span style="font-size:11px;color:var(--gray-500);">Exceção:</span> <span style="font-size:11px;background:#FEF3C7;color:#92400E;padding:2px 8px;border-radius:8px;margin-left:4px;">👤 João Silva (Dir. Comercial)</span></div></div>
+      <div class="flag-toggle-item" style="flex-wrap:wrap;"><div class="flag-toggle-info"><div class="flag-toggle-name">NF-e ausente 🇧🇷</div><div class="flag-toggle-desc">Sem nota fiscal acima de R$ 200</div></div><span class="flag-toggle-action" style="background:var(--info-blue-light);color:var(--info-blue);">Alertar</span><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label><div style="width:100%;margin-top:4px;padding-left:4px;"><span style="font-size:11px;color:var(--gray-500);">Exceção:</span> <span style="font-size:11px;background:var(--scope-time-bg);color:var(--scope-time-text);padding:2px 8px;border-radius:8px;margin-left:4px;">👥 Time Internacional LATAM</span></div></div>
     </div>
 
     <!-- Custom Rules -->
@@ -3693,9 +3775,9 @@ select.form-input {
       </div>
     </div>
 
-    <!-- Flags de Override -->
+    <!-- Flags e Controles Globais -->
     <div class="slideover-section">
-      <div class="slideover-section-title">Flags de Override</div>
+      <div class="slideover-section-title">Flags e Controles Globais</div>
       <div class="flag-list">
         <div class="flag-item">
           <div class="flag-info">
@@ -3711,17 +3793,37 @@ select.form-input {
           </div>
           <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
         </div>
+        <div class="flag-item" style="flex-wrap:wrap;">
+          <div class="flag-info">
+            <span class="flag-badge-inline" style="background:var(--badge-flag-bg);color:var(--badge-flag-text);">Flag</span>
+            <span>Merchant proibido</span>
+          </div>
+          <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+          <div style="width:100%;margin-top:6px;padding-left:4px;"><span style="font-size:11px;color:var(--gray-500);">Exceções:</span> <span style="font-size:11px;background:#FEF3C7;color:#92400E;padding:2px 8px;border-radius:8px;margin-left:4px;">👤 João Silva (Dir. Comercial)</span></div>
+        </div>
+        <div class="flag-item" style="flex-wrap:wrap;">
+          <div class="flag-info">
+            <span class="flag-badge-inline" style="background:var(--badge-flag-bg);color:var(--badge-flag-text);">Flag</span>
+            <span>Gasto fora de horário</span>
+          </div>
+          <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+          <div style="width:100%;margin-top:6px;padding-left:4px;"><span style="font-size:11px;color:var(--gray-500);">Exceções:</span> <span style="font-size:11px;background:var(--scope-cc-bg);color:var(--scope-cc-text);padding:2px 8px;border-radius:8px;margin-left:4px;">🏗️ CC Internacional EUA</span></div>
+        </div>
       </div>
     </div>
 
-    <!-- Flags Brasil -->
+    <!-- Obrigações Fiscais -->
     <div class="slideover-section">
-      <div class="slideover-section-title">Flags Brasil 🇧🇷</div>
+      <div class="slideover-section-title">Obrigações Fiscais</div>
       <div style="display:flex;gap:var(--spacing-sm);flex-wrap:wrap;">
         <span class="pill pill-brasil">NF-e</span>
         <span class="pill pill-brasil">CNPJ</span>
         <span class="pill" style="background:var(--gray-100);color:var(--gray-500);">VR/VA (não aplicável)</span>
         <span class="pill" style="background:var(--gray-100);color:var(--gray-500);">Per diem CLT (não aplicável)</span>
+      </div>
+      <div style="margin-top:8px;padding:8px 12px;background:var(--gray-50);border-radius:8px;border:1px solid var(--gray-200);">
+        <div style="font-size:11px;color:var(--gray-500);margin-bottom:4px;">Exceções — NF-e:</div>
+        <span style="font-size:11px;background:var(--scope-time-bg);color:var(--scope-time-text);padding:2px 8px;border-radius:8px;">👥 Time Internacional LATAM</span>
       </div>
     </div>
 
@@ -3749,7 +3851,8 @@ select.form-input {
         </button>
         <div class="inheritance-body" id="inhBody">
           <select class="inh-flow-select" id="inhFlowSelect" onchange="updateInheritanceChain()">
-            <option value="solicitacoes">Solicitações</option>
+            <option value="solicitacoes">Solicitação de Cartão</option>
+            <option value="solreembolso">Solicitação de Reembolso</option>
             <option value="cartao">Despesas de Cartão</option>
             <option value="reembolsos">Reembolsos</option>
             <option value="viagens">Viagens</option>
@@ -3891,7 +3994,8 @@ select.form-input {
         <div class="form-group" style="margin-bottom:var(--spacing-md);">
           <label class="form-label">Tipo de Fluxo</label>
           <select class="form-input">
-            <option>Solicitações</option>
+            <option>Solicitação de Cartão</option>
+            <option>Solicitação de Reembolso</option>
             <option>Despesas de Cartão</option>
             <option>Reembolsos</option>
             <option>Viagens</option>
@@ -3925,46 +4029,6 @@ select.form-input {
   </div>
 </div>
 
-<!-- ============================================
-     FAB: Agent Suggestions
-     ============================================ -->
-<button class="fab" id="fabBtn" onclick="toggleFabDrawer()" aria-label="Sugestões do Agent">
-  🤖
-  <span class="fab-badge">3</span>
-</button>
-
-<div class="fab-drawer" id="fabDrawer" role="dialog" aria-label="Sugestões do Agent">
-  <div class="fab-drawer-header">
-    Sugestões do Agent
-    <span style="font-size:12px;color:var(--gray-500);margin-left:var(--spacing-sm);">3 pendentes</span>
-  </div>
-  <div class="fab-drawer-body">
-    <div class="suggestion-item">
-      <div class="suggestion-pattern">Ajustar limite de auto-aprovação</div>
-      <div class="suggestion-detail">62% das aprovações manuais em Solicitações são &lt; R$ 3.000. Sugerimos aumentar o limite de R$ 2.000 para R$ 3.000.</div>
-      <div class="suggestion-actions">
-        <button class="btn btn-primary btn-sm" onclick="showToast('Sugestão aplicada. Limite atualizado para R$ 3.000.','success')">Aplicar</button>
-        <button class="btn btn-ghost btn-sm">Ignorar</button>
-      </div>
-    </div>
-    <div class="suggestion-item">
-      <div class="suggestion-pattern">Nova flag: gasto recorrente alto</div>
-      <div class="suggestion-detail">5 usuários com gastos mensais &gt; R$ 2.500 em alimentação. Padrão incomum detectado.</div>
-      <div class="suggestion-actions">
-        <button class="btn btn-primary btn-sm" onclick="showToast('Flag criada com sucesso.','success')">Aplicar</button>
-        <button class="btn btn-ghost btn-sm">Ignorar</button>
-      </div>
-    </div>
-    <div class="suggestion-item">
-      <div class="suggestion-pattern">Regra de antecedência para viagens</div>
-      <div class="suggestion-detail">40% das viagens são solicitadas com &lt;3 dias de antecedência, custando 35% a mais que reservas antecipadas.</div>
-      <div class="suggestion-actions">
-        <button class="btn btn-primary btn-sm" onclick="showToast('Sugestão aplicada.','success')">Aplicar</button>
-        <button class="btn btn-ghost btn-sm">Ignorar</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- ============================================
      V8 FEATURE 3: Exception Creation Slide-over
@@ -4245,50 +4309,26 @@ function switchView(view) {
   }
 }
 
-// Agent dropdown
-function toggleAgentDropdown() {
-  const dd = document.getElementById('agentDropdown');
-  const btn = document.getElementById('agentDropdownBtn');
-  // Move dropdown to body on first open so it's not clipped
-  if (dd.parentElement !== document.body) {
-    document.body.appendChild(dd);
-  }
-  const isOpen = dd.style.display === 'block';
-  dd.style.display = isOpen ? 'none' : 'block';
-  btn.setAttribute('aria-expanded', !isOpen);
-  if (!isOpen) {
-    const rect = btn.getBoundingClientRect();
-    dd.style.position = 'fixed';
-    dd.style.top = (rect.bottom + 4) + 'px';
-    dd.style.right = (window.innerWidth - rect.right) + 'px';
-    dd.style.zIndex = '1000';
-  }
-}
-
 function setAgentMode(mode) {
-  const banner = document.getElementById('agentBanner');
-  const label = banner.querySelector('.agent-label');
-  const dot = banner.querySelector('.agent-dot');
-  const items = document.querySelectorAll('.agent-dropdown-item');
+  var current = document.getElementById('agentModeActive').style.border.includes('E55A20') ? 'active' : document.getElementById('agentModeTest').style.border.includes('D97706') ? 'test' : 'inactive';
+  if (mode === 'inactive' && current === 'active') { if (!confirm('Desativar o Agent? Todas as decisões passarão pelo fluxo manual.')) return; }
+  else if (mode === 'active' && current !== 'active') { if (!confirm('Ativar o Agent? Ele decidirá automaticamente com base nas regras configuradas.')) return; }
 
-  items.forEach(i => i.classList.remove('active'));
-
-  const modes = {
-    off: { label: 'Policy Agent desativado', dotColor: 'var(--gray-400)', idx: 0 },
-    test: { label: 'Policy Agent em teste', dotColor: 'var(--warning-yellow)', idx: 1 },
-    recommend: { label: 'Policy Agent ativo', dotColor: '#16A34A', idx: 2 },
-    auto: { label: 'Policy Agent — Aprovação automática', dotColor: '#16A34A', idx: 3 }
+  var configs = {
+    active: {bg:'#FFF7ED',border:'2px solid #E55A20',color:'#E55A20',dot:'#16A34A',label:'Policy Agent ativo'},
+    inactive: {bg:'var(--gray-50)',border:'2px solid var(--gray-400)',color:'var(--gray-600)',dot:'var(--gray-400)',label:'Policy Agent inativo'},
+    test: {bg:'#FFFBEB',border:'2px solid #D97706',color:'#D97706',dot:'#D97706',label:'Policy Agent em teste'}
   };
-
-  const m = modes[mode];
-  if (label) label.textContent = m.label;
-  if (dot) dot.style.background = m.dotColor;
-  items[m.idx].classList.add('active');
-  // Show threshold slider only in auto mode
-  var ts = document.getElementById('thresholdSection');
-  if (ts) { if (mode === 'auto') ts.classList.remove('hidden'); else ts.classList.add('hidden'); }
-  document.getElementById('agentDropdown').style.display = 'none';
-  showToast('Modo do Agent atualizado.', 'success');
+  ['active','inactive','test'].forEach(function(m) {
+    var el = document.getElementById('agentMode' + m.charAt(0).toUpperCase() + m.slice(1));
+    if (m === mode) { el.style.background = configs[m].bg; el.style.border = configs[m].border; el.querySelectorAll('span')[1].style.color = configs[m].color; }
+    else { el.style.background = 'var(--white)'; el.style.border = '1px solid var(--gray-300)'; el.querySelectorAll('span')[1].style.color = 'var(--gray-600)'; }
+  });
+  var bannerDot = document.querySelector('.agent-banner-left-info span:first-child');
+  var bannerLabel = document.querySelector('.agent-banner-left-info span:nth-child(2)');
+  if (bannerDot) bannerDot.style.background = configs[mode].dot;
+  if (bannerLabel) bannerLabel.textContent = configs[mode].label;
+  showToast('Modo do Agent: ' + (mode==='active'?'Ativo':mode==='inactive'?'Inativo':'Teste'), 'success');
 }
 
 function toggleAgentBanner() {
@@ -4306,7 +4346,8 @@ function toggleAgentBanner() {
 // Slide-over
 function openSlideover(policy) {
   const titles = {
-    solicitacoes: 'Solicitações',
+    solicitacoes: 'Solicitação de Cartão',
+    solreembolso: 'Solicitação de Reembolso',
     cartao: 'Despesas de Cartão',
     reembolsos: 'Reembolsos',
     viagens: 'Viagens'
@@ -4373,9 +4414,20 @@ function runSimulation() {
   document.getElementById('simulationResult').classList.add('show');
 }
 
-// FAB drawer
-function toggleFabDrawer() {
-  document.getElementById('fabDrawer').classList.toggle('open');
+// Insights
+function toggleInsights() {
+  var body = document.getElementById('insightsBody');
+  var chevron = document.getElementById('insightsChevron');
+  body.style.display = body.style.display === 'none' ? 'block' : 'none';
+  chevron.textContent = body.style.display === 'none' ? 'Expandir ▼' : 'Recolher ▲';
+}
+var insightCount = 3;
+function dismissInsight(id) {
+  var el = document.getElementById(id);
+  if (el) { el.style.transition='opacity 0.3s';el.style.opacity='0';setTimeout(function(){el.remove();},300); }
+  insightCount--;
+  var c = document.getElementById('insightsCount');
+  if (c) c.textContent = insightCount > 0 ? insightCount+' sugest'+(insightCount===1?'ão':'ões') : 'Tudo em dia';
 }
 
 // Toast
@@ -4426,20 +4478,8 @@ function trapFocus(element) {
   first.focus();
 }
 
-// Close dropdown on outside click
+// Close elements on outside click
 document.addEventListener('click', function(e) {
-  const dd = document.getElementById('agentDropdown');
-  const btn = document.getElementById('agentDropdownBtn');
-  if (dd && dd.style.display === 'block' && !dd.contains(e.target) && !btn.contains(e.target)) {
-    dd.style.display = 'none';
-    btn.setAttribute('aria-expanded', 'false');
-  }
-
-  const fabDrawer = document.getElementById('fabDrawer');
-  const fabBtn = document.getElementById('fabBtn');
-  if (fabDrawer && fabDrawer.classList.contains('open') && !fabDrawer.contains(e.target) && !fabBtn.contains(e.target)) {
-    fabDrawer.classList.remove('open');
-  }
 });
 
 // Keyboard nav
@@ -4449,8 +4489,6 @@ document.addEventListener('keydown', function(e) {
     closeSidebars();
     document.querySelectorAll('.modal-overlay.active').forEach(m => m.classList.remove('active'));
     closeCCPropagate();
-    document.getElementById('agentDropdown').style.display = 'none';
-    document.getElementById('fabDrawer').classList.remove('open');
   }
 });
 
@@ -4856,7 +4894,7 @@ var excPolicy = 'solicitacoes';
 
 function openExceptionSlideover(policy) {
   excPolicy = policy;
-  var titles = { solicitacoes: 'Solicitações', cartao: 'Despesas de Cartão', reembolsos: 'Reembolsos', viagens: 'Viagens' };
+  var titles = { solicitacoes: 'Solicitação de Cartão', solreembolso: 'Solicitação de Reembolso', cartao: 'Despesas de Cartão', reembolsos: 'Reembolsos', viagens: 'Viagens' };
   document.getElementById('excSoTitle').textContent = 'Nova Exceção — ' + (titles[policy] || policy);
   document.getElementById('excConfPolicy').textContent = titles[policy] || policy;
   excCurrentStep = 1;
@@ -5183,13 +5221,15 @@ function closeScopePopover() {
 // V9 M2: Exception Matrix View
 // ========================================================================
 var matrixData = {
-  flows: ['Solicitações', 'Despesas Cartão', 'Reembolsos', 'Viagens'],
+  flows: ['Sol. Cartão', 'Sol. Reembolso', 'Despesas Cartão', 'Reembolsos', 'Viagens'],
   ccs: ['Marketing', 'Vendas', 'Engenharia', 'Financeiro', 'Produto', 'RH', 'Operações', 'Diretoria'],
   exceptions: {
-    'Solicitações|Marketing': { rule: 'Auto-aprovar ≤ R$ 5k', diverge: '2/4 times divergem' },
-    'Solicitações|Vendas': null,
-    'Solicitações|Engenharia': { rule: 'SaaS auto R$ 5k', diverge: '1/5 times diverge' },
-    'Solicitações|Financeiro': { rule: 'Aprovação CFO > R$ 1k', diverge: null },
+    'Sol. Cartão|Marketing': { rule: 'Auto-aprovar ≤ R$ 5k', diverge: '2/4 times divergem' },
+    'Sol. Cartão|Vendas': null,
+    'Sol. Cartão|Engenharia': { rule: 'SaaS auto R$ 5k', diverge: '1/5 times diverge' },
+    'Sol. Cartão|Financeiro': { rule: 'Aprovação CFO > R$ 1k', diverge: null },
+    'Sol. Reembolso|Marketing': { rule: 'Reemb. auto ≤ R$ 1k', diverge: null },
+    'Sol. Reembolso|Vendas': { rule: 'Auto até R$ 1k', diverge: '1/3 times diverge' },
     'Despesas Cartão|Vendas': { rule: 'Comprovante ≥ R$ 100', diverge: null },
     'Despesas Cartão|Engenharia': { rule: 'SaaS sem comprovante', diverge: '1/5 times diverge' },
     'Reembolsos|Marketing': { rule: 'Limite R$ 5k/mês', diverge: null },
